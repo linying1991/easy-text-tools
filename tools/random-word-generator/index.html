@@ -1,333 +1,567 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Random Word Generator - Creative Writing Tool</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
     <style>
-        :root {
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
+      :root {
+        --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
 
-        body {
-            background: var(--gradient-1);
-            min-height: 100vh;
-            padding: 2rem 0;
-        }
+      body {
+        background: var(--gradient-1);
+        min-height: 100vh;
+        padding: 2rem 0;
+      }
 
-        .container {
-            max-width: 900px;
-        }
+      .container {
+        max-width: 900px;
+      }
 
-        .tool-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            margin-bottom: 2rem;
-        }
+      .tool-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        margin-bottom: 2rem;
+      }
 
-        h1 {
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-            font-size: 2.5rem;
-        }
+      h1 {
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+        font-size: 2.5rem;
+      }
 
-        .subtitle {
-            color: #666;
-            margin-bottom: 2rem;
-        }
+      .subtitle {
+        color: #666;
+        margin-bottom: 2rem;
+      }
 
-        .controls {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
+      .controls {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 1.5rem 0;
+      }
 
-        .button-group {
-            display: flex;
-            gap: 1rem;
-            margin: 1.5rem 0;
-            flex-wrap: wrap;
-        }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin: 1.5rem 0;
+        flex-wrap: wrap;
+      }
 
-        button {
-            background: var(--gradient-1);
-            border: none;
-            transition: all 0.3s;
-        }
+      button {
+        background: var(--gradient-1);
+        border: none;
+        transition: all 0.3s;
+      }
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      }
 
-        .secondary {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
+      .secondary {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      }
 
-        .output-box {
-            background: #f8f9fa;
-            padding: 2rem;
-            border-radius: 12px;
-            min-height: 200px;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            border: 2px solid #e0e0e0;
-            margin: 1.5rem 0;
-        }
+      .output-box {
+        background: #f8f9fa;
+        padding: 2rem;
+        border-radius: 12px;
+        min-height: 200px;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        border: 2px solid #e0e0e0;
+        margin: 1.5rem 0;
+      }
 
-        .word-item {
-            display: inline-block;
-            background: white;
-            padding: 0.5rem 1rem;
-            margin: 0.25rem;
-            border-radius: 8px;
-            border: 2px solid #667eea;
-            color: #667eea;
-            font-weight: 500;
-        }
+      .word-item {
+        display: inline-block;
+        background: white;
+        padding: 0.5rem 1rem;
+        margin: 0.25rem;
+        border-radius: 8px;
+        border: 2px solid #667eea;
+        color: #667eea;
+        font-weight: 500;
+      }
 
-        .category-tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin: 1.5rem 0;
-            flex-wrap: wrap;
-        }
+      .category-tabs {
+        display: flex;
+        gap: 0.5rem;
+        margin: 1.5rem 0;
+        flex-wrap: wrap;
+      }
 
-        .tab-btn {
-            background: white;
-            border: 2px solid #e0e0e0;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+      .tab-btn {
+        background: white;
+        border: 2px solid #e0e0e0;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
 
-        .tab-btn:hover {
-            border-color: #667eea;
-            background: #f0f4ff;
-        }
+      .tab-btn:hover {
+        border-color: #667eea;
+        background: #f0f4ff;
+      }
 
-        .tab-btn.active {
-            border-color: #667eea;
-            background: #667eea;
-            color: white;
-        }
+      .tab-btn.active {
+        border-color: #667eea;
+        background: #667eea;
+        color: white;
+      }
 
-        .info-box {
-            background: #f0f4ff;
-            border-left: 4px solid #667eea;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
+      .info-box {
+        background: #f0f4ff;
+        border-left: 4px solid #667eea;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+      }
 
-        label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+      label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="tool-card">
-            <h1>🎲 Random Word Generator</h1>
-            <p class="subtitle">Generate random words for creative writing, brainstorming, and games</p>
+      <div class="tool-card">
+        <h1>🎲 Random Word Generator</h1>
+        <p class="subtitle">
+          Generate random words for creative writing, brainstorming, and games
+        </p>
 
-            <label>Word Category:</label>
-            <div class="category-tabs">
-                <div class="tab-btn active" onclick="selectCategory('all')">All Words</div>
-                <div class="tab-btn" onclick="selectCategory('nouns')">Nouns</div>
-                <div class="tab-btn" onclick="selectCategory('verbs')">Verbs</div>
-                <div class="tab-btn" onclick="selectCategory('adjectives')">Adjectives</div>
-                <div class="tab-btn" onclick="selectCategory('adverbs')">Adverbs</div>
-            </div>
-
-            <div class="controls">
-                <div>
-                    <label for="count">Number of Words:</label>
-                    <input type="number" id="count" value="10" min="1" max="100">
-                </div>
-
-                <div>
-                    <label for="separator">Separator:</label>
-                    <select id="separator">
-                        <option value="badges">Badges</option>
-                        <option value="comma">Comma</option>
-                        <option value="space">Space</option>
-                        <option value="newline">New Line</option>
-                        <option value="bullet">Bullet List</option>
-                        <option value="numbered">Numbered List</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label>
-                        <input type="checkbox" id="capitalize">
-                        Capitalize words
-                    </label>
-                </div>
-
-                <div>
-                    <label>
-                        <input type="checkbox" id="unique" checked>
-                        Unique words only
-                    </label>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button onclick="generate()">🎲 Generate Words</button>
-                <button onclick="copy()" class="secondary">📋 Copy</button>
-                <button onclick="clearOutput()" class="secondary">🗑️ Clear</button>
-            </div>
-
-            <div class="output-box" id="output">Click Generate to create random words</div>
-
-            <div class="info-box">
-                <strong>💡 Use Cases:</strong>
-                <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
-                    <li><strong>Creative Writing:</strong> Overcome writer's block with random prompts</li>
-                    <li><strong>Brainstorming:</strong> Generate ideas for projects and names</li>
-                    <li><strong>Word Games:</strong> Create challenges for Pictionary, charades, etc.</li>
-                    <li><strong>Password Generation:</strong> Use words for memorable passphrases</li>
-                    <li><strong>Learning:</strong> Vocabulary building and language practice</li>
-                </ul>
-            </div>
+        <label>Word Category:</label>
+        <div class="category-tabs">
+          <div class="tab-btn active" onclick="selectCategory('all')">
+            All Words
+          </div>
+          <div class="tab-btn" onclick="selectCategory('nouns')">Nouns</div>
+          <div class="tab-btn" onclick="selectCategory('verbs')">Verbs</div>
+          <div class="tab-btn" onclick="selectCategory('adjectives')">
+            Adjectives
+          </div>
+          <div class="tab-btn" onclick="selectCategory('adverbs')">Adverbs</div>
         </div>
+
+        <div class="controls">
+          <div>
+            <label for="count">Number of Words:</label>
+            <input type="number" id="count" value="10" min="1" max="100" />
+          </div>
+
+          <div>
+            <label for="separator">Separator:</label>
+            <select id="separator">
+              <option value="badges">Badges</option>
+              <option value="comma">Comma</option>
+              <option value="space">Space</option>
+              <option value="newline">New Line</option>
+              <option value="bullet">Bullet List</option>
+              <option value="numbered">Numbered List</option>
+            </select>
+          </div>
+
+          <div>
+            <label>
+              <input type="checkbox" id="capitalize" />
+              Capitalize words
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <input type="checkbox" id="unique" checked />
+              Unique words only
+            </label>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button onclick="generate()">🎲 Generate Words</button>
+          <button onclick="copy()" class="secondary">📋 Copy</button>
+          <button onclick="clearOutput()" class="secondary">🗑️ Clear</button>
+        </div>
+
+        <div class="output-box" id="output">
+          Click Generate to create random words
+        </div>
+
+        <div class="info-box">
+          <strong>💡 Use Cases:</strong>
+          <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem">
+            <li>
+              <strong>Creative Writing:</strong> Overcome writer's block with
+              random prompts
+            </li>
+            <li>
+              <strong>Brainstorming:</strong> Generate ideas for projects and
+              names
+            </li>
+            <li>
+              <strong>Word Games:</strong> Create challenges for Pictionary,
+              charades, etc.
+            </li>
+            <li>
+              <strong>Password Generation:</strong> Use words for memorable
+              passphrases
+            </li>
+            <li>
+              <strong>Learning:</strong> Vocabulary building and language
+              practice
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <script>
-        const wordLists = {
-            nouns: ['apple', 'mountain', 'ocean', 'forest', 'river', 'sunset', 'star', 'moon', 'flower', 'tree', 'bird', 'cloud', 'thunder', 'lightning', 'rainbow', 'book', 'pencil', 'computer', 'phone', 'music', 'art', 'dance', 'dream', 'journey', 'adventure', 'mystery', 'secret', 'treasure', 'castle', 'kingdom', 'dragon', 'wizard', 'magic', 'spell', 'potion', 'crystal', 'diamond', 'gold', 'silver', 'bronze', 'fire', 'water', 'earth', 'wind', 'storm', 'breeze', 'sunshine', 'shadow', 'light', 'darkness'],
-            verbs: ['run', 'jump', 'swim', 'fly', 'dance', 'sing', 'write', 'read', 'think', 'dream', 'create', 'build', 'destroy', 'explore', 'discover', 'learn', 'teach', 'speak', 'listen', 'watch', 'observe', 'feel', 'touch', 'taste', 'smell', 'laugh', 'cry', 'smile', 'frown', 'walk', 'climb', 'fall', 'rise', 'grow', 'shrink', 'expand', 'contract', 'breathe', 'live', 'exist', 'become', 'transform', 'change', 'evolve', 'adapt', 'survive', 'thrive', 'flourish', 'bloom', 'wither'],
-            adjectives: ['beautiful', 'magnificent', 'stunning', 'gorgeous', 'elegant', 'graceful', 'charming', 'lovely', 'wonderful', 'amazing', 'incredible', 'fantastic', 'spectacular', 'marvelous', 'brilliant', 'bright', 'dark', 'light', 'heavy', 'soft', 'hard', 'smooth', 'rough', 'sharp', 'dull', 'hot', 'cold', 'warm', 'cool', 'sweet', 'bitter', 'sour', 'salty', 'spicy', 'bland', 'fresh', 'stale', 'new', 'old', 'young', 'ancient', 'modern', 'classic', 'vintage', 'contemporary', 'traditional', 'innovative', 'creative', 'unique', 'common'],
-            adverbs: ['quickly', 'slowly', 'carefully', 'recklessly', 'happily', 'sadly', 'angrily', 'calmly', 'quietly', 'loudly', 'softly', 'hardly', 'barely', 'nearly', 'almost', 'completely', 'totally', 'partially', 'fully', 'entirely', 'absolutely', 'definitely', 'certainly', 'probably', 'possibly', 'maybe', 'perhaps', 'rarely', 'seldom', 'often', 'frequently', 'always', 'never', 'sometimes', 'occasionally', 'constantly', 'continuously', 'repeatedly', 'gradually', 'suddenly', 'immediately', 'instantly', 'eventually', 'finally', 'ultimately', 'primarily', 'mainly', 'mostly', 'partly', 'simply']
-        };
+      const wordLists = {
+        nouns: [
+          "apple",
+          "mountain",
+          "ocean",
+          "forest",
+          "river",
+          "sunset",
+          "star",
+          "moon",
+          "flower",
+          "tree",
+          "bird",
+          "cloud",
+          "thunder",
+          "lightning",
+          "rainbow",
+          "book",
+          "pencil",
+          "computer",
+          "phone",
+          "music",
+          "art",
+          "dance",
+          "dream",
+          "journey",
+          "adventure",
+          "mystery",
+          "secret",
+          "treasure",
+          "castle",
+          "kingdom",
+          "dragon",
+          "wizard",
+          "magic",
+          "spell",
+          "potion",
+          "crystal",
+          "diamond",
+          "gold",
+          "silver",
+          "bronze",
+          "fire",
+          "water",
+          "earth",
+          "wind",
+          "storm",
+          "breeze",
+          "sunshine",
+          "shadow",
+          "light",
+          "darkness",
+        ],
+        verbs: [
+          "run",
+          "jump",
+          "swim",
+          "fly",
+          "dance",
+          "sing",
+          "write",
+          "read",
+          "think",
+          "dream",
+          "create",
+          "build",
+          "destroy",
+          "explore",
+          "discover",
+          "learn",
+          "teach",
+          "speak",
+          "listen",
+          "watch",
+          "observe",
+          "feel",
+          "touch",
+          "taste",
+          "smell",
+          "laugh",
+          "cry",
+          "smile",
+          "frown",
+          "walk",
+          "climb",
+          "fall",
+          "rise",
+          "grow",
+          "shrink",
+          "expand",
+          "contract",
+          "breathe",
+          "live",
+          "exist",
+          "become",
+          "transform",
+          "change",
+          "evolve",
+          "adapt",
+          "survive",
+          "thrive",
+          "flourish",
+          "bloom",
+          "wither",
+        ],
+        adjectives: [
+          "beautiful",
+          "magnificent",
+          "stunning",
+          "gorgeous",
+          "elegant",
+          "graceful",
+          "charming",
+          "lovely",
+          "wonderful",
+          "amazing",
+          "incredible",
+          "fantastic",
+          "spectacular",
+          "marvelous",
+          "brilliant",
+          "bright",
+          "dark",
+          "light",
+          "heavy",
+          "soft",
+          "hard",
+          "smooth",
+          "rough",
+          "sharp",
+          "dull",
+          "hot",
+          "cold",
+          "warm",
+          "cool",
+          "sweet",
+          "bitter",
+          "sour",
+          "salty",
+          "spicy",
+          "bland",
+          "fresh",
+          "stale",
+          "new",
+          "old",
+          "young",
+          "ancient",
+          "modern",
+          "classic",
+          "vintage",
+          "contemporary",
+          "traditional",
+          "innovative",
+          "creative",
+          "unique",
+          "common",
+        ],
+        adverbs: [
+          "quickly",
+          "slowly",
+          "carefully",
+          "recklessly",
+          "happily",
+          "sadly",
+          "angrily",
+          "calmly",
+          "quietly",
+          "loudly",
+          "softly",
+          "hardly",
+          "barely",
+          "nearly",
+          "almost",
+          "completely",
+          "totally",
+          "partially",
+          "fully",
+          "entirely",
+          "absolutely",
+          "definitely",
+          "certainly",
+          "probably",
+          "possibly",
+          "maybe",
+          "perhaps",
+          "rarely",
+          "seldom",
+          "often",
+          "frequently",
+          "always",
+          "never",
+          "sometimes",
+          "occasionally",
+          "constantly",
+          "continuously",
+          "repeatedly",
+          "gradually",
+          "suddenly",
+          "immediately",
+          "instantly",
+          "eventually",
+          "finally",
+          "ultimately",
+          "primarily",
+          "mainly",
+          "mostly",
+          "partly",
+          "simply",
+        ],
+      };
 
-        let currentCategory = 'all';
+      let currentCategory = "all";
 
-        function selectCategory(category) {
-            currentCategory = category;
+      function selectCategory(category) {
+        currentCategory = category;
 
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        event.target.classList.add("active");
+      }
+
+      function getWordList() {
+        if (currentCategory === "all") {
+          return Object.values(wordLists).flat();
+        }
+        return wordLists[currentCategory] || [];
+      }
+
+      function generate() {
+        const count = parseInt(document.getElementById("count").value);
+        const separator = document.getElementById("separator").value;
+        const capitalize = document.getElementById("capitalize").checked;
+        const unique = document.getElementById("unique").checked;
+
+        const wordList = getWordList();
+        if (wordList.length === 0) {
+          document.getElementById("output").textContent =
+            "No words available for this category";
+          return;
         }
 
-        function getWordList() {
-            if (currentCategory === 'all') {
-                return Object.values(wordLists).flat();
-            }
-            return wordLists[currentCategory] || [];
+        let words = [];
+        const usedIndices = new Set();
+
+        for (let i = 0; i < count; i++) {
+          let index;
+
+          if (unique && usedIndices.size < wordList.length) {
+            do {
+              index = Math.floor(Math.random() * wordList.length);
+            } while (usedIndices.has(index));
+            usedIndices.add(index);
+          } else {
+            index = Math.floor(Math.random() * wordList.length);
+          }
+
+          let word = wordList[index];
+          if (capitalize) {
+            word = word.charAt(0).toUpperCase() + word.slice(1);
+          }
+          words.push(word);
         }
 
-        function generate() {
-            const count = parseInt(document.getElementById('count').value);
-            const separator = document.getElementById('separator').value;
-            const capitalize = document.getElementById('capitalize').checked;
-            const unique = document.getElementById('unique').checked;
+        displayWords(words, separator);
+      }
 
-            const wordList = getWordList();
-            if (wordList.length === 0) {
-                document.getElementById('output').textContent = 'No words available for this category';
-                return;
-            }
+      function displayWords(words, separator) {
+        const output = document.getElementById("output");
 
-            let words = [];
-            const usedIndices = new Set();
+        switch (separator) {
+          case "badges":
+            output.innerHTML = words
+              .map((word) => `<span class="word-item">${word}</span>`)
+              .join("");
+            break;
 
-            for (let i = 0; i < count; i++) {
-                let index;
+          case "comma":
+            output.textContent = words.join(", ");
+            break;
 
-                if (unique && usedIndices.size < wordList.length) {
-                    do {
-                        index = Math.floor(Math.random() * wordList.length);
-                    } while (usedIndices.has(index));
-                    usedIndices.add(index);
-                } else {
-                    index = Math.floor(Math.random() * wordList.length);
-                }
+          case "space":
+            output.textContent = words.join(" ");
+            break;
 
-                let word = wordList[index];
-                if (capitalize) {
-                    word = word.charAt(0).toUpperCase() + word.slice(1);
-                }
-                words.push(word);
-            }
+          case "newline":
+            output.textContent = words.join("\n");
+            break;
 
-            displayWords(words, separator);
+          case "bullet":
+            output.textContent = words.map((word) => `• ${word}`).join("\n");
+            break;
+
+          case "numbered":
+            output.textContent = words
+              .map((word, i) => `${i + 1}. ${word}`)
+              .join("\n");
+            break;
+
+          default:
+            output.textContent = words.join(", ");
         }
+      }
 
-        function displayWords(words, separator) {
-            const output = document.getElementById('output');
+      function copy() {
+        const output = document.getElementById("output");
+        const text = output.textContent || output.innerText;
 
-            switch(separator) {
-                case 'badges':
-                    output.innerHTML = words.map(word =>
-                        `<span class="word-item">${word}</span>`
-                    ).join('');
-                    break;
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
 
-                case 'comma':
-                    output.textContent = words.join(', ');
-                    break;
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = "✓ Copied!";
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
+      }
 
-                case 'space':
-                    output.textContent = words.join(' ');
-                    break;
+      function clearOutput() {
+        document.getElementById("output").textContent =
+          "Click Generate to create random words";
+      }
 
-                case 'newline':
-                    output.textContent = words.join('\n');
-                    break;
-
-                case 'bullet':
-                    output.textContent = words.map(word => `• ${word}`).join('\n');
-                    break;
-
-                case 'numbered':
-                    output.textContent = words.map((word, i) => `${i + 1}. ${word}`).join('\n');
-                    break;
-
-                default:
-                    output.textContent = words.join(', ');
-            }
-        }
-
-        function copy() {
-            const output = document.getElementById('output');
-            const text = output.textContent || output.innerText;
-
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = '✓ Copied!';
-            setTimeout(() => {
-                btn.textContent = originalText;
-            }, 2000);
-        }
-
-        function clearOutput() {
-            document.getElementById('output').textContent = 'Click Generate to create random words';
-        }
-
-        // Generate on load
-        generate();
+      // Generate on load
+      generate();
     </script>
-</body>
+  </body>
 </html>

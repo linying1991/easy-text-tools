@@ -1,47 +1,180 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Number Base Converter - TextKit</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-<style>
-:root{--gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%)}
-body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
-.container{max-width:900px;margin:0 auto}
-.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
-.back-link:hover{opacity:1}
-main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
-.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
-.controls{display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin-bottom:1rem}
-input[type="text"]{border:2px solid #e2e8f0;border-radius:8px;padding:0.75rem;width:100%;font-family:monospace;font-size:1rem}
-select{border:2px solid #e2e8f0;border-radius:8px;padding:0.75rem;width:100%}
-.results{display:grid;gap:1rem;margin-top:2rem}
-.result-item{padding:1.5rem;background:#f8fafc;border-radius:12px}
-.result-label{font-size:0.85rem;color:#64748b;margin-bottom:0.5rem;font-weight:600}
-.result-value{font-size:1.3rem;font-family:monospace;color:#667eea;font-weight:700;word-break:break-all}
-footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
-</style>
-</head>
-<body>
-<div class="container">
-<a href="../../index.html" class="back-link">← Back to Home</a>
-<main>
-<h1>Number Base Converter</h1>
-<p class="subtitle">Convert numbers between different bases (2-36)</p>
-<div class="controls">
-<div><label>Input Number:</label><input type="text" id="input" placeholder="Enter number..."></div>
-<div><label>From Base:</label><select id="fromBase"><option value="10">Decimal (10)</option><option value="2">Binary (2)</option><option value="8">Octal (8)</option><option value="16">Hexadecimal (16)</option><option value="32">Base32</option><option value="36">Base36</option></select></div>
-</div>
-<div class="results" id="results"></div>
-</main>
-<footer>© 2024 TextKit - All text processing happens in your browser</footer>
-</div>
-<script>
-function convert(){const input=document.getElementById('input').value.trim();const fromBase=parseInt(document.getElementById('fromBase').value);if(!input){document.getElementById('results').innerHTML='';return}try{const decimal=parseInt(input,fromBase);if(isNaN(decimal)){document.getElementById('results').innerHTML='<div class="result-item"><div class="result-value" style="color:#ef4444">Invalid input for base '+fromBase+'</div></div>';return}const bases=[{name:'Decimal',base:10},{name:'Binary',base:2},{name:'Octal',base:8},{name:'Hexadecimal',base:16},{name:'Base32',base:32},{name:'Base36',base:36}];let html='';bases.forEach(b=>{const value=decimal.toString(b.base).toUpperCase();html+=`<div class="result-item"><div class="result-label">${b.name} (Base ${b.base})</div><div class="result-value">${value}</div></div>`});document.getElementById('results').innerHTML=html}catch(e){document.getElementById('results').innerHTML='<div class="result-item"><div class="result-value" style="color:#ef4444">Error: '+e.message+'</div></div>'}}
-document.getElementById('input').addEventListener('input',convert);
-document.getElementById('fromBase').addEventListener('change',convert);
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Number Base Converter - TextKit</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      body {
+        min-height: 100vh;
+        background: var(--gradient);
+        margin: 0;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .back-link {
+        color: #fff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+        transition: opacity 0.3s;
+      }
+      .back-link:hover {
+        opacity: 1;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+      .controls {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+      input[type="text"] {
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 0.75rem;
+        width: 100%;
+        font-family: monospace;
+        font-size: 1rem;
+      }
+      select {
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 0.75rem;
+        width: 100%;
+      }
+      .results {
+        display: grid;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+      .result-item {
+        padding: 1.5rem;
+        background: #f8fafc;
+        border-radius: 12px;
+      }
+      .result-label {
+        font-size: 0.85rem;
+        color: #64748b;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+      .result-value {
+        font-size: 1.3rem;
+        font-family: monospace;
+        color: #667eea;
+        font-weight: 700;
+        word-break: break-all;
+      }
+      footer {
+        text-align: center;
+        color: #fff;
+        margin-top: 2rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../../index.html" class="back-link">← Back to Home</a>
+      <main>
+        <h1>Number Base Converter</h1>
+        <p class="subtitle">Convert numbers between different bases (2-36)</p>
+        <div class="controls">
+          <div>
+            <label>Input Number:</label
+            ><input type="text" id="input" placeholder="Enter number..." />
+          </div>
+          <div>
+            <label>From Base:</label
+            ><select id="fromBase">
+              <option value="10">Decimal (10)</option>
+              <option value="2">Binary (2)</option>
+              <option value="8">Octal (8)</option>
+              <option value="16">Hexadecimal (16)</option>
+              <option value="32">Base32</option>
+              <option value="36">Base36</option>
+            </select>
+          </div>
+        </div>
+        <div class="results" id="results"></div>
+      </main>
+      <footer>
+        © 2024 TextKit - All text processing happens in your browser
+      </footer>
+    </div>
+    <script>
+      function convert() {
+        const input = document.getElementById("input").value.trim();
+        const fromBase = parseInt(document.getElementById("fromBase").value);
+        if (!input) {
+          document.getElementById("results").innerHTML = "";
+          return;
+        }
+        try {
+          const decimal = parseInt(input, fromBase);
+          if (isNaN(decimal)) {
+            document.getElementById("results").innerHTML =
+              '<div class="result-item"><div class="result-value" style="color:#ef4444">Invalid input for base ' +
+              fromBase +
+              "</div></div>";
+            return;
+          }
+          const bases = [
+            { name: "Decimal", base: 10 },
+            { name: "Binary", base: 2 },
+            { name: "Octal", base: 8 },
+            { name: "Hexadecimal", base: 16 },
+            { name: "Base32", base: 32 },
+            { name: "Base36", base: 36 },
+          ];
+          let html = "";
+          bases.forEach((b) => {
+            const value = decimal.toString(b.base).toUpperCase();
+            html += `<div class="result-item"><div class="result-label">${b.name} (Base ${b.base})</div><div class="result-value">${value}</div></div>`;
+          });
+          document.getElementById("results").innerHTML = html;
+        } catch (e) {
+          document.getElementById("results").innerHTML =
+            '<div class="result-item"><div class="result-value" style="color:#ef4444">Error: ' +
+            e.message +
+            "</div></div>";
+        }
+      }
+      document.getElementById("input").addEventListener("input", convert);
+      document.getElementById("fromBase").addEventListener("change", convert);
+    </script>
+  </body>
 </html>

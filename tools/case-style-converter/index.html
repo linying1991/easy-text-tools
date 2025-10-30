@@ -1,300 +1,327 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Case Style Converter - camelCase, snake_case, kebab-case</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
     <style>
-        :root {
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
+      :root {
+        --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
 
-        body {
-            background: var(--gradient-1);
-            min-height: 100vh;
-            padding: 2rem 0;
-        }
+      body {
+        background: var(--gradient-1);
+        min-height: 100vh;
+        padding: 2rem 0;
+      }
 
-        .container {
-            max-width: 900px;
-        }
+      .container {
+        max-width: 900px;
+      }
 
-        .tool-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            margin-bottom: 2rem;
-        }
+      .tool-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        margin-bottom: 2rem;
+      }
 
-        h1 {
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-            font-size: 2.5rem;
-        }
+      h1 {
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+        font-size: 2.5rem;
+      }
 
-        .subtitle {
-            color: #666;
-            margin-bottom: 2rem;
-        }
+      .subtitle {
+        color: #666;
+        margin-bottom: 2rem;
+      }
 
-        textarea {
-            min-height: 150px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
-        }
+      textarea {
+        min-height: 150px;
+        font-family: "Courier New", monospace;
+        font-size: 0.95rem;
+      }
 
-        .button-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
+      .button-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 1.5rem 0;
+      }
 
-        button {
-            background: var(--gradient-1);
-            border: none;
-            transition: all 0.3s;
-            padding: 0.75rem;
-            font-size: 0.9rem;
-        }
+      button {
+        background: var(--gradient-1);
+        border: none;
+        transition: all 0.3s;
+        padding: 0.75rem;
+        font-size: 0.9rem;
+      }
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      }
 
-        .secondary {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
+      .secondary {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      }
 
-        .result-card {
-            background: #f8f9fa;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            border-left: 4px solid #667eea;
-        }
+      .result-card {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+        border-left: 4px solid #667eea;
+      }
 
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #e0e0e0;
-        }
+      .result-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #e0e0e0;
+      }
 
-        .result-item:last-child {
-            border-bottom: none;
-        }
+      .result-item:last-child {
+        border-bottom: none;
+      }
 
-        .result-label {
-            font-weight: bold;
-            color: #667eea;
-            min-width: 150px;
-        }
+      .result-label {
+        font-weight: bold;
+        color: #667eea;
+        min-width: 150px;
+      }
 
-        .result-value {
-            font-family: 'Courier New', monospace;
-            flex-grow: 1;
-            word-break: break-all;
-        }
+      .result-value {
+        font-family: "Courier New", monospace;
+        flex-grow: 1;
+        word-break: break-all;
+      }
 
-        .copy-btn {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 0.25rem 0.75rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            margin-left: 0.5rem;
-        }
+      .copy-btn {
+        background: #667eea;
+        color: white;
+        border: none;
+        padding: 0.25rem 0.75rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        margin-left: 0.5rem;
+      }
 
-        .copy-btn:hover {
-            background: #5568d3;
-        }
+      .copy-btn:hover {
+        background: #5568d3;
+      }
 
-        .info-box {
-            background: #f0f4ff;
-            border-left: 4px solid #667eea;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
+      .info-box {
+        background: #f0f4ff;
+        border-left: 4px solid #667eea;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="tool-card">
-            <h1>🔤 Case Style Converter</h1>
-            <p class="subtitle">Convert between camelCase, snake_case, kebab-case, PascalCase and more</p>
+      <div class="tool-card">
+        <h1>🔤 Case Style Converter</h1>
+        <p class="subtitle">
+          Convert between camelCase, snake_case, kebab-case, PascalCase and more
+        </p>
 
-            <label for="input">Input Text:</label>
-            <textarea id="input" placeholder="Enter text like: 'hello world', 'helloWorld', 'hello_world', or 'hello-world'">hello world example</textarea>
+        <label for="input">Input Text:</label>
+        <textarea
+          id="input"
+          placeholder="Enter text like: 'hello world', 'helloWorld', 'hello_world', or 'hello-world'"
+        >
+hello world example</textarea
+        >
 
-            <div class="button-grid">
-                <button onclick="convert()">🔄 Convert All</button>
-                <button onclick="copyAll()" class="secondary">📋 Copy All</button>
-                <button onclick="clearAll()" class="secondary">🗑️ Clear</button>
-            </div>
-
-            <div class="result-card" id="results"></div>
-
-            <div class="info-box">
-                <strong>💡 Case Styles:</strong>
-                <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
-                    <li><strong>camelCase:</strong> myVariableName (first letter lowercase)</li>
-                    <li><strong>PascalCase:</strong> MyVariableName (first letter uppercase)</li>
-                    <li><strong>snake_case:</strong> my_variable_name (underscores)</li>
-                    <li><strong>kebab-case:</strong> my-variable-name (hyphens)</li>
-                    <li><strong>CONSTANT_CASE:</strong> MY_VARIABLE_NAME (uppercase with underscores)</li>
-                    <li><strong>dot.case:</strong> my.variable.name (dots)</li>
-                    <li><strong>Train-Case:</strong> My-Variable-Name (capitalized with hyphens)</li>
-                </ul>
-            </div>
+        <div class="button-grid">
+          <button onclick="convert()">🔄 Convert All</button>
+          <button onclick="copyAll()" class="secondary">📋 Copy All</button>
+          <button onclick="clearAll()" class="secondary">🗑️ Clear</button>
         </div>
+
+        <div class="result-card" id="results"></div>
+
+        <div class="info-box">
+          <strong>💡 Case Styles:</strong>
+          <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem">
+            <li>
+              <strong>camelCase:</strong> myVariableName (first letter
+              lowercase)
+            </li>
+            <li>
+              <strong>PascalCase:</strong> MyVariableName (first letter
+              uppercase)
+            </li>
+            <li><strong>snake_case:</strong> my_variable_name (underscores)</li>
+            <li><strong>kebab-case:</strong> my-variable-name (hyphens)</li>
+            <li>
+              <strong>CONSTANT_CASE:</strong> MY_VARIABLE_NAME (uppercase with
+              underscores)
+            </li>
+            <li><strong>dot.case:</strong> my.variable.name (dots)</li>
+            <li>
+              <strong>Train-Case:</strong> My-Variable-Name (capitalized with
+              hyphens)
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <script>
-        function tokenize(str) {
-            // Split by spaces, underscores, hyphens, dots, or camelCase boundaries
-            return str
-                .replace(/([a-z])([A-Z])/g, '$1 $2') // Split camelCase
-                .replace(/([A-Z])([A-Z][a-z])/g, '$1 $2') // Split PascalCase
-                .replace(/[_\-.\s]+/g, ' ') // Replace separators with space
-                .trim()
-                .toLowerCase()
-                .split(/\s+/)
-                .filter(word => word.length > 0);
+      function tokenize(str) {
+        // Split by spaces, underscores, hyphens, dots, or camelCase boundaries
+        return str
+          .replace(/([a-z])([A-Z])/g, "$1 $2") // Split camelCase
+          .replace(/([A-Z])([A-Z][a-z])/g, "$1 $2") // Split PascalCase
+          .replace(/[_\-.\s]+/g, " ") // Replace separators with space
+          .trim()
+          .toLowerCase()
+          .split(/\s+/)
+          .filter((word) => word.length > 0);
+      }
+
+      function toCamelCase(tokens) {
+        if (tokens.length === 0) return "";
+        return (
+          tokens[0] +
+          tokens
+            .slice(1)
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join("")
+        );
+      }
+
+      function toPascalCase(tokens) {
+        return tokens
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join("");
+      }
+
+      function toSnakeCase(tokens) {
+        return tokens.join("_");
+      }
+
+      function toKebabCase(tokens) {
+        return tokens.join("-");
+      }
+
+      function toConstantCase(tokens) {
+        return tokens.map((word) => word.toUpperCase()).join("_");
+      }
+
+      function toDotCase(tokens) {
+        return tokens.join(".");
+      }
+
+      function toTrainCase(tokens) {
+        return tokens
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join("-");
+      }
+
+      function toPathCase(tokens) {
+        return tokens.join("/");
+      }
+
+      function convert() {
+        const input = document.getElementById("input").value.trim();
+        if (!input) {
+          document.getElementById("results").innerHTML =
+            '<p style="color: #999;">Enter some text to convert</p>';
+          return;
         }
 
-        function toCamelCase(tokens) {
-            if (tokens.length === 0) return '';
-            return tokens[0] + tokens.slice(1).map(word =>
-                word.charAt(0).toUpperCase() + word.slice(1)
-            ).join('');
-        }
+        const tokens = tokenize(input);
 
-        function toPascalCase(tokens) {
-            return tokens.map(word =>
-                word.charAt(0).toUpperCase() + word.slice(1)
-            ).join('');
-        }
+        const results = [
+          { label: "camelCase", value: toCamelCase(tokens) },
+          { label: "PascalCase", value: toPascalCase(tokens) },
+          { label: "snake_case", value: toSnakeCase(tokens) },
+          { label: "kebab-case", value: toKebabCase(tokens) },
+          { label: "CONSTANT_CASE", value: toConstantCase(tokens) },
+          { label: "dot.case", value: toDotCase(tokens) },
+          { label: "Train-Case", value: toTrainCase(tokens) },
+          { label: "path/case", value: toPathCase(tokens) },
+        ];
 
-        function toSnakeCase(tokens) {
-            return tokens.join('_');
-        }
-
-        function toKebabCase(tokens) {
-            return tokens.join('-');
-        }
-
-        function toConstantCase(tokens) {
-            return tokens.map(word => word.toUpperCase()).join('_');
-        }
-
-        function toDotCase(tokens) {
-            return tokens.join('.');
-        }
-
-        function toTrainCase(tokens) {
-            return tokens.map(word =>
-                word.charAt(0).toUpperCase() + word.slice(1)
-            ).join('-');
-        }
-
-        function toPathCase(tokens) {
-            return tokens.join('/');
-        }
-
-        function convert() {
-            const input = document.getElementById('input').value.trim();
-            if (!input) {
-                document.getElementById('results').innerHTML = '<p style="color: #999;">Enter some text to convert</p>';
-                return;
-            }
-
-            const tokens = tokenize(input);
-
-            const results = [
-                { label: 'camelCase', value: toCamelCase(tokens) },
-                { label: 'PascalCase', value: toPascalCase(tokens) },
-                { label: 'snake_case', value: toSnakeCase(tokens) },
-                { label: 'kebab-case', value: toKebabCase(tokens) },
-                { label: 'CONSTANT_CASE', value: toConstantCase(tokens) },
-                { label: 'dot.case', value: toDotCase(tokens) },
-                { label: 'Train-Case', value: toTrainCase(tokens) },
-                { label: 'path/case', value: toPathCase(tokens) }
-            ];
-
-            let html = '';
-            results.forEach((result, index) => {
-                html += `
+        let html = "";
+        results.forEach((result, index) => {
+          html += `
                     <div class="result-item">
                         <span class="result-label">${result.label}:</span>
                         <span class="result-value">${result.value}</span>
                         <button class="copy-btn" onclick="copyResult('${result.value.replace(/'/g, "\\'")}', ${index})">Copy</button>
                     </div>
                 `;
-            });
+        });
 
-            document.getElementById('results').innerHTML = html;
-        }
+        document.getElementById("results").innerHTML = html;
+      }
 
-        function copyResult(text, index) {
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
+      function copyResult(text, index) {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
 
-            const buttons = document.querySelectorAll('.copy-btn');
-            const btn = buttons[index];
-            const originalText = btn.textContent;
-            btn.textContent = '✓';
-            setTimeout(() => {
-                btn.textContent = originalText;
-            }, 2000);
-        }
+        const buttons = document.querySelectorAll(".copy-btn");
+        const btn = buttons[index];
+        const originalText = btn.textContent;
+        btn.textContent = "✓";
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
+      }
 
-        function copyAll() {
-            const results = document.querySelectorAll('.result-value');
-            if (results.length === 0) return;
+      function copyAll() {
+        const results = document.querySelectorAll(".result-value");
+        if (results.length === 0) return;
 
-            let text = '';
-            document.querySelectorAll('.result-item').forEach(item => {
-                const label = item.querySelector('.result-label').textContent;
-                const value = item.querySelector('.result-value').textContent;
-                text += `${label} ${value}\n`;
-            });
+        let text = "";
+        document.querySelectorAll(".result-item").forEach((item) => {
+          const label = item.querySelector(".result-label").textContent;
+          const value = item.querySelector(".result-value").textContent;
+          text += `${label} ${value}\n`;
+        });
 
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
 
-            alert('All results copied!');
-        }
+        alert("All results copied!");
+      }
 
-        function clearAll() {
-            document.getElementById('input').value = '';
-            document.getElementById('results').innerHTML = '';
-        }
+      function clearAll() {
+        document.getElementById("input").value = "";
+        document.getElementById("results").innerHTML = "";
+      }
 
-        // Auto-convert on input
-        document.getElementById('input').addEventListener('input', convert);
+      // Auto-convert on input
+      document.getElementById("input").addEventListener("input", convert);
 
-        // Convert on load
-        convert();
+      // Convert on load
+      convert();
     </script>
-</body>
+  </body>
 </html>

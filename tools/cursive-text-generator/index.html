@@ -1,55 +1,268 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cursive Text Generator - TextKit</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-<style>
-:root{--gradient:linear-gradient(135deg,#a8edea 0%,#fed6e3 100%)}
-body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
-.container{max-width:900px;margin:0 auto}
-.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
-.back-link:hover{opacity:1}
-main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
-.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
-textarea{min-height:120px;font-size:1.1rem;border:2px solid #e2e8f0;border-radius:12px;transition:all 0.3s}
-textarea:focus{border-color:#a8edea;box-shadow:0 0 0 3px rgba(168,237,234,0.1)}
-.button-group{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1rem}
-button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none;padding:0.75rem}
-button.primary{background:var(--gradient);color:#fff}
-button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(168,237,234,0.3)}
-button.secondary{background:#f1f5f9;color:#475569}
-button.secondary:hover{background:#e2e8f0}
-.result{margin-top:1rem;padding:1.5rem;background:#f8fafc;border-radius:12px;font-size:1.5rem;min-height:60px;word-wrap:break-word}
-footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
-</style>
-</head>
-<body>
-<div class="container">
-<a href="../../index.html" class="back-link">← Back to Home</a>
-<main>
-<h1>Cursive Text Generator</h1>
-<p class="subtitle">Convert text to cursive/script styles</p>
-<label>Input Text:</label>
-<textarea id="input" placeholder="Enter text..."></textarea>
-<div class="button-group">
-<button class="primary" onclick="convert('bold')">𝓑𝓸𝓵𝓭 Script</button>
-<button class="primary" onclick="convert('normal')">𝓝𝓸𝓻𝓶𝓪𝓵 Script</button>
-<button class="secondary" onclick="copy()">Copy Result</button>
-<button class="secondary" onclick="clear()">Clear</button>
-</div>
-<div class="result" id="output">Styled text will appear here</div>
-</main>
-<footer>© 2024 TextKit - All text processing happens in your browser</footer>
-</div>
-<script>
-const scriptNormal={'a':'𝒶','b':'𝒷','c':'𝒸','d':'𝒹','e':'𝑒','f':'𝒻','g':'𝑔','h':'𝒽','i':'𝒾','j':'𝒿','k':'𝓀','l':'𝓁','m':'𝓂','n':'𝓃','o':'𝑜','p':'𝓅','q':'𝓆','r':'𝓇','s':'𝓈','t':'𝓉','u':'𝓊','v':'𝓋','w':'𝓌','x':'𝓍','y':'𝓎','z':'𝓏','A':'𝒜','B':'𝐵','C':'𝒞','D':'𝒟','E':'𝐸','F':'𝐹','G':'𝒢','H':'𝐻','I':'𝐼','J':'𝒥','K':'𝒦','L':'𝐿','M':'𝑀','N':'𝒩','O':'𝒪','P':'𝒫','Q':'𝒬','R':'𝑅','S':'𝒮','T':'𝒯','U':'𝒰','V':'𝒱','W':'𝒲','X':'𝒳','Y':'𝒴','Z':'𝒵'};
-const scriptBold={'a':'𝓪','b':'𝓫','c':'𝓬','d':'𝓭','e':'𝓮','f':'𝓯','g':'𝓰','h':'𝓱','i':'𝓲','j':'𝓳','k':'𝓴','l':'𝓵','m':'𝓶','n':'𝓷','o':'𝓸','p':'𝓹','q':'𝓺','r':'𝓻','s':'𝓼','t':'𝓽','u':'𝓾','v':'𝓿','w':'𝔀','x':'𝔁','y':'𝔂','z':'𝔃','A':'𝓐','B':'𝓑','C':'𝓒','D':'𝓓','E':'𝓔','F':'𝓕','G':'𝓖','H':'𝓗','I':'𝓘','J':'𝓙','K':'𝓚','L':'𝓛','M':'𝓜','N':'𝓝','O':'𝓞','P':'𝓟','Q':'𝓠','R':'𝓡','S':'𝓢','T':'𝓣','U':'𝓤','V':'𝓥','W':'𝓦','X':'𝓧','Y':'𝓨','Z':'𝓩'};
-function convert(style){const text=document.getElementById('input').value;const map=style==='bold'?scriptBold:scriptNormal;const result=text.split('').map(c=>map[c]||c).join('');document.getElementById('output').textContent=result}
-function copy(){const text=document.getElementById('output').textContent;navigator.clipboard.writeText(text).then(()=>alert('Copied!')).catch(()=>alert('Copy failed'))}
-function clear(){document.getElementById('input').value='';document.getElementById('output').textContent='Styled text will appear here'}
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cursive Text Generator - TextKit</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      }
+      body {
+        min-height: 100vh;
+        background: var(--gradient);
+        margin: 0;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .back-link {
+        color: #fff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+        transition: opacity 0.3s;
+      }
+      .back-link:hover {
+        opacity: 1;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+      textarea {
+        min-height: 120px;
+        font-size: 1.1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        transition: all 0.3s;
+      }
+      textarea:focus {
+        border-color: #a8edea;
+        box-shadow: 0 0 0 3px rgba(168, 237, 234, 0.1);
+      }
+      .button-group {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      button {
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: none;
+        padding: 0.75rem;
+      }
+      button.primary {
+        background: var(--gradient);
+        color: #fff;
+      }
+      button.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(168, 237, 234, 0.3);
+      }
+      button.secondary {
+        background: #f1f5f9;
+        color: #475569;
+      }
+      button.secondary:hover {
+        background: #e2e8f0;
+      }
+      .result {
+        margin-top: 1rem;
+        padding: 1.5rem;
+        background: #f8fafc;
+        border-radius: 12px;
+        font-size: 1.5rem;
+        min-height: 60px;
+        word-wrap: break-word;
+      }
+      footer {
+        text-align: center;
+        color: #fff;
+        margin-top: 2rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../../index.html" class="back-link">← Back to Home</a>
+      <main>
+        <h1>Cursive Text Generator</h1>
+        <p class="subtitle">Convert text to cursive/script styles</p>
+        <label>Input Text:</label>
+        <textarea id="input" placeholder="Enter text..."></textarea>
+        <div class="button-group">
+          <button class="primary" onclick="convert('bold')">𝓑𝓸𝓵𝓭 Script</button>
+          <button class="primary" onclick="convert('normal')">
+            𝓝𝓸𝓻𝓶𝓪𝓵 Script
+          </button>
+          <button class="secondary" onclick="copy()">Copy Result</button>
+          <button class="secondary" onclick="clear()">Clear</button>
+        </div>
+        <div class="result" id="output">Styled text will appear here</div>
+      </main>
+      <footer>
+        © 2024 TextKit - All text processing happens in your browser
+      </footer>
+    </div>
+    <script>
+      const scriptNormal = {
+        a: "𝒶",
+        b: "𝒷",
+        c: "𝒸",
+        d: "𝒹",
+        e: "𝑒",
+        f: "𝒻",
+        g: "𝑔",
+        h: "𝒽",
+        i: "𝒾",
+        j: "𝒿",
+        k: "𝓀",
+        l: "𝓁",
+        m: "𝓂",
+        n: "𝓃",
+        o: "𝑜",
+        p: "𝓅",
+        q: "𝓆",
+        r: "𝓇",
+        s: "𝓈",
+        t: "𝓉",
+        u: "𝓊",
+        v: "𝓋",
+        w: "𝓌",
+        x: "𝓍",
+        y: "𝓎",
+        z: "𝓏",
+        A: "𝒜",
+        B: "𝐵",
+        C: "𝒞",
+        D: "𝒟",
+        E: "𝐸",
+        F: "𝐹",
+        G: "𝒢",
+        H: "𝐻",
+        I: "𝐼",
+        J: "𝒥",
+        K: "𝒦",
+        L: "𝐿",
+        M: "𝑀",
+        N: "𝒩",
+        O: "𝒪",
+        P: "𝒫",
+        Q: "𝒬",
+        R: "𝑅",
+        S: "𝒮",
+        T: "𝒯",
+        U: "𝒰",
+        V: "𝒱",
+        W: "𝒲",
+        X: "𝒳",
+        Y: "𝒴",
+        Z: "𝒵",
+      };
+      const scriptBold = {
+        a: "𝓪",
+        b: "𝓫",
+        c: "𝓬",
+        d: "𝓭",
+        e: "𝓮",
+        f: "𝓯",
+        g: "𝓰",
+        h: "𝓱",
+        i: "𝓲",
+        j: "𝓳",
+        k: "𝓴",
+        l: "𝓵",
+        m: "𝓶",
+        n: "𝓷",
+        o: "𝓸",
+        p: "𝓹",
+        q: "𝓺",
+        r: "𝓻",
+        s: "𝓼",
+        t: "𝓽",
+        u: "𝓾",
+        v: "𝓿",
+        w: "𝔀",
+        x: "𝔁",
+        y: "𝔂",
+        z: "𝔃",
+        A: "𝓐",
+        B: "𝓑",
+        C: "𝓒",
+        D: "𝓓",
+        E: "𝓔",
+        F: "𝓕",
+        G: "𝓖",
+        H: "𝓗",
+        I: "𝓘",
+        J: "𝓙",
+        K: "𝓚",
+        L: "𝓛",
+        M: "𝓜",
+        N: "𝓝",
+        O: "𝓞",
+        P: "𝓟",
+        Q: "𝓠",
+        R: "𝓡",
+        S: "𝓢",
+        T: "𝓣",
+        U: "𝓤",
+        V: "𝓥",
+        W: "𝓦",
+        X: "𝓧",
+        Y: "𝓨",
+        Z: "𝓩",
+      };
+      function convert(style) {
+        const text = document.getElementById("input").value;
+        const map = style === "bold" ? scriptBold : scriptNormal;
+        const result = text
+          .split("")
+          .map((c) => map[c] || c)
+          .join("");
+        document.getElementById("output").textContent = result;
+      }
+      function copy() {
+        const text = document.getElementById("output").textContent;
+        navigator.clipboard
+          .writeText(text)
+          .then(() => alert("Copied!"))
+          .catch(() => alert("Copy failed"));
+      }
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("output").textContent =
+          "Styled text will appear here";
+      }
+    </script>
+  </body>
 </html>

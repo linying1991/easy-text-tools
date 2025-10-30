@@ -1,55 +1,209 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ASCII Art Generator - TextKit</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-<style>
-:root{--gradient:linear-gradient(135deg,#43e97b 0%,#38f9d7 100%)}
-body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
-.container{max-width:900px;margin:0 auto}
-.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
-.back-link:hover{opacity:1}
-main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
-.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
-input[type="text"]{border:2px solid #e2e8f0;border-radius:8px;padding:1rem;font-size:1.2rem;width:100%;margin-bottom:1rem}
-input[type="text"]:focus{border-color:#43e97b;box-shadow:0 0 0 3px rgba(67,233,123,0.1)}
-.button-group{display:flex;gap:1rem;margin-bottom:2rem}
-button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none;padding:0.75rem}
-button.primary{background:var(--gradient);color:#fff}
-button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(67,233,123,0.3)}
-button.secondary{background:#f1f5f9;color:#475569}
-button.secondary:hover{background:#e2e8f0}
-textarea{min-height:200px;font-family:monospace;font-size:0.75rem;border:2px solid #e2e8f0;border-radius:12px;line-height:1.2}
-footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
-</style>
-</head>
-<body>
-<div class="container">
-<a href="../../index.html" class="back-link">← Back to Home</a>
-<main>
-<h1>ASCII Art Generator</h1>
-<p class="subtitle">Convert text to ASCII art (simple banner style)</p>
-<label>Input Text:</label>
-<input type="text" id="input" placeholder="Enter text (max 10 chars)..." maxlength="10">
-<div class="button-group">
-<button class="primary" onclick="generate()">Generate ASCII Art</button>
-<button class="secondary" onclick="copy()">Copy</button>
-<button class="secondary" onclick="clear()">Clear</button>
-</div>
-<label>ASCII Art Output:</label>
-<textarea id="output" readonly></textarea>
-</main>
-<footer>© 2024 TextKit - All text processing happens in your browser</footer>
-</div>
-<script>
-const ascii={'A':['  A  ',' A A ','AAAAA','A   A','A   A'],'B':['BBBB ','B   B','BBBB ','B   B','BBBB '],'C':[' CCC ','C   C','C    ','C   C',' CCC '],'D':['DDD  ','D  D ','D   D','D  D ','DDD  '],'E':['EEEEE','E    ','EEEE ','E    ','EEEEE'],'F':['FFFFF','F    ','FFFF ','F    ','F    '],'G':[' GGG ','G    ','G  GG','G   G',' GGG '],'H':['H   H','H   H','HHHHH','H   H','H   H'],'I':['IIIII','  I  ','  I  ','  I  ','IIIII'],'J':['JJJJJ','    J','    J','J   J',' JJJ '],'K':['K   K','K  K ','KKK  ','K  K ','K   K'],'L':['L    ','L    ','L    ','L    ','LLLLL'],'M':['M   M','MM MM','M M M','M   M','M   M'],'N':['N   N','NN  N','N N N','N  NN','N   N'],'O':[' OOO ','O   O','O   O','O   O',' OOO '],'P':['PPPP ','P   P','PPPP ','P    ','P    '],'Q':[' QQQ ','Q   Q','Q   Q','Q  Q ',' QQ Q'],'R':['RRRR ','R   R','RRRR ','R  R ','R   R'],'S':[' SSS ','S    ',' SSS ','    S',' SSS '],'T':['TTTTT','  T  ','  T  ','  T  ','  T  '],'U':['U   U','U   U','U   U','U   U',' UUU '],'V':['V   V','V   V','V   V',' V V ','  V  '],'W':['W   W','W   W','W W W','WW WW','W   W'],'X':['X   X',' X X ','  X  ',' X X ','X   X'],'Y':['Y   Y',' Y Y ','  Y  ','  Y  ','  Y  '],'Z':['ZZZZZ','   Z ','  Z  ',' Z   ','ZZZZZ'],'0':[' 000 ','0  00','0 0 0','00  0',' 000 '],'1':['  1  ',' 11  ','  1  ','  1  ','11111'],'2':[' 222 ','2   2','   2 ','  2  ','22222'],'3':['3333 ','    3',' 333 ','    3','3333 '],'4':['4   4','4   4','44444','    4','    4'],'5':['55555','5    ','5555 ','    5','5555 '],'6':[' 666 ','6    ','6666 ','6   6',' 666 '],'7':['77777','    7','   7 ','  7  ',' 7   '],'8':[' 888 ','8   8',' 888 ','8   8',' 888 '],'9':[' 999 ','9   9',' 9999','    9',' 999 '],' ':['     ','     ','     ','     ','     ']};
-function generate(){const text=document.getElementById('input').value.toUpperCase();let result=['','','','',''];for(let char of text){if(ascii[char]){for(let i=0;i<5;i++){result[i]+=ascii[char][i]+' '}}else{for(let i=0;i<5;i++){result[i]+='     '}}}document.getElementById('output').value=result.join('\n')}
-function copy(){const output=document.getElementById('output');output.select();document.execCommand('copy');alert('Copied to clipboard!')}
-function clear(){document.getElementById('input').value='';document.getElementById('output').value=''}
-document.getElementById('input').addEventListener('input',generate);
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ASCII Art Generator - TextKit</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      }
+      body {
+        min-height: 100vh;
+        background: var(--gradient);
+        margin: 0;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .back-link {
+        color: #fff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+        transition: opacity 0.3s;
+      }
+      .back-link:hover {
+        opacity: 1;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+      input[type="text"] {
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 1rem;
+        font-size: 1.2rem;
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+      input[type="text"]:focus {
+        border-color: #43e97b;
+        box-shadow: 0 0 0 3px rgba(67, 233, 123, 0.1);
+      }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      button {
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: none;
+        padding: 0.75rem;
+      }
+      button.primary {
+        background: var(--gradient);
+        color: #fff;
+      }
+      button.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(67, 233, 123, 0.3);
+      }
+      button.secondary {
+        background: #f1f5f9;
+        color: #475569;
+      }
+      button.secondary:hover {
+        background: #e2e8f0;
+      }
+      textarea {
+        min-height: 200px;
+        font-family: monospace;
+        font-size: 0.75rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        line-height: 1.2;
+      }
+      footer {
+        text-align: center;
+        color: #fff;
+        margin-top: 2rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../../index.html" class="back-link">← Back to Home</a>
+      <main>
+        <h1>ASCII Art Generator</h1>
+        <p class="subtitle">Convert text to ASCII art (simple banner style)</p>
+        <label>Input Text:</label>
+        <input
+          type="text"
+          id="input"
+          placeholder="Enter text (max 10 chars)..."
+          maxlength="10"
+        />
+        <div class="button-group">
+          <button class="primary" onclick="generate()">
+            Generate ASCII Art
+          </button>
+          <button class="secondary" onclick="copy()">Copy</button>
+          <button class="secondary" onclick="clear()">Clear</button>
+        </div>
+        <label>ASCII Art Output:</label>
+        <textarea id="output" readonly></textarea>
+      </main>
+      <footer>
+        © 2024 TextKit - All text processing happens in your browser
+      </footer>
+    </div>
+    <script>
+      const ascii = {
+        A: ["  A  ", " A A ", "AAAAA", "A   A", "A   A"],
+        B: ["BBBB ", "B   B", "BBBB ", "B   B", "BBBB "],
+        C: [" CCC ", "C   C", "C    ", "C   C", " CCC "],
+        D: ["DDD  ", "D  D ", "D   D", "D  D ", "DDD  "],
+        E: ["EEEEE", "E    ", "EEEE ", "E    ", "EEEEE"],
+        F: ["FFFFF", "F    ", "FFFF ", "F    ", "F    "],
+        G: [" GGG ", "G    ", "G  GG", "G   G", " GGG "],
+        H: ["H   H", "H   H", "HHHHH", "H   H", "H   H"],
+        I: ["IIIII", "  I  ", "  I  ", "  I  ", "IIIII"],
+        J: ["JJJJJ", "    J", "    J", "J   J", " JJJ "],
+        K: ["K   K", "K  K ", "KKK  ", "K  K ", "K   K"],
+        L: ["L    ", "L    ", "L    ", "L    ", "LLLLL"],
+        M: ["M   M", "MM MM", "M M M", "M   M", "M   M"],
+        N: ["N   N", "NN  N", "N N N", "N  NN", "N   N"],
+        O: [" OOO ", "O   O", "O   O", "O   O", " OOO "],
+        P: ["PPPP ", "P   P", "PPPP ", "P    ", "P    "],
+        Q: [" QQQ ", "Q   Q", "Q   Q", "Q  Q ", " QQ Q"],
+        R: ["RRRR ", "R   R", "RRRR ", "R  R ", "R   R"],
+        S: [" SSS ", "S    ", " SSS ", "    S", " SSS "],
+        T: ["TTTTT", "  T  ", "  T  ", "  T  ", "  T  "],
+        U: ["U   U", "U   U", "U   U", "U   U", " UUU "],
+        V: ["V   V", "V   V", "V   V", " V V ", "  V  "],
+        W: ["W   W", "W   W", "W W W", "WW WW", "W   W"],
+        X: ["X   X", " X X ", "  X  ", " X X ", "X   X"],
+        Y: ["Y   Y", " Y Y ", "  Y  ", "  Y  ", "  Y  "],
+        Z: ["ZZZZZ", "   Z ", "  Z  ", " Z   ", "ZZZZZ"],
+        0: [" 000 ", "0  00", "0 0 0", "00  0", " 000 "],
+        1: ["  1  ", " 11  ", "  1  ", "  1  ", "11111"],
+        2: [" 222 ", "2   2", "   2 ", "  2  ", "22222"],
+        3: ["3333 ", "    3", " 333 ", "    3", "3333 "],
+        4: ["4   4", "4   4", "44444", "    4", "    4"],
+        5: ["55555", "5    ", "5555 ", "    5", "5555 "],
+        6: [" 666 ", "6    ", "6666 ", "6   6", " 666 "],
+        7: ["77777", "    7", "   7 ", "  7  ", " 7   "],
+        8: [" 888 ", "8   8", " 888 ", "8   8", " 888 "],
+        9: [" 999 ", "9   9", " 9999", "    9", " 999 "],
+        " ": ["     ", "     ", "     ", "     ", "     "],
+      };
+      function generate() {
+        const text = document.getElementById("input").value.toUpperCase();
+        let result = ["", "", "", "", ""];
+        for (let char of text) {
+          if (ascii[char]) {
+            for (let i = 0; i < 5; i++) {
+              result[i] += ascii[char][i] + " ";
+            }
+          } else {
+            for (let i = 0; i < 5; i++) {
+              result[i] += "     ";
+            }
+          }
+        }
+        document.getElementById("output").value = result.join("\n");
+      }
+      function copy() {
+        const output = document.getElementById("output");
+        output.select();
+        document.execCommand("copy");
+        alert("Copied to clipboard!");
+      }
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("output").value = "";
+      }
+      document.getElementById("input").addEventListener("input", generate);
+    </script>
+  </body>
 </html>

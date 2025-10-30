@@ -1,315 +1,443 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Word Frequency Counter - Text Analysis Tool</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
     <style>
-        :root {
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
+      :root {
+        --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
 
-        body {
-            background: var(--gradient-1);
-            min-height: 100vh;
-            padding: 2rem 0;
-        }
+      body {
+        background: var(--gradient-1);
+        min-height: 100vh;
+        padding: 2rem 0;
+      }
 
-        .container {
-            max-width: 1000px;
-        }
+      .container {
+        max-width: 1000px;
+      }
 
-        .tool-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            margin-bottom: 2rem;
-        }
+      .tool-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        margin-bottom: 2rem;
+      }
 
-        h1 {
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-            font-size: 2.5rem;
-        }
+      h1 {
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+        font-size: 2.5rem;
+      }
 
-        .subtitle {
-            color: #666;
-            margin-bottom: 2rem;
-        }
+      .subtitle {
+        color: #666;
+        margin-bottom: 2rem;
+      }
 
-        textarea {
-            min-height: 200px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
-        }
+      textarea {
+        min-height: 200px;
+        font-family: "Courier New", monospace;
+        font-size: 0.95rem;
+      }
 
-        .button-group {
-            display: flex;
-            gap: 1rem;
-            margin: 1.5rem 0;
-            flex-wrap: wrap;
-        }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin: 1.5rem 0;
+        flex-wrap: wrap;
+      }
 
-        button {
-            background: var(--gradient-1);
-            border: none;
-            transition: all 0.3s;
-        }
+      button {
+        background: var(--gradient-1);
+        border: none;
+        transition: all 0.3s;
+      }
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      }
 
-        .secondary {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
+      .secondary {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      }
 
-        .options {
-            display: flex;
-            gap: 1.5rem;
-            margin: 1rem 0;
-            flex-wrap: wrap;
-        }
+      .options {
+        display: flex;
+        gap: 1.5rem;
+        margin: 1rem 0;
+        flex-wrap: wrap;
+      }
 
-        label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+      label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
 
-        .results-container {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin-top: 1.5rem;
-        }
+      .results-container {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-top: 1.5rem;
+      }
 
-        .frequency-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
+      .frequency-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+      }
 
-        .frequency-table th,
-        .frequency-table td {
-            padding: 0.75rem;
-            text-align: left;
-            border-bottom: 1px solid #e0e0e0;
-        }
+      .frequency-table th,
+      .frequency-table td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+      }
 
-        .frequency-table th {
-            background: #667eea;
-            color: white;
-            font-weight: bold;
-            position: sticky;
-            top: 0;
-        }
+      .frequency-table th {
+        background: #667eea;
+        color: white;
+        font-weight: bold;
+        position: sticky;
+        top: 0;
+      }
 
-        .frequency-table tr:hover {
-            background: #f0f4ff;
-        }
+      .frequency-table tr:hover {
+        background: #f0f4ff;
+      }
 
-        .word-cell {
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            color: #667eea;
-        }
+      .word-cell {
+        font-family: "Courier New", monospace;
+        font-weight: bold;
+        color: #667eea;
+      }
 
-        .bar-cell {
-            width: 40%;
-        }
+      .bar-cell {
+        width: 40%;
+      }
 
-        .freq-bar {
-            height: 20px;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            border-radius: 4px;
-            transition: all 0.3s;
-        }
+      .freq-bar {
+        height: 20px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        border-radius: 4px;
+        transition: all 0.3s;
+      }
 
-        .table-wrapper {
-            max-height: 500px;
-            overflow-y: auto;
-            border-radius: 8px;
-            border: 2px solid #e0e0e0;
-        }
+      .table-wrapper {
+        max-height: 500px;
+        overflow-y: auto;
+        border-radius: 8px;
+        border: 2px solid #e0e0e0;
+      }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
 
-        .stat-card {
-            background: white;
-            padding: 1rem;
-            border-radius: 8px;
-            text-align: center;
-            border: 2px solid #e0e0e0;
-        }
+      .stat-card {
+        background: white;
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        border: 2px solid #e0e0e0;
+      }
 
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #667eea;
-        }
+      .stat-value {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #667eea;
+      }
 
-        .stat-label {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 0.25rem;
-        }
+      .stat-label {
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 0.25rem;
+      }
 
-        .info-box {
-            background: #f0f4ff;
-            border-left: 4px solid #667eea;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
+      .info-box {
+        background: #f0f4ff;
+        border-left: 4px solid #667eea;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="tool-card">
-            <h1>📊 Word Frequency Counter</h1>
-            <p class="subtitle">Analyze word usage and find the most common words in your text</p>
+      <div class="tool-card">
+        <h1>📊 Word Frequency Counter</h1>
+        <p class="subtitle">
+          Analyze word usage and find the most common words in your text
+        </p>
 
-            <label for="input">Input Text:</label>
-            <textarea id="input" placeholder="Enter or paste your text here..." oninput="analyze()">The quick brown fox jumps over the lazy dog. The fox is quick and the dog is lazy. The brown fox jumps quickly while the lazy dog sleeps.</textarea>
+        <label for="input">Input Text:</label>
+        <textarea
+          id="input"
+          placeholder="Enter or paste your text here..."
+          oninput="analyze()"
+        >
+The quick brown fox jumps over the lazy dog. The fox is quick and the dog is lazy. The brown fox jumps quickly while the lazy dog sleeps.</textarea
+        >
 
-            <div class="options">
-                <label>
-                    <input type="checkbox" id="caseSensitive" onchange="analyze()">
-                    Case sensitive
-                </label>
-                <label>
-                    <input type="checkbox" id="ignoreCommon" checked onchange="analyze()">
-                    Ignore common words (the, is, a, etc.)
-                </label>
-                <label>
-                    <input type="checkbox" id="minLength">
-                    Min length:
-                    <input type="number" id="minLengthValue" value="3" min="1" max="20" style="width: 60px;" onchange="analyze()">
-                </label>
-            </div>
-
-            <div class="button-group">
-                <button onclick="analyze()">📊 Analyze</button>
-                <button onclick="exportCSV()" class="secondary">📥 Export CSV</button>
-                <button onclick="clearAll()" class="secondary">🗑️ Clear</button>
-            </div>
-
-            <div class="results-container" id="results" style="display: none;">
-                <h3>Statistics</h3>
-                <div class="stats-grid" id="stats"></div>
-
-                <h3>Word Frequency</h3>
-                <div class="table-wrapper">
-                    <table class="frequency-table">
-                        <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th>Word</th>
-                                <th>Count</th>
-                                <th>Percentage</th>
-                                <th class="bar-cell">Frequency</th>
-                            </tr>
-                        </thead>
-                        <tbody id="frequencyTable"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="info-box">
-                <strong>💡 Features:</strong>
-                <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
-                    <li>Counts frequency of each unique word in your text</li>
-                    <li>Option to ignore common English words (stop words)</li>
-                    <li>Case-sensitive or case-insensitive analysis</li>
-                    <li>Filter by minimum word length</li>
-                    <li>Visual frequency bars for easy comparison</li>
-                    <li>Export results to CSV for further analysis</li>
-                </ul>
-            </div>
+        <div class="options">
+          <label>
+            <input type="checkbox" id="caseSensitive" onchange="analyze()" />
+            Case sensitive
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              id="ignoreCommon"
+              checked
+              onchange="analyze()"
+            />
+            Ignore common words (the, is, a, etc.)
+          </label>
+          <label>
+            <input type="checkbox" id="minLength" />
+            Min length:
+            <input
+              type="number"
+              id="minLengthValue"
+              value="3"
+              min="1"
+              max="20"
+              style="width: 60px"
+              onchange="analyze()"
+            />
+          </label>
         </div>
+
+        <div class="button-group">
+          <button onclick="analyze()">📊 Analyze</button>
+          <button onclick="exportCSV()" class="secondary">📥 Export CSV</button>
+          <button onclick="clearAll()" class="secondary">🗑️ Clear</button>
+        </div>
+
+        <div class="results-container" id="results" style="display: none">
+          <h3>Statistics</h3>
+          <div class="stats-grid" id="stats"></div>
+
+          <h3>Word Frequency</h3>
+          <div class="table-wrapper">
+            <table class="frequency-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Word</th>
+                  <th>Count</th>
+                  <th>Percentage</th>
+                  <th class="bar-cell">Frequency</th>
+                </tr>
+              </thead>
+              <tbody id="frequencyTable"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <strong>💡 Features:</strong>
+          <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem">
+            <li>Counts frequency of each unique word in your text</li>
+            <li>Option to ignore common English words (stop words)</li>
+            <li>Case-sensitive or case-insensitive analysis</li>
+            <li>Filter by minimum word length</li>
+            <li>Visual frequency bars for easy comparison</li>
+            <li>Export results to CSV for further analysis</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <script>
-        const commonWords = new Set([
-            'the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have', 'i',
-            'it', 'for', 'not', 'on', 'with', 'he', 'as', 'you', 'do', 'at',
-            'this', 'but', 'his', 'by', 'from', 'they', 'we', 'say', 'her', 'she',
-            'or', 'an', 'will', 'my', 'one', 'all', 'would', 'there', 'their', 'what',
-            'so', 'up', 'out', 'if', 'about', 'who', 'get', 'which', 'go', 'me',
-            'when', 'make', 'can', 'like', 'time', 'no', 'just', 'him', 'know', 'take',
-            'people', 'into', 'year', 'your', 'good', 'some', 'could', 'them', 'see', 'other',
-            'than', 'then', 'now', 'look', 'only', 'come', 'its', 'over', 'think', 'also',
-            'back', 'after', 'use', 'two', 'how', 'our', 'work', 'first', 'well', 'way',
-            'even', 'new', 'want', 'because', 'any', 'these', 'give', 'day', 'most', 'us',
-            'is', 'was', 'are', 'been', 'has', 'had', 'were', 'am'
-        ]);
+      const commonWords = new Set([
+        "the",
+        "be",
+        "to",
+        "of",
+        "and",
+        "a",
+        "in",
+        "that",
+        "have",
+        "i",
+        "it",
+        "for",
+        "not",
+        "on",
+        "with",
+        "he",
+        "as",
+        "you",
+        "do",
+        "at",
+        "this",
+        "but",
+        "his",
+        "by",
+        "from",
+        "they",
+        "we",
+        "say",
+        "her",
+        "she",
+        "or",
+        "an",
+        "will",
+        "my",
+        "one",
+        "all",
+        "would",
+        "there",
+        "their",
+        "what",
+        "so",
+        "up",
+        "out",
+        "if",
+        "about",
+        "who",
+        "get",
+        "which",
+        "go",
+        "me",
+        "when",
+        "make",
+        "can",
+        "like",
+        "time",
+        "no",
+        "just",
+        "him",
+        "know",
+        "take",
+        "people",
+        "into",
+        "year",
+        "your",
+        "good",
+        "some",
+        "could",
+        "them",
+        "see",
+        "other",
+        "than",
+        "then",
+        "now",
+        "look",
+        "only",
+        "come",
+        "its",
+        "over",
+        "think",
+        "also",
+        "back",
+        "after",
+        "use",
+        "two",
+        "how",
+        "our",
+        "work",
+        "first",
+        "well",
+        "way",
+        "even",
+        "new",
+        "want",
+        "because",
+        "any",
+        "these",
+        "give",
+        "day",
+        "most",
+        "us",
+        "is",
+        "was",
+        "are",
+        "been",
+        "has",
+        "had",
+        "were",
+        "am",
+      ]);
 
-        let frequencyData = [];
+      let frequencyData = [];
 
-        function analyze() {
-            const text = document.getElementById('input').value.trim();
+      function analyze() {
+        const text = document.getElementById("input").value.trim();
 
-            if (!text) {
-                document.getElementById('results').style.display = 'none';
-                return;
-            }
-
-            const caseSensitive = document.getElementById('caseSensitive').checked;
-            const ignoreCommon = document.getElementById('ignoreCommon').checked;
-            const useMinLength = document.getElementById('minLength').checked;
-            const minLength = parseInt(document.getElementById('minLengthValue').value);
-
-            // Extract words
-            let words = text.match(/\b[\w']+\b/g) || [];
-
-            if (!caseSensitive) {
-                words = words.map(w => w.toLowerCase());
-            }
-
-            // Count frequencies
-            const frequency = new Map();
-            let totalWords = 0;
-
-            words.forEach(word => {
-                // Apply filters
-                if (ignoreCommon && commonWords.has(word.toLowerCase())) return;
-                if (useMinLength && word.length < minLength) return;
-
-                totalWords++;
-                frequency.set(word, (frequency.get(word) || 0) + 1);
-            });
-
-            // Convert to array and sort
-            frequencyData = Array.from(frequency.entries())
-                .map(([word, count]) => ({ word, count }))
-                .sort((a, b) => b.count - a.count);
-
-            // Display results
-            displayStats(totalWords, frequencyData.length);
-            displayTable(frequencyData, totalWords);
-
-            document.getElementById('results').style.display = 'block';
+        if (!text) {
+          document.getElementById("results").style.display = "none";
+          return;
         }
 
-        function displayStats(totalWords, uniqueWords) {
-            const totalChars = document.getElementById('input').value.length;
-            const avgWordLength = totalWords > 0 ?
-                (document.getElementById('input').value.replace(/\s/g, '').length / totalWords).toFixed(1) : 0;
+        const caseSensitive = document.getElementById("caseSensitive").checked;
+        const ignoreCommon = document.getElementById("ignoreCommon").checked;
+        const useMinLength = document.getElementById("minLength").checked;
+        const minLength = parseInt(
+          document.getElementById("minLengthValue").value,
+        );
 
-            const html = `
+        // Extract words
+        let words = text.match(/\b[\w']+\b/g) || [];
+
+        if (!caseSensitive) {
+          words = words.map((w) => w.toLowerCase());
+        }
+
+        // Count frequencies
+        const frequency = new Map();
+        let totalWords = 0;
+
+        words.forEach((word) => {
+          // Apply filters
+          if (ignoreCommon && commonWords.has(word.toLowerCase())) return;
+          if (useMinLength && word.length < minLength) return;
+
+          totalWords++;
+          frequency.set(word, (frequency.get(word) || 0) + 1);
+        });
+
+        // Convert to array and sort
+        frequencyData = Array.from(frequency.entries())
+          .map(([word, count]) => ({ word, count }))
+          .sort((a, b) => b.count - a.count);
+
+        // Display results
+        displayStats(totalWords, frequencyData.length);
+        displayTable(frequencyData, totalWords);
+
+        document.getElementById("results").style.display = "block";
+      }
+
+      function displayStats(totalWords, uniqueWords) {
+        const totalChars = document.getElementById("input").value.length;
+        const avgWordLength =
+          totalWords > 0
+            ? (
+                document.getElementById("input").value.replace(/\s/g, "")
+                  .length / totalWords
+              ).toFixed(1)
+            : 0;
+
+        const html = `
                 <div class="stat-card">
                     <div class="stat-value">${totalWords}</div>
                     <div class="stat-label">Total Words</div>
@@ -328,17 +456,18 @@
                 </div>
             `;
 
-            document.getElementById('stats').innerHTML = html;
-        }
+        document.getElementById("stats").innerHTML = html;
+      }
 
-        function displayTable(data, totalWords) {
-            const maxCount = data[0] ? data[0].count : 1;
+      function displayTable(data, totalWords) {
+        const maxCount = data[0] ? data[0].count : 1;
 
-            const html = data.map((item, index) => {
-                const percentage = ((item.count / totalWords) * 100).toFixed(1);
-                const barWidth = (item.count / maxCount) * 100;
+        const html = data
+          .map((item, index) => {
+            const percentage = ((item.count / totalWords) * 100).toFixed(1);
+            const barWidth = (item.count / maxCount) * 100;
 
-                return `
+            return `
                     <tr>
                         <td>${index + 1}</td>
                         <td class="word-cell">${item.word}</td>
@@ -349,42 +478,46 @@
                         </td>
                     </tr>
                 `;
-            }).join('');
+          })
+          .join("");
 
-            document.getElementById('frequencyTable').innerHTML = html;
+        document.getElementById("frequencyTable").innerHTML = html;
+      }
+
+      function exportCSV() {
+        if (frequencyData.length === 0) {
+          alert("No data to export. Please analyze some text first.");
+          return;
         }
 
-        function exportCSV() {
-            if (frequencyData.length === 0) {
-                alert('No data to export. Please analyze some text first.');
-                return;
-            }
+        let csv = "Rank,Word,Count,Percentage\n";
+        const totalWords = frequencyData.reduce(
+          (sum, item) => sum + item.count,
+          0,
+        );
 
-            let csv = 'Rank,Word,Count,Percentage\n';
-            const totalWords = frequencyData.reduce((sum, item) => sum + item.count, 0);
+        frequencyData.forEach((item, index) => {
+          const percentage = ((item.count / totalWords) * 100).toFixed(1);
+          csv += `${index + 1},"${item.word}",${item.count},${percentage}%\n`;
+        });
 
-            frequencyData.forEach((item, index) => {
-                const percentage = ((item.count / totalWords) * 100).toFixed(1);
-                csv += `${index + 1},"${item.word}",${item.count},${percentage}%\n`;
-            });
+        const blob = new Blob([csv], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "word-frequency.csv";
+        a.click();
+        URL.revokeObjectURL(url);
+      }
 
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'word-frequency.csv';
-            a.click();
-            URL.revokeObjectURL(url);
-        }
+      function clearAll() {
+        document.getElementById("input").value = "";
+        document.getElementById("results").style.display = "none";
+        frequencyData = [];
+      }
 
-        function clearAll() {
-            document.getElementById('input').value = '';
-            document.getElementById('results').style.display = 'none';
-            frequencyData = [];
-        }
-
-        // Analyze on load
-        analyze();
+      // Analyze on load
+      analyze();
     </script>
-</body>
+  </body>
 </html>

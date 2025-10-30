@@ -1,57 +1,222 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Random Text Generator - TextKit</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-<style>
-:root{--gradient:linear-gradient(135deg,#a8edea 0%,#fed6e3 100%)}
-body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
-.container{max-width:900px;margin:0 auto}
-.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
-.back-link:hover{opacity:1}
-main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
-.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
-.controls{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
-input[type="number"]{border:2px solid #e2e8f0;border-radius:8px;padding:0.75rem;width:100%}
-select{border:2px solid #e2e8f0;border-radius:8px;padding:0.75rem;width:100%}
-textarea{min-height:200px;font-family:monospace;font-size:0.95rem;border:2px solid #e2e8f0;border-radius:12px}
-.button-group{display:flex;gap:1rem;margin-top:1rem}
-button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
-button.primary{background:var(--gradient);color:#fff}
-button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(168,237,234,0.3)}
-button.secondary{background:#f1f5f9;color:#475569}
-button.secondary:hover{background:#e2e8f0}
-footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
-</style>
-</head>
-<body>
-<div class="container">
-<a href="../../index.html" class="back-link">← Back to Home</a>
-<main>
-<h1>Random Text Generator</h1>
-<p class="subtitle">Generate random text with custom settings</p>
-<div class="controls">
-<div><label>Length:</label><input type="number" id="length" value="100" min="10" max="10000"></div>
-<div><label>Type:</label><select id="type"><option value="words">Words</option><option value="letters">Letters</option><option value="sentences">Sentences</option></select></div>
-</div>
-<div class="button-group">
-<button class="primary" onclick="generate()">Generate</button>
-<button class="secondary" onclick="copy()">Copy</button>
-<button class="secondary" onclick="clear()">Clear</button>
-</div>
-<label>Generated Text:</label>
-<textarea id="output" readonly></textarea>
-</main>
-<footer>© 2024 TextKit - All text processing happens in your browser</footer>
-</div>
-<script>
-const words=['lorem','ipsum','dolor','sit','amet','consectetur','adipiscing','elit','sed','do','eiusmod','tempor','incididunt','ut','labore','et','dolore','magna','aliqua','enim','ad','minim','veniam','quis','nostrud','exercitation'];
-function generate(){const length=parseInt(document.getElementById('length').value);const type=document.getElementById('type').value;let result='';if(type==='words'){for(let i=0;i<length;i++){result+=words[Math.floor(Math.random()*words.length)]+' '}}else if(type==='sentences'){for(let i=0;i<length;i++){const sentLen=5+Math.floor(Math.random()*10);let sent='';for(let j=0;j<sentLen;j++){sent+=words[Math.floor(Math.random()*words.length)]+' '}result+=sent.charAt(0).toUpperCase()+sent.slice(1).trim()+'. '}}else{const chars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';for(let i=0;i<length;i++){result+=chars[Math.floor(Math.random()*chars.length)]}}document.getElementById('output').value=result.trim()}
-function copy(){const output=document.getElementById('output');output.select();document.execCommand('copy');alert('Copied to clipboard!')}
-function clear(){document.getElementById('output').value=''}
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Random Text Generator - TextKit</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      }
+      body {
+        min-height: 100vh;
+        background: var(--gradient);
+        margin: 0;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .back-link {
+        color: #fff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+        transition: opacity 0.3s;
+      }
+      .back-link:hover {
+        opacity: 1;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+      .controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+      input[type="number"] {
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 0.75rem;
+        width: 100%;
+      }
+      select {
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 0.75rem;
+        width: 100%;
+      }
+      textarea {
+        min-height: 200px;
+        font-family: monospace;
+        font-size: 0.95rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+      }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      button {
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: none;
+      }
+      button.primary {
+        background: var(--gradient);
+        color: #fff;
+      }
+      button.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(168, 237, 234, 0.3);
+      }
+      button.secondary {
+        background: #f1f5f9;
+        color: #475569;
+      }
+      button.secondary:hover {
+        background: #e2e8f0;
+      }
+      footer {
+        text-align: center;
+        color: #fff;
+        margin-top: 2rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../../index.html" class="back-link">← Back to Home</a>
+      <main>
+        <h1>Random Text Generator</h1>
+        <p class="subtitle">Generate random text with custom settings</p>
+        <div class="controls">
+          <div>
+            <label>Length:</label
+            ><input
+              type="number"
+              id="length"
+              value="100"
+              min="10"
+              max="10000"
+            />
+          </div>
+          <div>
+            <label>Type:</label
+            ><select id="type">
+              <option value="words">Words</option>
+              <option value="letters">Letters</option>
+              <option value="sentences">Sentences</option>
+            </select>
+          </div>
+        </div>
+        <div class="button-group">
+          <button class="primary" onclick="generate()">Generate</button>
+          <button class="secondary" onclick="copy()">Copy</button>
+          <button class="secondary" onclick="clear()">Clear</button>
+        </div>
+        <label>Generated Text:</label>
+        <textarea id="output" readonly></textarea>
+      </main>
+      <footer>
+        © 2024 TextKit - All text processing happens in your browser
+      </footer>
+    </div>
+    <script>
+      const words = [
+        "lorem",
+        "ipsum",
+        "dolor",
+        "sit",
+        "amet",
+        "consectetur",
+        "adipiscing",
+        "elit",
+        "sed",
+        "do",
+        "eiusmod",
+        "tempor",
+        "incididunt",
+        "ut",
+        "labore",
+        "et",
+        "dolore",
+        "magna",
+        "aliqua",
+        "enim",
+        "ad",
+        "minim",
+        "veniam",
+        "quis",
+        "nostrud",
+        "exercitation",
+      ];
+      function generate() {
+        const length = parseInt(document.getElementById("length").value);
+        const type = document.getElementById("type").value;
+        let result = "";
+        if (type === "words") {
+          for (let i = 0; i < length; i++) {
+            result += words[Math.floor(Math.random() * words.length)] + " ";
+          }
+        } else if (type === "sentences") {
+          for (let i = 0; i < length; i++) {
+            const sentLen = 5 + Math.floor(Math.random() * 10);
+            let sent = "";
+            for (let j = 0; j < sentLen; j++) {
+              sent += words[Math.floor(Math.random() * words.length)] + " ";
+            }
+            result +=
+              sent.charAt(0).toUpperCase() + sent.slice(1).trim() + ". ";
+          }
+        } else {
+          const chars =
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+          for (let i = 0; i < length; i++) {
+            result += chars[Math.floor(Math.random() * chars.length)];
+          }
+        }
+        document.getElementById("output").value = result.trim();
+      }
+      function copy() {
+        const output = document.getElementById("output");
+        output.select();
+        document.execCommand("copy");
+        alert("Copied to clipboard!");
+      }
+      function clear() {
+        document.getElementById("output").value = "";
+      }
+    </script>
+  </body>
 </html>

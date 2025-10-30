@@ -1,37 +1,190 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/png" href="/favicon.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Word Counter - Text Statistics Tool</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.conditional.min.css" integrity="sha256-v0OEZWNaUvlmR1U0LMHiwNOzzO3q2wkIipf4KlEB9NWs=" crossorigin="anonymous">
-  <style>:root{--g:linear-gradient(135deg,#fa709a 0%,#fee140 100%)}body{background:var(--g);min-height:100vh}.container{max-width:1200px;margin:0 auto;padding:2rem}.back-link{display:inline-flex;align-items:center;gap:.5rem;color:#fff;text-decoration:none;font-weight:600;margin-bottom:1.5rem;padding:.5rem 1rem;background:rgba(255,255,255,0.2);border-radius:50px}header{background:rgba(255,255,255,0.95);border-radius:20px;padding:2.5rem}header h1{background:var(--g);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:2.5rem;font-weight:800}main{background:rgba(255,255,255,0.98);border-radius:20px;padding:2.5rem;margin:2rem 0}textarea{font-family:Monaco,monospace;min-height:300px;width:100%;border:2px solid #e2e8f0;border-radius:12px;padding:1rem}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin:2rem 0}.stat-card{background:#f8fafc;border:2px solid #e2e8f0;border-radius:12px;padding:1.5rem;text-align:center}.stat-value{font-size:2.5rem;font-weight:700;color:#1e293b}.stat-label{color:#64748b;font-size:.85rem;margin-top:.5rem}button{padding:.875rem 1.75rem;border-radius:12px;font-weight:600;border:none;cursor:pointer;margin:.5rem}button.primary{background:var(--g);color:#fff}</style>
-</head>
-<body>
-  <div class="container">
-    <a href="/" class="back-link">← Back</a>
-    <header><h1>📝 Word Counter</h1><p style="color:#64748b;margin:0">Count words, characters, sentences and more</p></header>
-    <main>
-      <h3>Enter Text</h3>
-      <textarea id="input" placeholder="Start typing or paste text..." oninput="update()"></textarea>
-      <div class="stats-grid">
-        <div class="stat-card"><div class="stat-value" id="words">0</div><div class="stat-label">Words</div></div>
-        <div class="stat-card"><div class="stat-value" id="chars">0</div><div class="stat-label">Characters</div></div>
-        <div class="stat-card"><div class="stat-value" id="no-space">0</div><div class="stat-label">No Spaces</div></div>
-        <div class="stat-card"><div class="stat-value" id="sentences">0</div><div class="stat-label">Sentences</div></div>
-        <div class="stat-card"><div class="stat-value" id="paragraphs">0</div><div class="stat-label">Paragraphs</div></div>
-        <div class="stat-card"><div class="stat-value" id="lines">0</div><div class="stat-label">Lines</div></div>
-        <div class="stat-card"><div class="stat-value" id="reading">0m</div><div class="stat-label">Reading Time</div></div>
-      </div>
-      <button class="primary" onclick="copy()">📋 Copy Text</button>
-      <button onclick="clear()">🗑️ Clear</button>
-    </main>
-  </div>
-  <script>
-    function update(){const text=document.getElementById('input').value;document.getElementById('chars').textContent=text.length;document.getElementById('no-space').textContent=text.replace(/\s/g,'').length;const words=text.trim()?text.trim().split(/\s+/):[];document.getElementById('words').textContent=words.length;document.getElementById('lines').textContent=text?text.split('\n').length:0;const sentences=text.split(/[.!?]+/).filter(s=>s.trim()).length;document.getElementById('sentences').textContent=sentences;const paras=text.trim()?text.trim().split(/\n\s*\n/).filter(p=>p.trim()).length:0;document.getElementById('paragraphs').textContent=paras;const readTime=Math.ceil(words.length/225);document.getElementById('reading').textContent=readTime?readTime+'m':'0m'}
-    function copy(){navigator.clipboard.writeText(document.getElementById('input').value).then(()=>alert('Copied!'))}
-    function clear(){document.getElementById('input').value='';update()}
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Word Counter - Text Statistics Tool</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.conditional.min.css"
+      integrity="sha256-v0OEZWNaUvlmR1U0LMHiwNOzzO3q2wkIipf4KlEB9NWs="
+      crossorigin="anonymous"
+    />
+    <style>
+      :root {
+        --g: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      }
+      body {
+        background: var(--g);
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50px;
+      }
+      header {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 2.5rem;
+      }
+      header h1 {
+        background: var(--g);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 2.5rem;
+        font-weight: 800;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 20px;
+        padding: 2.5rem;
+        margin: 2rem 0;
+      }
+      textarea {
+        font-family: Monaco, monospace;
+        min-height: 300px;
+        width: 100%;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 1rem;
+      }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+        margin: 2rem 0;
+      }
+      .stat-card {
+        background: #f8fafc;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+      }
+      .stat-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1e293b;
+      }
+      .stat-label {
+        color: #64748b;
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+      }
+      button {
+        padding: 0.875rem 1.75rem;
+        border-radius: 12px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        margin: 0.5rem;
+      }
+      button.primary {
+        background: var(--g);
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="/" class="back-link">← Back</a>
+      <header>
+        <h1>📝 Word Counter</h1>
+        <p style="color: #64748b; margin: 0">
+          Count words, characters, sentences and more
+        </p>
+      </header>
+      <main>
+        <h3>Enter Text</h3>
+        <textarea
+          id="input"
+          placeholder="Start typing or paste text..."
+          oninput="update()"
+        ></textarea>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value" id="words">0</div>
+            <div class="stat-label">Words</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="chars">0</div>
+            <div class="stat-label">Characters</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="no-space">0</div>
+            <div class="stat-label">No Spaces</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="sentences">0</div>
+            <div class="stat-label">Sentences</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="paragraphs">0</div>
+            <div class="stat-label">Paragraphs</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="lines">0</div>
+            <div class="stat-label">Lines</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="reading">0m</div>
+            <div class="stat-label">Reading Time</div>
+          </div>
+        </div>
+        <button class="primary" onclick="copy()">📋 Copy Text</button>
+        <button onclick="clear()">🗑️ Clear</button>
+      </main>
+    </div>
+    <script>
+      function update() {
+        const text = document.getElementById("input").value;
+        document.getElementById("chars").textContent = text.length;
+        document.getElementById("no-space").textContent = text.replace(
+          /\s/g,
+          "",
+        ).length;
+        const words = text.trim() ? text.trim().split(/\s+/) : [];
+        document.getElementById("words").textContent = words.length;
+        document.getElementById("lines").textContent = text
+          ? text.split("\n").length
+          : 0;
+        const sentences = text.split(/[.!?]+/).filter((s) => s.trim()).length;
+        document.getElementById("sentences").textContent = sentences;
+        const paras = text.trim()
+          ? text
+              .trim()
+              .split(/\n\s*\n/)
+              .filter((p) => p.trim()).length
+          : 0;
+        document.getElementById("paragraphs").textContent = paras;
+        const readTime = Math.ceil(words.length / 225);
+        document.getElementById("reading").textContent = readTime
+          ? readTime + "m"
+          : "0m";
+      }
+      function copy() {
+        navigator.clipboard
+          .writeText(document.getElementById("input").value)
+          .then(() => alert("Copied!"));
+      }
+      function clear() {
+        document.getElementById("input").value = "";
+        update();
+      }
+    </script>
+  </body>
 </html>

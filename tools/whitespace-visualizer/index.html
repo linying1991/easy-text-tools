@@ -1,356 +1,370 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Whitespace Visualizer - See Invisible Characters</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
     <style>
-        :root {
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
+      :root {
+        --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
 
-        body {
-            background: var(--gradient-1);
-            min-height: 100vh;
-            padding: 2rem 0;
-        }
+      body {
+        background: var(--gradient-1);
+        min-height: 100vh;
+        padding: 2rem 0;
+      }
 
-        .container {
-            max-width: 1000px;
-        }
+      .container {
+        max-width: 1000px;
+      }
 
-        .tool-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            margin-bottom: 2rem;
-        }
+      .tool-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        margin-bottom: 2rem;
+      }
 
-        h1 {
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-            font-size: 2.5rem;
-        }
+      h1 {
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+        font-size: 2.5rem;
+      }
 
-        .subtitle {
-            color: #666;
-            margin-bottom: 2rem;
-        }
+      .subtitle {
+        color: #666;
+        margin-bottom: 2rem;
+      }
 
-        textarea {
-            min-height: 200px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
-        }
+      textarea {
+        min-height: 200px;
+        font-family: "Courier New", monospace;
+        font-size: 0.95rem;
+      }
 
-        .button-group {
-            display: flex;
-            gap: 1rem;
-            margin: 1.5rem 0;
-            flex-wrap: wrap;
-        }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin: 1.5rem 0;
+        flex-wrap: wrap;
+      }
 
-        button {
-            background: var(--gradient-1);
-            border: none;
-            transition: all 0.3s;
-        }
+      button {
+        background: var(--gradient-1);
+        border: none;
+        transition: all 0.3s;
+      }
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      }
 
-        .secondary {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
+      .secondary {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      }
 
-        .visual-output {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            white-space: pre-wrap;
-            word-break: break-all;
-            line-height: 1.8;
-            border: 2px solid #e0e0e0;
-        }
+      .visual-output {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        white-space: pre-wrap;
+        word-break: break-all;
+        line-height: 1.8;
+        border: 2px solid #e0e0e0;
+      }
 
-        .space {
-            background: #ffeb3b;
-            color: #333;
-            padding: 0 2px;
-        }
+      .space {
+        background: #ffeb3b;
+        color: #333;
+        padding: 0 2px;
+      }
 
-        .tab {
-            background: #ff9800;
-            color: white;
-            padding: 0 4px;
-        }
+      .tab {
+        background: #ff9800;
+        color: white;
+        padding: 0 4px;
+      }
 
-        .newline {
-            background: #2196f3;
-            color: white;
-            padding: 0 4px;
-        }
+      .newline {
+        background: #2196f3;
+        color: white;
+        padding: 0 4px;
+      }
 
-        .carriage-return {
-            background: #e91e63;
-            color: white;
-            padding: 0 4px;
-        }
+      .carriage-return {
+        background: #e91e63;
+        color: white;
+        padding: 0 4px;
+      }
 
-        .zero-width {
-            background: #f44336;
-            color: white;
-            padding: 0 4px;
-            font-weight: bold;
-        }
+      .zero-width {
+        background: #f44336;
+        color: white;
+        padding: 0 4px;
+        font-weight: bold;
+      }
 
-        .stats-box {
-            background: #f0f4ff;
-            border-left: 4px solid #667eea;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
+      .stats-box {
+        background: #f0f4ff;
+        border-left: 4px solid #667eea;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+      }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 0.5rem;
-        }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 0.5rem;
+      }
 
-        .stat-item {
-            background: white;
-            padding: 0.75rem;
-            border-radius: 8px;
-        }
+      .stat-item {
+        background: white;
+        padding: 0.75rem;
+        border-radius: 8px;
+      }
 
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #667eea;
-        }
+      .stat-value {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #667eea;
+      }
 
-        .stat-label {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 0.25rem;
-        }
+      .stat-label {
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 0.25rem;
+      }
 
-        .legend {
-            display: flex;
-            gap: 1.5rem;
-            margin: 1rem 0;
-            flex-wrap: wrap;
-            font-size: 0.9rem;
-        }
+      .legend {
+        display: flex;
+        gap: 1.5rem;
+        margin: 1rem 0;
+        flex-wrap: wrap;
+        font-size: 0.9rem;
+      }
 
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
 
-        .legend-box {
-            width: 20px;
-            height: 20px;
-            border-radius: 4px;
-        }
+      .legend-box {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+      }
 
-        .info-box {
-            background: #f0f4ff;
-            border-left: 4px solid #667eea;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
+      .info-box {
+        background: #f0f4ff;
+        border-left: 4px solid #667eea;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="tool-card">
-            <h1>👁️ Whitespace Visualizer</h1>
-            <p class="subtitle">Reveal hidden spaces, tabs, line breaks, and invisible characters</p>
+      <div class="tool-card">
+        <h1>👁️ Whitespace Visualizer</h1>
+        <p class="subtitle">
+          Reveal hidden spaces, tabs, line breaks, and invisible characters
+        </p>
 
-            <label for="input">Input Text:</label>
-            <textarea id="input" placeholder="Enter or paste text with spaces, tabs, and line breaks..." oninput="visualize()">Hello	World
+        <label for="input">Input Text:</label>
+        <textarea
+          id="input"
+          placeholder="Enter or paste text with spaces, tabs, and line breaks..."
+          oninput="visualize()"
+        >
+Hello	World
 This has  multiple  spaces
 	Indented with tab
 Line with trailing spaces
-Zero-width space:​here</textarea>
+Zero-width space:​here</textarea
+        >
 
-            <div class="button-group">
-                <button onclick="visualize()">👁️ Visualize</button>
-                <button onclick="copy()" class="secondary">📋 Copy Visual</button>
-                <button onclick="clearAll()" class="secondary">🗑️ Clear</button>
-            </div>
-
-            <div class="legend">
-                <div class="legend-item">
-                    <div class="legend-box" style="background: #ffeb3b;"></div>
-                    <span>Space</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-box" style="background: #ff9800;"></div>
-                    <span>Tab</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-box" style="background: #2196f3;"></div>
-                    <span>Newline</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-box" style="background: #e91e63;"></div>
-                    <span>CR</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-box" style="background: #f44336;"></div>
-                    <span>Zero-Width</span>
-                </div>
-            </div>
-
-            <label>Visual Output:</label>
-            <div class="visual-output" id="output"></div>
-
-            <div class="stats-box">
-                <strong>📊 Statistics:</strong>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-value" id="spaceCount">0</div>
-                        <div class="stat-label">Spaces</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="tabCount">0</div>
-                        <div class="stat-label">Tabs</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="newlineCount">0</div>
-                        <div class="stat-label">Newlines</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="crCount">0</div>
-                        <div class="stat-label">CR</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="zeroWidthCount">0</div>
-                        <div class="stat-label">Zero-Width</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="totalChars">0</div>
-                        <div class="stat-label">Total Chars</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="info-box">
-                <strong>💡 Detected Characters:</strong>
-                <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
-                    <li><strong>Space:</strong> Regular space character (U+0020)</li>
-                    <li><strong>Tab:</strong> Tab character (U+0009)</li>
-                    <li><strong>Newline (LF):</strong> Line feed (U+000A)</li>
-                    <li><strong>CR:</strong> Carriage return (U+000D)</li>
-                    <li><strong>Zero-Width Space:</strong> Invisible separator (U+200B)</li>
-                    <li><strong>Zero-Width Non-Joiner:</strong> (U+200C)</li>
-                    <li><strong>Zero-Width Joiner:</strong> (U+200D)</li>
-                </ul>
-            </div>
+        <div class="button-group">
+          <button onclick="visualize()">👁️ Visualize</button>
+          <button onclick="copy()" class="secondary">📋 Copy Visual</button>
+          <button onclick="clearAll()" class="secondary">🗑️ Clear</button>
         </div>
+
+        <div class="legend">
+          <div class="legend-item">
+            <div class="legend-box" style="background: #ffeb3b"></div>
+            <span>Space</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-box" style="background: #ff9800"></div>
+            <span>Tab</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-box" style="background: #2196f3"></div>
+            <span>Newline</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-box" style="background: #e91e63"></div>
+            <span>CR</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-box" style="background: #f44336"></div>
+            <span>Zero-Width</span>
+          </div>
+        </div>
+
+        <label>Visual Output:</label>
+        <div class="visual-output" id="output"></div>
+
+        <div class="stats-box">
+          <strong>📊 Statistics:</strong>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-value" id="spaceCount">0</div>
+              <div class="stat-label">Spaces</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="tabCount">0</div>
+              <div class="stat-label">Tabs</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="newlineCount">0</div>
+              <div class="stat-label">Newlines</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="crCount">0</div>
+              <div class="stat-label">CR</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="zeroWidthCount">0</div>
+              <div class="stat-label">Zero-Width</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="totalChars">0</div>
+              <div class="stat-label">Total Chars</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <strong>💡 Detected Characters:</strong>
+          <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem">
+            <li><strong>Space:</strong> Regular space character (U+0020)</li>
+            <li><strong>Tab:</strong> Tab character (U+0009)</li>
+            <li><strong>Newline (LF):</strong> Line feed (U+000A)</li>
+            <li><strong>CR:</strong> Carriage return (U+000D)</li>
+            <li>
+              <strong>Zero-Width Space:</strong> Invisible separator (U+200B)
+            </li>
+            <li><strong>Zero-Width Non-Joiner:</strong> (U+200C)</li>
+            <li><strong>Zero-Width Joiner:</strong> (U+200D)</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <script>
-        function visualize() {
-            const input = document.getElementById('input').value;
-            let visual = '';
-            let stats = {
-                spaces: 0,
-                tabs: 0,
-                newlines: 0,
-                cr: 0,
-                zeroWidth: 0
-            };
+      function visualize() {
+        const input = document.getElementById("input").value;
+        let visual = "";
+        let stats = {
+          spaces: 0,
+          tabs: 0,
+          newlines: 0,
+          cr: 0,
+          zeroWidth: 0,
+        };
 
-            for (let i = 0; i < input.length; i++) {
-                const char = input[i];
-                const code = input.charCodeAt(i);
+        for (let i = 0; i < input.length; i++) {
+          const char = input[i];
+          const code = input.charCodeAt(i);
 
-                if (char === ' ') {
-                    visual += '<span class="space">·</span>';
-                    stats.spaces++;
-                } else if (char === '\t') {
-                    visual += '<span class="tab">→</span>';
-                    stats.tabs++;
-                } else if (char === '\n') {
-                    visual += '<span class="newline">↵</span>\n';
-                    stats.newlines++;
-                } else if (char === '\r') {
-                    visual += '<span class="carriage-return">CR</span>';
-                    stats.cr++;
-                } else if (code === 0x200B) {
-                    visual += '<span class="zero-width">ZWSP</span>';
-                    stats.zeroWidth++;
-                } else if (code === 0x200C) {
-                    visual += '<span class="zero-width">ZWNJ</span>';
-                    stats.zeroWidth++;
-                } else if (code === 0x200D) {
-                    visual += '<span class="zero-width">ZWJ</span>';
-                    stats.zeroWidth++;
-                } else if (code === 0xFEFF) {
-                    visual += '<span class="zero-width">BOM</span>';
-                    stats.zeroWidth++;
-                } else {
-                    visual += char;
-                }
-            }
-
-            document.getElementById('output').innerHTML = visual || '<span style="color: #999;">No input</span>';
-
-            // Update stats
-            document.getElementById('spaceCount').textContent = stats.spaces;
-            document.getElementById('tabCount').textContent = stats.tabs;
-            document.getElementById('newlineCount').textContent = stats.newlines;
-            document.getElementById('crCount').textContent = stats.cr;
-            document.getElementById('zeroWidthCount').textContent = stats.zeroWidth;
-            document.getElementById('totalChars').textContent = input.length;
+          if (char === " ") {
+            visual += '<span class="space">·</span>';
+            stats.spaces++;
+          } else if (char === "\t") {
+            visual += '<span class="tab">→</span>';
+            stats.tabs++;
+          } else if (char === "\n") {
+            visual += '<span class="newline">↵</span>\n';
+            stats.newlines++;
+          } else if (char === "\r") {
+            visual += '<span class="carriage-return">CR</span>';
+            stats.cr++;
+          } else if (code === 0x200b) {
+            visual += '<span class="zero-width">ZWSP</span>';
+            stats.zeroWidth++;
+          } else if (code === 0x200c) {
+            visual += '<span class="zero-width">ZWNJ</span>';
+            stats.zeroWidth++;
+          } else if (code === 0x200d) {
+            visual += '<span class="zero-width">ZWJ</span>';
+            stats.zeroWidth++;
+          } else if (code === 0xfeff) {
+            visual += '<span class="zero-width">BOM</span>';
+            stats.zeroWidth++;
+          } else {
+            visual += char;
+          }
         }
 
-        function copy() {
-            const output = document.getElementById('output').innerText;
-            const textarea = document.createElement('textarea');
-            textarea.value = output;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
+        document.getElementById("output").innerHTML =
+          visual || '<span style="color: #999;">No input</span>';
 
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = '✓ Copied!';
-            setTimeout(() => {
-                btn.textContent = originalText;
-            }, 2000);
-        }
+        // Update stats
+        document.getElementById("spaceCount").textContent = stats.spaces;
+        document.getElementById("tabCount").textContent = stats.tabs;
+        document.getElementById("newlineCount").textContent = stats.newlines;
+        document.getElementById("crCount").textContent = stats.cr;
+        document.getElementById("zeroWidthCount").textContent = stats.zeroWidth;
+        document.getElementById("totalChars").textContent = input.length;
+      }
 
-        function clearAll() {
-            document.getElementById('input').value = '';
-            document.getElementById('output').innerHTML = '';
-            document.getElementById('spaceCount').textContent = '0';
-            document.getElementById('tabCount').textContent = '0';
-            document.getElementById('newlineCount').textContent = '0';
-            document.getElementById('crCount').textContent = '0';
-            document.getElementById('zeroWidthCount').textContent = '0';
-            document.getElementById('totalChars').textContent = '0';
-        }
+      function copy() {
+        const output = document.getElementById("output").innerText;
+        const textarea = document.createElement("textarea");
+        textarea.value = output;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
 
-        // Visualize on load
-        visualize();
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = "✓ Copied!";
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
+      }
+
+      function clearAll() {
+        document.getElementById("input").value = "";
+        document.getElementById("output").innerHTML = "";
+        document.getElementById("spaceCount").textContent = "0";
+        document.getElementById("tabCount").textContent = "0";
+        document.getElementById("newlineCount").textContent = "0";
+        document.getElementById("crCount").textContent = "0";
+        document.getElementById("zeroWidthCount").textContent = "0";
+        document.getElementById("totalChars").textContent = "0";
+      }
+
+      // Visualize on load
+      visualize();
     </script>
-</body>
+  </body>
 </html>

@@ -1,51 +1,174 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vowel Counter - TextKit</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-<style>
-:root{--gradient:linear-gradient(135deg,#a8edea 0%,#fed6e3 100%)}
-body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
-.container{max-width:900px;margin:0 auto}
-.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
-.back-link:hover{opacity:1}
-main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
-.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
-textarea{min-height:200px;font-size:0.95rem;border:2px solid #e2e8f0;border-radius:12px;transition:all 0.3s}
-textarea:focus{border-color:#a8edea;box-shadow:0 0 0 3px rgba(168,237,234,0.1)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
-.stat{padding:1.5rem;background:#f8fafc;border-radius:12px;text-align:center}
-.stat-value{font-size:2rem;font-weight:700;color:#a8edea;margin-bottom:0.5rem}
-.stat-label{color:#64748b;font-size:0.85rem}
-.vowel-details{margin-top:2rem;padding:1.5rem;background:#f8fafc;border-radius:12px}
-.vowel-item{display:flex;justify-content:space-between;padding:0.75rem;margin-bottom:0.5rem;background:#fff;border-radius:8px}
-footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
-</style>
-</head>
-<body>
-<div class="container">
-<a href="../../index.html" class="back-link">← Back to Home</a>
-<main>
-<h1>Vowel Counter</h1>
-<p class="subtitle">Count vowels and consonants in text</p>
-<label>Input Text:</label>
-<textarea id="input" placeholder="Enter text to analyze..."></textarea>
-<div class="stats">
-<div class="stat"><div class="stat-value" id="vowels">0</div><div class="stat-label">Total Vowels</div></div>
-<div class="stat"><div class="stat-value" id="consonants">0</div><div class="stat-label">Total Consonants</div></div>
-<div class="stat"><div class="stat-value" id="ratio">0%</div><div class="stat-label">Vowel Ratio</div></div>
-</div>
-<div class="vowel-details" id="details"></div>
-</main>
-<footer>© 2024 TextKit - All text processing happens in your browser</footer>
-</div>
-<script>
-function count(){const text=document.getElementById('input').value.toLowerCase();const vowelCounts={a:0,e:0,i:0,o:0,u:0};let totalVowels=0;let totalConsonants=0;for(let char of text){if(/[aeiou]/.test(char)){vowelCounts[char]++;totalVowels++}else if(/[a-z]/.test(char)){totalConsonants++}}const total=totalVowels+totalConsonants;const ratio=total>0?(totalVowels/total*100).toFixed(1):0;document.getElementById('vowels').textContent=totalVowels;document.getElementById('consonants').textContent=totalConsonants;document.getElementById('ratio').textContent=ratio+'%';const details=document.getElementById('details');details.innerHTML='<h3 style="margin:0 0 1rem 0;color:#1e293b">Vowel Breakdown:</h3>'+Object.entries(vowelCounts).map(([vowel,count])=>`<div class="vowel-item"><span style="font-weight:600;text-transform:uppercase">${vowel}</span><span style="color:#a8edea;font-weight:700">${count}</span></div>`).join('')}
-document.getElementById('input').addEventListener('input',count);
-count();
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vowel Counter - TextKit</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      }
+      body {
+        min-height: 100vh;
+        background: var(--gradient);
+        margin: 0;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .back-link {
+        color: #fff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+        transition: opacity 0.3s;
+      }
+      .back-link:hover {
+        opacity: 1;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+      textarea {
+        min-height: 200px;
+        font-size: 0.95rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        transition: all 0.3s;
+      }
+      textarea:focus {
+        border-color: #a8edea;
+        box-shadow: 0 0 0 3px rgba(168, 237, 234, 0.1);
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+      .stat {
+        padding: 1.5rem;
+        background: #f8fafc;
+        border-radius: 12px;
+        text-align: center;
+      }
+      .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #a8edea;
+        margin-bottom: 0.5rem;
+      }
+      .stat-label {
+        color: #64748b;
+        font-size: 0.85rem;
+      }
+      .vowel-details {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #f8fafc;
+        border-radius: 12px;
+      }
+      .vowel-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+        background: #fff;
+        border-radius: 8px;
+      }
+      footer {
+        text-align: center;
+        color: #fff;
+        margin-top: 2rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../../index.html" class="back-link">← Back to Home</a>
+      <main>
+        <h1>Vowel Counter</h1>
+        <p class="subtitle">Count vowels and consonants in text</p>
+        <label>Input Text:</label>
+        <textarea id="input" placeholder="Enter text to analyze..."></textarea>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-value" id="vowels">0</div>
+            <div class="stat-label">Total Vowels</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="consonants">0</div>
+            <div class="stat-label">Total Consonants</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="ratio">0%</div>
+            <div class="stat-label">Vowel Ratio</div>
+          </div>
+        </div>
+        <div class="vowel-details" id="details"></div>
+      </main>
+      <footer>
+        © 2024 TextKit - All text processing happens in your browser
+      </footer>
+    </div>
+    <script>
+      function count() {
+        const text = document.getElementById("input").value.toLowerCase();
+        const vowelCounts = { a: 0, e: 0, i: 0, o: 0, u: 0 };
+        let totalVowels = 0;
+        let totalConsonants = 0;
+        for (let char of text) {
+          if (/[aeiou]/.test(char)) {
+            vowelCounts[char]++;
+            totalVowels++;
+          } else if (/[a-z]/.test(char)) {
+            totalConsonants++;
+          }
+        }
+        const total = totalVowels + totalConsonants;
+        const ratio = total > 0 ? ((totalVowels / total) * 100).toFixed(1) : 0;
+        document.getElementById("vowels").textContent = totalVowels;
+        document.getElementById("consonants").textContent = totalConsonants;
+        document.getElementById("ratio").textContent = ratio + "%";
+        const details = document.getElementById("details");
+        details.innerHTML =
+          '<h3 style="margin:0 0 1rem 0;color:#1e293b">Vowel Breakdown:</h3>' +
+          Object.entries(vowelCounts)
+            .map(
+              ([vowel, count]) =>
+                `<div class="vowel-item"><span style="font-weight:600;text-transform:uppercase">${vowel}</span><span style="color:#a8edea;font-weight:700">${count}</span></div>`,
+            )
+            .join("");
+      }
+      document.getElementById("input").addEventListener("input", count);
+      count();
+    </script>
+  </body>
 </html>

@@ -1,368 +1,445 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Text Masking Tool - Privacy Text Formatter</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
     <style>
-        :root {
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
+      :root {
+        --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
 
-        body {
-            background: var(--gradient-1);
-            min-height: 100vh;
-            padding: 2rem 0;
-        }
+      body {
+        background: var(--gradient-1);
+        min-height: 100vh;
+        padding: 2rem 0;
+      }
 
-        .container {
-            max-width: 1000px;
-        }
+      .container {
+        max-width: 1000px;
+      }
 
-        .tool-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            margin-bottom: 2rem;
-        }
+      .tool-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        margin-bottom: 2rem;
+      }
 
-        h1 {
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-            font-size: 2.5rem;
-        }
+      h1 {
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+        font-size: 2.5rem;
+      }
 
-        .subtitle {
-            color: #666;
-            margin-bottom: 2rem;
-        }
+      .subtitle {
+        color: #666;
+        margin-bottom: 2rem;
+      }
 
+      .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+
+      @media (max-width: 768px) {
         .grid-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+          grid-template-columns: 1fr;
         }
+      }
 
-        @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
-        }
+      textarea {
+        min-height: 250px;
+        font-family: "Courier New", monospace;
+        font-size: 0.95rem;
+      }
 
-        textarea {
-            min-height: 250px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
-        }
+      .mask-styles {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 0.75rem;
+        margin: 1.5rem 0;
+      }
 
-        .mask-styles {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 0.75rem;
-            margin: 1.5rem 0;
-        }
+      .mask-btn {
+        background: white;
+        border: 2px solid #e0e0e0;
+        padding: 0.75rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-align: center;
+      }
 
-        .mask-btn {
-            background: white;
-            border: 2px solid #e0e0e0;
-            padding: 0.75rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
+      .mask-btn:hover {
+        border-color: #667eea;
+        background: #f0f4ff;
+        transform: translateY(-2px);
+      }
 
-        .mask-btn:hover {
-            border-color: #667eea;
-            background: #f0f4ff;
-            transform: translateY(-2px);
-        }
+      .mask-btn.active {
+        border-color: #667eea;
+        background: #667eea;
+        color: white;
+      }
 
-        .mask-btn.active {
-            border-color: #667eea;
-            background: #667eea;
-            color: white;
-        }
+      .controls {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 1rem 0;
+      }
 
-        .controls {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 1rem 0;
-        }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin: 1.5rem 0;
+        flex-wrap: wrap;
+      }
 
-        .button-group {
-            display: flex;
-            gap: 1rem;
-            margin: 1.5rem 0;
-            flex-wrap: wrap;
-        }
+      button {
+        background: var(--gradient-1);
+        border: none;
+        transition: all 0.3s;
+      }
 
-        button {
-            background: var(--gradient-1);
-            border: none;
-            transition: all 0.3s;
-        }
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      }
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
+      .secondary {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      }
 
-        .secondary {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
+      .info-box {
+        background: #f0f4ff;
+        border-left: 4px solid #667eea;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+      }
 
-        .info-box {
-            background: #f0f4ff;
-            border-left: 4px solid #667eea;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
-
-        label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+      label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="tool-card">
-            <h1>🎭 Text Masking Tool</h1>
-            <p class="subtitle">Partially hide or mask text for privacy while keeping it readable</p>
+      <div class="tool-card">
+        <h1>🎭 Text Masking Tool</h1>
+        <p class="subtitle">
+          Partially hide or mask text for privacy while keeping it readable
+        </p>
 
-            <div class="grid-container">
-                <div>
-                    <label for="input">Input Text:</label>
-                    <textarea id="input" placeholder="Enter text to mask..." oninput="mask()">John Smith
+        <div class="grid-container">
+          <div>
+            <label for="input">Input Text:</label>
+            <textarea
+              id="input"
+              placeholder="Enter text to mask..."
+              oninput="mask()"
+            >
+John Smith
 john.smith@email.com
 (555) 123-4567
 4532-1234-5678-9010
 123 Main Street
-Account: 123456789</textarea>
-                </div>
+Account: 123456789</textarea
+            >
+          </div>
 
-                <div>
-                    <label for="output">Masked Text:</label>
-                    <textarea id="output" readonly placeholder="Masked text will appear here"></textarea>
-                </div>
-            </div>
-
-            <label>Mask Style:</label>
-            <div class="mask-styles">
-                <div class="mask-btn active" onclick="selectMask('partial')">Partial<br>J**n S**th</div>
-                <div class="mask-btn" onclick="selectMask('middle')">Middle<br>Joh****mith</div>
-                <div class="mask-btn" onclick="selectMask('email')">Email<br>j***@email.com</div>
-                <div class="mask-btn" onclick="selectMask('phone')">Phone<br>(555) ***-4567</div>
-                <div class="mask-btn" onclick="selectMask('card')">Card<br>****-****-****-9010</div>
-                <div class="mask-btn" onclick="selectMask('full')">Full<br>**********</div>
-            </div>
-
-            <div class="controls">
-                <div>
-                    <label for="maskChar">Mask Character:</label>
-                    <select id="maskChar" onchange="mask()">
-                        <option value="*">Asterisk (*)</option>
-                        <option value="•">Bullet (•)</option>
-                        <option value="█">Block (█)</option>
-                        <option value="X">X</option>
-                        <option value="▪">Square (▪)</option>
-                        <option value="#">Hash (#)</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="keepChars">Keep First/Last:</label>
-                    <input type="number" id="keepChars" value="1" min="0" max="10" onchange="mask()">
-                </div>
-
-                <div>
-                    <label>
-                        <input type="checkbox" id="maskWords" onchange="mask()">
-                        Mask entire words
-                    </label>
-                </div>
-
-                <div>
-                    <label>
-                        <input type="checkbox" id="preserveSpaces" checked onchange="mask()">
-                        Preserve spacing
-                    </label>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button onclick="mask()">🎭 Apply Mask</button>
-                <button onclick="copy()" class="secondary">📋 Copy</button>
-                <button onclick="clearAll()" class="secondary">🗑️ Clear</button>
-            </div>
-
-            <div class="info-box">
-                <strong>💡 Mask Types:</strong>
-                <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
-                    <li><strong>Partial:</strong> Shows first and last characters, masks middle</li>
-                    <li><strong>Middle:</strong> Shows more of start/end, masks middle section</li>
-                    <li><strong>Email:</strong> Masks most of username, shows domain</li>
-                    <li><strong>Phone:</strong> Masks middle digits, shows area code and last digits</li>
-                    <li><strong>Card:</strong> Shows only last 4 digits (standard for credit cards)</li>
-                    <li><strong>Full:</strong> Masks everything while preserving length</li>
-                    <li>Perfect for screenshots, documentation, and sharing sensitive info</li>
-                </ul>
-            </div>
+          <div>
+            <label for="output">Masked Text:</label>
+            <textarea
+              id="output"
+              readonly
+              placeholder="Masked text will appear here"
+            ></textarea>
+          </div>
         </div>
+
+        <label>Mask Style:</label>
+        <div class="mask-styles">
+          <div class="mask-btn active" onclick="selectMask('partial')">
+            Partial<br />J**n S**th
+          </div>
+          <div class="mask-btn" onclick="selectMask('middle')">
+            Middle<br />Joh****mith
+          </div>
+          <div class="mask-btn" onclick="selectMask('email')">
+            Email<br />j***@email.com
+          </div>
+          <div class="mask-btn" onclick="selectMask('phone')">
+            Phone<br />(555) ***-4567
+          </div>
+          <div class="mask-btn" onclick="selectMask('card')">
+            Card<br />****-****-****-9010
+          </div>
+          <div class="mask-btn" onclick="selectMask('full')">
+            Full<br />**********
+          </div>
+        </div>
+
+        <div class="controls">
+          <div>
+            <label for="maskChar">Mask Character:</label>
+            <select id="maskChar" onchange="mask()">
+              <option value="*">Asterisk (*)</option>
+              <option value="•">Bullet (•)</option>
+              <option value="█">Block (█)</option>
+              <option value="X">X</option>
+              <option value="▪">Square (▪)</option>
+              <option value="#">Hash (#)</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="keepChars">Keep First/Last:</label>
+            <input
+              type="number"
+              id="keepChars"
+              value="1"
+              min="0"
+              max="10"
+              onchange="mask()"
+            />
+          </div>
+
+          <div>
+            <label>
+              <input type="checkbox" id="maskWords" onchange="mask()" />
+              Mask entire words
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                id="preserveSpaces"
+                checked
+                onchange="mask()"
+              />
+              Preserve spacing
+            </label>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button onclick="mask()">🎭 Apply Mask</button>
+          <button onclick="copy()" class="secondary">📋 Copy</button>
+          <button onclick="clearAll()" class="secondary">🗑️ Clear</button>
+        </div>
+
+        <div class="info-box">
+          <strong>💡 Mask Types:</strong>
+          <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem">
+            <li>
+              <strong>Partial:</strong> Shows first and last characters, masks
+              middle
+            </li>
+            <li>
+              <strong>Middle:</strong> Shows more of start/end, masks middle
+              section
+            </li>
+            <li>
+              <strong>Email:</strong> Masks most of username, shows domain
+            </li>
+            <li>
+              <strong>Phone:</strong> Masks middle digits, shows area code and
+              last digits
+            </li>
+            <li>
+              <strong>Card:</strong> Shows only last 4 digits (standard for
+              credit cards)
+            </li>
+            <li>
+              <strong>Full:</strong> Masks everything while preserving length
+            </li>
+            <li>
+              Perfect for screenshots, documentation, and sharing sensitive info
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <script>
-        let maskStyle = 'partial';
+      let maskStyle = "partial";
 
-        function selectMask(style) {
-            maskStyle = style;
+      function selectMask(style) {
+        maskStyle = style;
 
-            // Update active state
-            document.querySelectorAll('.mask-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
+        // Update active state
+        document.querySelectorAll(".mask-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        event.target.classList.add("active");
 
-            mask();
-        }
-
-        function maskWord(word) {
-            const maskChar = document.getElementById('maskChar').value;
-            const keepChars = parseInt(document.getElementById('keepChars').value);
-            const maskWords = document.getElementById('maskWords').checked;
-
-            if (word.length <= 2) return word;
-
-            if (maskWords) {
-                return maskChar.repeat(word.length);
-            }
-
-            switch(maskStyle) {
-                case 'partial':
-                    if (word.length <= keepChars * 2) {
-                        return word[0] + maskChar.repeat(word.length - 1);
-                    }
-                    return word.substring(0, keepChars) +
-                           maskChar.repeat(word.length - keepChars * 2) +
-                           word.substring(word.length - keepChars);
-
-                case 'middle':
-                    const keep = Math.max(2, keepChars * 2);
-                    if (word.length <= keep * 2) {
-                        return word[0] + maskChar.repeat(word.length - 2) + word[word.length - 1];
-                    }
-                    return word.substring(0, keep) +
-                           maskChar.repeat(word.length - keep * 2) +
-                           word.substring(word.length - keep);
-
-                case 'email':
-                    if (word.includes('@')) {
-                        const parts = word.split('@');
-                        const username = parts[0];
-                        const domain = parts[1];
-                        const maskedUsername = username[0] + maskChar.repeat(Math.max(1, username.length - 2)) +
-                                             (username.length > 1 ? username[username.length - 1] : '');
-                        return maskedUsername + '@' + domain;
-                    }
-                    return maskWord(word);
-
-                case 'phone':
-                    // Mask middle section of phone numbers
-                    const digits = word.replace(/\D/g, '');
-                    if (digits.length >= 10) {
-                        const format = word.replace(/\d/g, (m, i) => {
-                            const digitIndex = word.substring(0, i + 1).replace(/\D/g, '').length - 1;
-                            if (digitIndex < 3 || digitIndex >= digits.length - 4) {
-                                return m;
-                            }
-                            return maskChar;
-                        });
-                        return format;
-                    }
-                    return word;
-
-                case 'card':
-                    // Show only last 4 digits
-                    const cardDigits = word.replace(/\D/g, '');
-                    if (cardDigits.length >= 12) {
-                        const lastFour = cardDigits.slice(-4);
-                        return word.replace(/\d/g, (m, i) => {
-                            const digitIndex = word.substring(0, i + 1).replace(/\D/g, '').length;
-                            if (digitIndex > cardDigits.length - 4) {
-                                return m;
-                            }
-                            return maskChar;
-                        });
-                    }
-                    return word;
-
-                case 'full':
-                    return maskChar.repeat(word.length);
-
-                default:
-                    return word;
-            }
-        }
-
-        function mask() {
-            const input = document.getElementById('input').value;
-            const preserveSpaces = document.getElementById('preserveSpaces').checked;
-
-            if (!input) {
-                document.getElementById('output').value = '';
-                return;
-            }
-
-            let output;
-
-            if (preserveSpaces) {
-                // Process word by word, preserving spaces and line breaks
-                output = input.split('\n').map(line => {
-                    return line.split(/(\s+)/).map(part => {
-                        if (/^\s+$/.test(part)) {
-                            return part; // Keep whitespace as-is
-                        }
-                        return maskWord(part);
-                    }).join('');
-                }).join('\n');
-            } else {
-                // Process entire text
-                output = input.split(/\s+/).map(maskWord).join(' ');
-            }
-
-            document.getElementById('output').value = output;
-        }
-
-        function copy() {
-            const output = document.getElementById('output');
-            output.select();
-            document.execCommand('copy');
-
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = '✓ Copied!';
-            setTimeout(() => {
-                btn.textContent = originalText;
-            }, 2000);
-        }
-
-        function clearAll() {
-            document.getElementById('input').value = '';
-            document.getElementById('output').value = '';
-        }
-
-        // Mask on load
         mask();
+      }
+
+      function maskWord(word) {
+        const maskChar = document.getElementById("maskChar").value;
+        const keepChars = parseInt(document.getElementById("keepChars").value);
+        const maskWords = document.getElementById("maskWords").checked;
+
+        if (word.length <= 2) return word;
+
+        if (maskWords) {
+          return maskChar.repeat(word.length);
+        }
+
+        switch (maskStyle) {
+          case "partial":
+            if (word.length <= keepChars * 2) {
+              return word[0] + maskChar.repeat(word.length - 1);
+            }
+            return (
+              word.substring(0, keepChars) +
+              maskChar.repeat(word.length - keepChars * 2) +
+              word.substring(word.length - keepChars)
+            );
+
+          case "middle":
+            const keep = Math.max(2, keepChars * 2);
+            if (word.length <= keep * 2) {
+              return (
+                word[0] +
+                maskChar.repeat(word.length - 2) +
+                word[word.length - 1]
+              );
+            }
+            return (
+              word.substring(0, keep) +
+              maskChar.repeat(word.length - keep * 2) +
+              word.substring(word.length - keep)
+            );
+
+          case "email":
+            if (word.includes("@")) {
+              const parts = word.split("@");
+              const username = parts[0];
+              const domain = parts[1];
+              const maskedUsername =
+                username[0] +
+                maskChar.repeat(Math.max(1, username.length - 2)) +
+                (username.length > 1 ? username[username.length - 1] : "");
+              return maskedUsername + "@" + domain;
+            }
+            return maskWord(word);
+
+          case "phone":
+            // Mask middle section of phone numbers
+            const digits = word.replace(/\D/g, "");
+            if (digits.length >= 10) {
+              const format = word.replace(/\d/g, (m, i) => {
+                const digitIndex =
+                  word.substring(0, i + 1).replace(/\D/g, "").length - 1;
+                if (digitIndex < 3 || digitIndex >= digits.length - 4) {
+                  return m;
+                }
+                return maskChar;
+              });
+              return format;
+            }
+            return word;
+
+          case "card":
+            // Show only last 4 digits
+            const cardDigits = word.replace(/\D/g, "");
+            if (cardDigits.length >= 12) {
+              const lastFour = cardDigits.slice(-4);
+              return word.replace(/\d/g, (m, i) => {
+                const digitIndex = word
+                  .substring(0, i + 1)
+                  .replace(/\D/g, "").length;
+                if (digitIndex > cardDigits.length - 4) {
+                  return m;
+                }
+                return maskChar;
+              });
+            }
+            return word;
+
+          case "full":
+            return maskChar.repeat(word.length);
+
+          default:
+            return word;
+        }
+      }
+
+      function mask() {
+        const input = document.getElementById("input").value;
+        const preserveSpaces =
+          document.getElementById("preserveSpaces").checked;
+
+        if (!input) {
+          document.getElementById("output").value = "";
+          return;
+        }
+
+        let output;
+
+        if (preserveSpaces) {
+          // Process word by word, preserving spaces and line breaks
+          output = input
+            .split("\n")
+            .map((line) => {
+              return line
+                .split(/(\s+)/)
+                .map((part) => {
+                  if (/^\s+$/.test(part)) {
+                    return part; // Keep whitespace as-is
+                  }
+                  return maskWord(part);
+                })
+                .join("");
+            })
+            .join("\n");
+        } else {
+          // Process entire text
+          output = input.split(/\s+/).map(maskWord).join(" ");
+        }
+
+        document.getElementById("output").value = output;
+      }
+
+      function copy() {
+        const output = document.getElementById("output");
+        output.select();
+        document.execCommand("copy");
+
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = "✓ Copied!";
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
+      }
+
+      function clearAll() {
+        document.getElementById("input").value = "";
+        document.getElementById("output").value = "";
+      }
+
+      // Mask on load
+      mask();
     </script>
-</body>
+  </body>
 </html>

@@ -1,54 +1,225 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Unit Converter - TextKit</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-<style>
-:root{--gradient:linear-gradient(135deg,#fa709a 0%,#fee140 100%)}
-body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
-.container{max-width:900px;margin:0 auto}
-.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
-.back-link:hover{opacity:1}
-main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
-.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
-.controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:2rem}
-input[type="number"]{border:2px solid #e2e8f0;border-radius:8px;padding:0.75rem;width:100%;font-size:1rem}
-select{border:2px solid #e2e8f0;border-radius:8px;padding:0.75rem;width:100%}
-.result{padding:2rem;background:#f8fafc;border-radius:12px;text-align:center}
-.result-value{font-size:2.5rem;font-weight:700;color:#fa709a;margin-bottom:0.5rem}
-.result-unit{font-size:1.2rem;color:#64748b}
-footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
-</style>
-</head>
-<body>
-<div class="container">
-<a href="../../index.html" class="back-link">← Back to Home</a>
-<main>
-<h1>Unit Converter</h1>
-<p class="subtitle">Convert between different units of measurement</p>
-<div class="controls">
-<div><label>Value:</label><input type="number" id="value" value="1" step="any"></div>
-<div><label>From:</label><select id="from"><optgroup label="Length"><option value="m">Meters</option><option value="km">Kilometers</option><option value="mi">Miles</option><option value="ft">Feet</option><option value="in">Inches</option></optgroup><optgroup label="Weight"><option value="kg">Kilograms</option><option value="g">Grams</option><option value="lb">Pounds</option><option value="oz">Ounces</option></optgroup><optgroup label="Temperature"><option value="c">Celsius</option><option value="f">Fahrenheit</option><option value="k">Kelvin</option></optgroup></select></div>
-<div><label>To:</label><select id="to"><optgroup label="Length"><option value="m">Meters</option><option value="km">Kilometers</option><option value="mi">Miles</option><option value="ft" selected>Feet</option><option value="in">Inches</option></optgroup><optgroup label="Weight"><option value="kg">Kilograms</option><option value="g">Grams</option><option value="lb">Pounds</option><option value="oz">Ounces</option></optgroup><optgroup label="Temperature"><option value="c">Celsius</option><option value="f">Fahrenheit</option><option value="k">Kelvin</option></optgroup></select></div>
-</div>
-<div class="result" id="result">
-<div class="result-value" id="resultValue">3.281</div>
-<div class="result-unit" id="resultUnit">Feet</div>
-</div>
-</main>
-<footer>© 2024 TextKit - All text processing happens in your browser</footer>
-</div>
-<script>
-const units={m:1,km:0.001,mi:0.000621371,ft:3.28084,in:39.3701,kg:1,g:1000,lb:2.20462,oz:35.274,c:1,f:1,k:1};
-const names={m:'Meters',km:'Kilometers',mi:'Miles',ft:'Feet',in:'Inches',kg:'Kilograms',g:'Grams',lb:'Pounds',oz:'Ounces',c:'Celsius',f:'Fahrenheit',k:'Kelvin'};
-function convert(){const value=parseFloat(document.getElementById('value').value);const from=document.getElementById('from').value;const to=document.getElementById('to').value;let result;if(['c','f','k'].includes(from)&&['c','f','k'].includes(to)){if(from===to)result=value;else if(from==='c'&&to==='f')result=value*9/5+32;else if(from==='c'&&to==='k')result=value+273.15;else if(from==='f'&&to==='c')result=(value-32)*5/9;else if(from==='f'&&to==='k')result=(value-32)*5/9+273.15;else if(from==='k'&&to==='c')result=value-273.15;else if(from==='k'&&to==='f')result=(value-273.15)*9/5+32}else{const toMeters=value/units[from];result=toMeters*units[to]}document.getElementById('resultValue').textContent=result.toFixed(6);document.getElementById('resultUnit').textContent=names[to]}
-document.getElementById('value').addEventListener('input',convert);
-document.getElementById('from').addEventListener('change',convert);
-document.getElementById('to').addEventListener('change',convert);
-convert();
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit Converter - TextKit</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      }
+      body {
+        min-height: 100vh;
+        background: var(--gradient);
+        margin: 0;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .back-link {
+        color: #fff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+        transition: opacity 0.3s;
+      }
+      .back-link:hover {
+        opacity: 1;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+      .controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      input[type="number"] {
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 0.75rem;
+        width: 100%;
+        font-size: 1rem;
+      }
+      select {
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 0.75rem;
+        width: 100%;
+      }
+      .result {
+        padding: 2rem;
+        background: #f8fafc;
+        border-radius: 12px;
+        text-align: center;
+      }
+      .result-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #fa709a;
+        margin-bottom: 0.5rem;
+      }
+      .result-unit {
+        font-size: 1.2rem;
+        color: #64748b;
+      }
+      footer {
+        text-align: center;
+        color: #fff;
+        margin-top: 2rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../../index.html" class="back-link">← Back to Home</a>
+      <main>
+        <h1>Unit Converter</h1>
+        <p class="subtitle">Convert between different units of measurement</p>
+        <div class="controls">
+          <div>
+            <label>Value:</label
+            ><input type="number" id="value" value="1" step="any" />
+          </div>
+          <div>
+            <label>From:</label
+            ><select id="from">
+              <optgroup label="Length">
+                <option value="m">Meters</option>
+                <option value="km">Kilometers</option>
+                <option value="mi">Miles</option>
+                <option value="ft">Feet</option>
+                <option value="in">Inches</option>
+              </optgroup>
+              <optgroup label="Weight">
+                <option value="kg">Kilograms</option>
+                <option value="g">Grams</option>
+                <option value="lb">Pounds</option>
+                <option value="oz">Ounces</option>
+              </optgroup>
+              <optgroup label="Temperature">
+                <option value="c">Celsius</option>
+                <option value="f">Fahrenheit</option>
+                <option value="k">Kelvin</option>
+              </optgroup>
+            </select>
+          </div>
+          <div>
+            <label>To:</label
+            ><select id="to">
+              <optgroup label="Length">
+                <option value="m">Meters</option>
+                <option value="km">Kilometers</option>
+                <option value="mi">Miles</option>
+                <option value="ft" selected>Feet</option>
+                <option value="in">Inches</option>
+              </optgroup>
+              <optgroup label="Weight">
+                <option value="kg">Kilograms</option>
+                <option value="g">Grams</option>
+                <option value="lb">Pounds</option>
+                <option value="oz">Ounces</option>
+              </optgroup>
+              <optgroup label="Temperature">
+                <option value="c">Celsius</option>
+                <option value="f">Fahrenheit</option>
+                <option value="k">Kelvin</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+        <div class="result" id="result">
+          <div class="result-value" id="resultValue">3.281</div>
+          <div class="result-unit" id="resultUnit">Feet</div>
+        </div>
+      </main>
+      <footer>
+        © 2024 TextKit - All text processing happens in your browser
+      </footer>
+    </div>
+    <script>
+      const units = {
+        m: 1,
+        km: 0.001,
+        mi: 0.000621371,
+        ft: 3.28084,
+        in: 39.3701,
+        kg: 1,
+        g: 1000,
+        lb: 2.20462,
+        oz: 35.274,
+        c: 1,
+        f: 1,
+        k: 1,
+      };
+      const names = {
+        m: "Meters",
+        km: "Kilometers",
+        mi: "Miles",
+        ft: "Feet",
+        in: "Inches",
+        kg: "Kilograms",
+        g: "Grams",
+        lb: "Pounds",
+        oz: "Ounces",
+        c: "Celsius",
+        f: "Fahrenheit",
+        k: "Kelvin",
+      };
+      function convert() {
+        const value = parseFloat(document.getElementById("value").value);
+        const from = document.getElementById("from").value;
+        const to = document.getElementById("to").value;
+        let result;
+        if (["c", "f", "k"].includes(from) && ["c", "f", "k"].includes(to)) {
+          if (from === to) result = value;
+          else if (from === "c" && to === "f") result = (value * 9) / 5 + 32;
+          else if (from === "c" && to === "k") result = value + 273.15;
+          else if (from === "f" && to === "c") result = ((value - 32) * 5) / 9;
+          else if (from === "f" && to === "k")
+            result = ((value - 32) * 5) / 9 + 273.15;
+          else if (from === "k" && to === "c") result = value - 273.15;
+          else if (from === "k" && to === "f")
+            result = ((value - 273.15) * 9) / 5 + 32;
+        } else {
+          const toMeters = value / units[from];
+          result = toMeters * units[to];
+        }
+        document.getElementById("resultValue").textContent = result.toFixed(6);
+        document.getElementById("resultUnit").textContent = names[to];
+      }
+      document.getElementById("value").addEventListener("input", convert);
+      document.getElementById("from").addEventListener("change", convert);
+      document.getElementById("to").addEventListener("change", convert);
+      convert();
+    </script>
+  </body>
 </html>

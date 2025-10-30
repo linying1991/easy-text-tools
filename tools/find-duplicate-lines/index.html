@@ -1,2 +1,120 @@
 <!doctype html>
-<html><head><meta charset="UTF-8"/><title>Find Duplicate Lines</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.conditional.min.css" integrity="sha256-v0OEZWNaUvlmR1U0LMHiwNOzzO3q2wkIipf4KlEB9NWs=" crossorigin="anonymous"><style>:root{--g:linear-gradient(135deg,#30cfd0 0%,#330867 100%)}body{background:var(--g);min-height:100vh}.container{max-width:1200px;margin:0 auto;padding:2rem}.back-link{display:inline-flex;align-items:center;gap:.5rem;color:#fff;text-decoration:none;font-weight:600;margin-bottom:1.5rem;padding:.5rem 1rem;background:rgba(255,255,255,0.2);border-radius:50px}header{background:rgba(255,255,255,0.95);border-radius:20px;padding:2.5rem}header h1{background:var(--g);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:2.5rem;font-weight:800}main{background:rgba(255,255,255,0.98);border-radius:20px;padding:2.5rem;margin:2rem 0}textarea{font-family:Monaco,monospace;min-height:250px;width:100%;border:2px solid #e2e8f0;border-radius:12px;padding:1rem}button{padding:.875rem 1.75rem;border-radius:12px;font-weight:600;border:none;cursor:pointer;margin:.5rem}button.primary{background:var(--g);color:#fff}</style></head><body><div class="container"><a href="/" class="back-link">← Back</a><header><h1>🔍 Find Duplicate Lines</h1></header><main><h3>Input</h3><textarea id="input" placeholder="Enter text..."></textarea><h3>Duplicates</h3><textarea id="output" readonly></textarea><div>Found: <strong id="count">0</strong> duplicates</div><button class="primary" onclick="find()">🔍 Find</button><button onclick="copy()">📋 Copy</button><button onclick="clear()">🗑️ Clear</button></main></div><script>function find(){const lines=document.getElementById('input').value.split('\n'),freq={},dups=[];lines.forEach(line=>{if(line.trim()){freq[line]=(freq[line]||0)+1}});for(const[line,count]of Object.entries(freq)){if(count>1)dups.push(`${line} (${count}x)`)}document.getElementById('output').value=dups.join('\n');document.getElementById('count').textContent=dups.length}function copy(){navigator.clipboard.writeText(document.getElementById('output').value).then(()=>alert('Copied!'))}function clear(){document.getElementById('input').value='';document.getElementById('output').value='';document.getElementById('count').textContent='0'}</script></body></html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Find Duplicate Lines</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.conditional.min.css"
+      integrity="sha256-v0OEZWNaUvlmR1U0LMHiwNOzzO3q2wkIipf4KlEB9NWs="
+      crossorigin="anonymous"
+    />
+    <style>
+      :root {
+        --g: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+      }
+      body {
+        background: var(--g);
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50px;
+      }
+      header {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 2.5rem;
+      }
+      header h1 {
+        background: var(--g);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 2.5rem;
+        font-weight: 800;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 20px;
+        padding: 2.5rem;
+        margin: 2rem 0;
+      }
+      textarea {
+        font-family: Monaco, monospace;
+        min-height: 250px;
+        width: 100%;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 1rem;
+      }
+      button {
+        padding: 0.875rem 1.75rem;
+        border-radius: 12px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        margin: 0.5rem;
+      }
+      button.primary {
+        background: var(--g);
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="/" class="back-link">← Back</a>
+      <header><h1>🔍 Find Duplicate Lines</h1></header>
+      <main>
+        <h3>Input</h3>
+        <textarea id="input" placeholder="Enter text..."></textarea>
+        <h3>Duplicates</h3>
+        <textarea id="output" readonly></textarea>
+        <div>Found: <strong id="count">0</strong> duplicates</div>
+        <button class="primary" onclick="find()">🔍 Find</button
+        ><button onclick="copy()">📋 Copy</button
+        ><button onclick="clear()">🗑️ Clear</button>
+      </main>
+    </div>
+    <script>
+      function find() {
+        const lines = document.getElementById("input").value.split("\n"),
+          freq = {},
+          dups = [];
+        lines.forEach((line) => {
+          if (line.trim()) {
+            freq[line] = (freq[line] || 0) + 1;
+          }
+        });
+        for (const [line, count] of Object.entries(freq)) {
+          if (count > 1) dups.push(`${line} (${count}x)`);
+        }
+        document.getElementById("output").value = dups.join("\n");
+        document.getElementById("count").textContent = dups.length;
+      }
+      function copy() {
+        navigator.clipboard
+          .writeText(document.getElementById("output").value)
+          .then(() => alert("Copied!"));
+      }
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("output").value = "";
+        document.getElementById("count").textContent = "0";
+      }
+    </script>
+  </body>
+</html>

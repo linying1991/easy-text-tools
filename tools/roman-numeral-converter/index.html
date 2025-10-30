@@ -1,54 +1,212 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Roman Numeral Converter - TextKit</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-<style>
-:root{--gradient:linear-gradient(135deg,#f093fb 0%,#f5576c 100%)}
-body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
-.container{max-width:900px;margin:0 auto}
-.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
-.back-link:hover{opacity:1}
-main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
-.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
-input[type="text"]{border:2px solid #e2e8f0;border-radius:8px;padding:1rem;font-size:1.2rem;width:100%;margin-bottom:1rem;font-family:monospace}
-input[type="text"]:focus{border-color:#f093fb;box-shadow:0 0 0 3px rgba(240,147,251,0.1)}
-.button-group{display:flex;gap:1rem;margin-bottom:2rem}
-button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
-button.primary{background:var(--gradient);color:#fff}
-button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(240,147,251,0.3)}
-.result{padding:2rem;background:#f8fafc;border-radius:12px;text-align:center}
-.result-value{font-size:2.5rem;font-family:serif;color:#f093fb;font-weight:700;margin-bottom:1rem}
-.note{color:#64748b;font-size:0.9rem;margin-top:1rem}
-footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
-</style>
-</head>
-<body>
-<div class="container">
-<a href="../../index.html" class="back-link">← Back to Home</a>
-<main>
-<h1>Roman Numeral Converter</h1>
-<p class="subtitle">Convert between Arabic and Roman numerals</p>
-<label>Input (Number or Roman):</label>
-<input type="text" id="input" placeholder="Enter number (1-3999) or Roman numeral...">
-<div class="button-group">
-<button class="primary" onclick="convert()">Convert</button>
-</div>
-<div class="result" id="result" style="display:none">
-<div class="result-value" id="output"></div>
-<div class="note" id="note"></div>
-</div>
-</main>
-<footer>© 2024 TextKit - All text processing happens in your browser</footer>
-</div>
-<script>
-function toRoman(num){const map=[['M',1000],['CM',900],['D',500],['CD',400],['C',100],['XC',90],['L',50],['XL',40],['X',10],['IX',9],['V',5],['IV',4],['I',1]];let result='';for(let[roman,value]of map){while(num>=value){result+=roman;num-=value}}return result}
-function fromRoman(str){const map={'I':1,'V':5,'X':10,'L':50,'C':100,'D':500,'M':1000};let result=0;for(let i=0;i<str.length;i++){const current=map[str[i]];const next=map[str[i+1]];if(next&&current<next){result-=current}else{result+=current}}return result}
-function convert(){const input=document.getElementById('input').value.trim().toUpperCase();if(!input){document.getElementById('result').style.display='none';return}let output,note;if(/^[IVXLCDM]+$/.test(input)){const num=fromRoman(input);output=num;note=`Roman numeral ${input} = ${num}`}else{const num=parseInt(input);if(isNaN(num)||num<1||num>3999){alert('Please enter a valid number (1-3999) or Roman numeral');return}output=toRoman(num);note=`Number ${num} = ${output}`}document.getElementById('output').textContent=output;document.getElementById('note').textContent=note;document.getElementById('result').style.display='block'}
-document.getElementById('input').addEventListener('keypress',e=>{if(e.key==='Enter')convert()});
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Roman Numeral Converter - TextKit</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+      body {
+        min-height: 100vh;
+        background: var(--gradient);
+        margin: 0;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .back-link {
+        color: #fff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+        transition: opacity 0.3s;
+      }
+      .back-link:hover {
+        opacity: 1;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+      input[type="text"] {
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 1rem;
+        font-size: 1.2rem;
+        width: 100%;
+        margin-bottom: 1rem;
+        font-family: monospace;
+      }
+      input[type="text"]:focus {
+        border-color: #f093fb;
+        box-shadow: 0 0 0 3px rgba(240, 147, 251, 0.1);
+      }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      button {
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: none;
+      }
+      button.primary {
+        background: var(--gradient);
+        color: #fff;
+      }
+      button.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(240, 147, 251, 0.3);
+      }
+      .result {
+        padding: 2rem;
+        background: #f8fafc;
+        border-radius: 12px;
+        text-align: center;
+      }
+      .result-value {
+        font-size: 2.5rem;
+        font-family: serif;
+        color: #f093fb;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+      .note {
+        color: #64748b;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+      }
+      footer {
+        text-align: center;
+        color: #fff;
+        margin-top: 2rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../../index.html" class="back-link">← Back to Home</a>
+      <main>
+        <h1>Roman Numeral Converter</h1>
+        <p class="subtitle">Convert between Arabic and Roman numerals</p>
+        <label>Input (Number or Roman):</label>
+        <input
+          type="text"
+          id="input"
+          placeholder="Enter number (1-3999) or Roman numeral..."
+        />
+        <div class="button-group">
+          <button class="primary" onclick="convert()">Convert</button>
+        </div>
+        <div class="result" id="result" style="display: none">
+          <div class="result-value" id="output"></div>
+          <div class="note" id="note"></div>
+        </div>
+      </main>
+      <footer>
+        © 2024 TextKit - All text processing happens in your browser
+      </footer>
+    </div>
+    <script>
+      function toRoman(num) {
+        const map = [
+          ["M", 1000],
+          ["CM", 900],
+          ["D", 500],
+          ["CD", 400],
+          ["C", 100],
+          ["XC", 90],
+          ["L", 50],
+          ["XL", 40],
+          ["X", 10],
+          ["IX", 9],
+          ["V", 5],
+          ["IV", 4],
+          ["I", 1],
+        ];
+        let result = "";
+        for (let [roman, value] of map) {
+          while (num >= value) {
+            result += roman;
+            num -= value;
+          }
+        }
+        return result;
+      }
+      function fromRoman(str) {
+        const map = { I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000 };
+        let result = 0;
+        for (let i = 0; i < str.length; i++) {
+          const current = map[str[i]];
+          const next = map[str[i + 1]];
+          if (next && current < next) {
+            result -= current;
+          } else {
+            result += current;
+          }
+        }
+        return result;
+      }
+      function convert() {
+        const input = document
+          .getElementById("input")
+          .value.trim()
+          .toUpperCase();
+        if (!input) {
+          document.getElementById("result").style.display = "none";
+          return;
+        }
+        let output, note;
+        if (/^[IVXLCDM]+$/.test(input)) {
+          const num = fromRoman(input);
+          output = num;
+          note = `Roman numeral ${input} = ${num}`;
+        } else {
+          const num = parseInt(input);
+          if (isNaN(num) || num < 1 || num > 3999) {
+            alert("Please enter a valid number (1-3999) or Roman numeral");
+            return;
+          }
+          output = toRoman(num);
+          note = `Number ${num} = ${output}`;
+        }
+        document.getElementById("output").textContent = output;
+        document.getElementById("note").textContent = note;
+        document.getElementById("result").style.display = "block";
+      }
+      document.getElementById("input").addEventListener("keypress", (e) => {
+        if (e.key === "Enter") convert();
+      });
+    </script>
+  </body>
 </html>

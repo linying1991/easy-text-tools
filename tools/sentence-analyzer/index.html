@@ -1,50 +1,178 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sentence Analyzer - TextKit</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-<style>
-:root{--gradient:linear-gradient(135deg,#30cfd0 0%,#330867 100%)}
-body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
-.container{max-width:900px;margin:0 auto}
-.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
-.back-link:hover{opacity:1}
-main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
-.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
-textarea{min-height:200px;font-size:0.95rem;border:2px solid #e2e8f0;border-radius:12px;transition:all 0.3s}
-textarea:focus{border-color:#30cfd0;box-shadow:0 0 0 3px rgba(48,207,208,0.1)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
-.stat{padding:1.5rem;background:#f8fafc;border-radius:12px;text-align:center}
-.stat-value{font-size:2rem;font-weight:700;color:#30cfd0;margin-bottom:0.5rem}
-.stat-label{color:#64748b;font-size:0.85rem}
-.sentences{margin-top:2rem;padding:1.5rem;background:#f8fafc;border-radius:12px;max-height:300px;overflow-y:auto}
-.sentence-item{padding:0.75rem;margin-bottom:0.5rem;background:#fff;border-radius:8px;border-left:3px solid #30cfd0}
-footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
-</style>
-</head>
-<body>
-<div class="container">
-<a href="../../index.html" class="back-link">← Back to Home</a>
-<main>
-<h1>Sentence Analyzer</h1>
-<p class="subtitle">Analyze sentences in your text</p>
-<label>Input Text:</label>
-<textarea id="input" placeholder="Enter text to analyze..."></textarea>
-<div class="stats">
-<div class="stat"><div class="stat-value" id="total">0</div><div class="stat-label">Total Sentences</div></div>
-<div class="stat"><div class="stat-value" id="avgWords">0</div><div class="stat-label">Avg Words/Sentence</div></div>
-<div class="stat"><div class="stat-value" id="longest">0</div><div class="stat-label">Longest Sentence</div></div>
-</div>
-<div class="sentences" id="sentences"></div>
-</main>
-<footer>© 2024 TextKit - All text processing happens in your browser</footer>
-</div>
-<script>
-function analyze(){const text=document.getElementById('input').value;if(!text.trim()){document.getElementById('total').textContent='0';document.getElementById('avgWords').textContent='0';document.getElementById('longest').textContent='0';document.getElementById('sentences').innerHTML='';return}const sentences=text.match(/[^.!?]+[.!?]+/g)||[];const total=sentences.length;let totalWords=0;let longest=0;sentences.forEach(s=>{const words=s.trim().split(/\s+/).length;totalWords+=words;if(words>longest)longest=words});const avgWords=total>0?Math.round(totalWords/total):0;document.getElementById('total').textContent=total;document.getElementById('avgWords').textContent=avgWords;document.getElementById('longest').textContent=longest+' words';const sentenceList=document.getElementById('sentences');sentenceList.innerHTML='<h3 style="margin:0 0 1rem 0;color:#1e293b">Sentences:</h3>'+sentences.map((s,i)=>{const words=s.trim().split(/\s+/).length;return `<div class="sentence-item"><strong>#${i+1}</strong> (${words} words): ${s.trim()}</div>`}).join('')}
-document.getElementById('input').addEventListener('input',analyze);
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sentence Analyzer - TextKit</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --gradient: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+      }
+      body {
+        min-height: 100vh;
+        background: var(--gradient);
+        margin: 0;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .back-link {
+        color: #fff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+        transition: opacity 0.3s;
+      }
+      .back-link:hover {
+        opacity: 1;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+      textarea {
+        min-height: 200px;
+        font-size: 0.95rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        transition: all 0.3s;
+      }
+      textarea:focus {
+        border-color: #30cfd0;
+        box-shadow: 0 0 0 3px rgba(48, 207, 208, 0.1);
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+      .stat {
+        padding: 1.5rem;
+        background: #f8fafc;
+        border-radius: 12px;
+        text-align: center;
+      }
+      .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #30cfd0;
+        margin-bottom: 0.5rem;
+      }
+      .stat-label {
+        color: #64748b;
+        font-size: 0.85rem;
+      }
+      .sentences {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #f8fafc;
+        border-radius: 12px;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+      .sentence-item {
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+        background: #fff;
+        border-radius: 8px;
+        border-left: 3px solid #30cfd0;
+      }
+      footer {
+        text-align: center;
+        color: #fff;
+        margin-top: 2rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../../index.html" class="back-link">← Back to Home</a>
+      <main>
+        <h1>Sentence Analyzer</h1>
+        <p class="subtitle">Analyze sentences in your text</p>
+        <label>Input Text:</label>
+        <textarea id="input" placeholder="Enter text to analyze..."></textarea>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-value" id="total">0</div>
+            <div class="stat-label">Total Sentences</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="avgWords">0</div>
+            <div class="stat-label">Avg Words/Sentence</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="longest">0</div>
+            <div class="stat-label">Longest Sentence</div>
+          </div>
+        </div>
+        <div class="sentences" id="sentences"></div>
+      </main>
+      <footer>
+        © 2024 TextKit - All text processing happens in your browser
+      </footer>
+    </div>
+    <script>
+      function analyze() {
+        const text = document.getElementById("input").value;
+        if (!text.trim()) {
+          document.getElementById("total").textContent = "0";
+          document.getElementById("avgWords").textContent = "0";
+          document.getElementById("longest").textContent = "0";
+          document.getElementById("sentences").innerHTML = "";
+          return;
+        }
+        const sentences = text.match(/[^.!?]+[.!?]+/g) || [];
+        const total = sentences.length;
+        let totalWords = 0;
+        let longest = 0;
+        sentences.forEach((s) => {
+          const words = s.trim().split(/\s+/).length;
+          totalWords += words;
+          if (words > longest) longest = words;
+        });
+        const avgWords = total > 0 ? Math.round(totalWords / total) : 0;
+        document.getElementById("total").textContent = total;
+        document.getElementById("avgWords").textContent = avgWords;
+        document.getElementById("longest").textContent = longest + " words";
+        const sentenceList = document.getElementById("sentences");
+        sentenceList.innerHTML =
+          '<h3 style="margin:0 0 1rem 0;color:#1e293b">Sentences:</h3>' +
+          sentences
+            .map((s, i) => {
+              const words = s.trim().split(/\s+/).length;
+              return `<div class="sentence-item"><strong>#${i + 1}</strong> (${words} words): ${s.trim()}</div>`;
+            })
+            .join("");
+      }
+      document.getElementById("input").addEventListener("input", analyze);
+    </script>
+  </body>
 </html>

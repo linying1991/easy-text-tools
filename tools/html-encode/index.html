@@ -1,53 +1,341 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/png" href="/favicon.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HTML Entity Encode - Free Online Tool</title>
-  <meta name="description" content="Encode HTML entities. Convert special characters to HTML-safe format." />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.conditional.min.css" integrity="sha256-v0OEZWNaUvlmR1U0LMHiwNOzzO3q2wkIipf4KlEB9NWs=" crossorigin="anonymous">
-  <style>:root{--primary-gradient:linear-gradient(135deg,#f093fb 0%,#f5576c 100%);--shadow-lg:0 8px 24px rgba(0,0,0,0.15)}body{background:linear-gradient(135deg,#f093fb 0%,#f5576c 100%);min-height:100vh}.back-link{display:inline-flex;align-items:center;gap:.5rem;color:#fff;text-decoration:none;font-weight:600;margin-bottom:1.5rem;padding:.5rem 1rem;background:rgba(255,255,255,0.2);border-radius:50px;backdrop-filter:blur(10px);transition:all .3s ease}.back-link:hover{background:rgba(255,255,255,0.3);transform:translateX(-5px)}header{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:20px;padding:2.5rem;box-shadow:var(--shadow-lg)}header h1{background:var(--primary-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:2.5rem;font-weight:800;display:flex;align-items:center;gap:.75rem;margin-bottom:.5rem}.tool-icon{width:60px;height:60px;background:var(--primary-gradient);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff}main{background:rgba(255,255,255,0.98);border-radius:20px;padding:2.5rem;margin:2rem 0;box-shadow:var(--shadow-lg)}.tool-container{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin:2rem 0}@media (max-width:968px){.tool-container{grid-template-columns:1fr}}.section-header{display:flex;align-items:center;margin-bottom:1rem}.section-header h3{margin:0;font-size:1.3rem;color:#1e293b;display:flex;align-items:center;gap:.5rem}.section-icon{width:32px;height:32px;background:var(--primary-gradient);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem}textarea{font-family:Monaco,monospace;min-height:300px;border:2px solid #e2e8f0;border-radius:12px;padding:1rem;font-size:.95rem;transition:all .3s;resize:vertical;width:100%}textarea:focus{border-color:#f5576c;box-shadow:0 0 0 4px rgba(245,87,108,0.1);outline:none}textarea[readonly]{background:#f8fafc}.stats{display:flex;gap:2rem;margin-top:1rem;padding:1rem;background:#f8fafc;border-radius:10px}.stat-item{display:flex;flex-direction:column;gap:.25rem}.stat-label{color:#64748b;font-size:.85rem;text-transform:uppercase}.stat-value{color:#1e293b;font-weight:700;font-size:1.1rem}.button-group{display:flex;gap:1rem;margin:2rem 0;flex-wrap:wrap}button{padding:.875rem 1.75rem;border-radius:12px;font-weight:600;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;transition:all .3s}button.primary{background:var(--primary-gradient);color:#fff;box-shadow:0 4px 12px rgba(245,87,108,0.3)}button.primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(245,87,108,0.4)}button.secondary{background:#fff;color:#64748b;border:2px solid #e2e8f0}button.secondary:hover{border-color:#cbd5e1;background:#f8fafc}footer{background:rgba(255,255,255,0.95);border-radius:20px;padding:2rem;margin-bottom:2rem;box-shadow:var(--shadow-lg);text-align:center}footer a{color:#f5576c;text-decoration:none}</style>
-</head>
-<body>
-  <div class="container">
-    <a href="/" class="back-link"><span>←</span><span>Back to Tools</span></a>
-    <header>
-      <h1><span class="tool-icon">📝</span><span>HTML Entity Encode</span></h1>
-      <p style="color:#64748b;margin:0">Convert special characters to HTML entities</p>
-    </header>
-    <main>
-      <div class="tool-container">
-        <div class="input-section">
-          <div class="section-header"><h3><span class="section-icon">📝</span>Input Text</h3></div>
-          <textarea id="input-text" placeholder="Enter text to encode..."></textarea>
-          <div class="stats"><div class="stat-item"><span class="stat-label">Characters</span><span class="stat-value" id="input-chars">0</span></div></div>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML Entity Encode - Free Online Tool</title>
+    <meta
+      name="description"
+      content="Encode HTML entities. Convert special characters to HTML-safe format."
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.conditional.min.css"
+      integrity="sha256-v0OEZWNaUvlmR1U0LMHiwNOzzO3q2wkIipf4KlEB9NWs="
+      crossorigin="anonymous"
+    />
+    <style>
+      :root {
+        --primary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+      }
+      body {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        min-height: 100vh;
+      }
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50px;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+      }
+      .back-link:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateX(-5px);
+      }
+      header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: var(--shadow-lg);
+      }
+      header h1 {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 2.5rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+      }
+      .tool-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--primary-gradient);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: #fff;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 20px;
+        padding: 2.5rem;
+        margin: 2rem 0;
+        box-shadow: var(--shadow-lg);
+      }
+      .tool-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+      @media (max-width: 968px) {
+        .tool-container {
+          grid-template-columns: 1fr;
+        }
+      }
+      .section-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+      .section-header h3 {
+        margin: 0;
+        font-size: 1.3rem;
+        color: #1e293b;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .section-icon {
+        width: 32px;
+        height: 32px;
+        background: var(--primary-gradient);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 1rem;
+      }
+      textarea {
+        font-family: Monaco, monospace;
+        min-height: 300px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 1rem;
+        font-size: 0.95rem;
+        transition: all 0.3s;
+        resize: vertical;
+        width: 100%;
+      }
+      textarea:focus {
+        border-color: #f5576c;
+        box-shadow: 0 0 0 4px rgba(245, 87, 108, 0.1);
+        outline: none;
+      }
+      textarea[readonly] {
+        background: #f8fafc;
+      }
+      .stats {
+        display: flex;
+        gap: 2rem;
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f8fafc;
+        border-radius: 10px;
+      }
+      .stat-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .stat-label {
+        color: #64748b;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+      }
+      .stat-value {
+        color: #1e293b;
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin: 2rem 0;
+        flex-wrap: wrap;
+      }
+      button {
+        padding: 0.875rem 1.75rem;
+        border-radius: 12px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s;
+      }
+      button.primary {
+        background: var(--primary-gradient);
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(245, 87, 108, 0.3);
+      }
+      button.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+      }
+      button.secondary {
+        background: #fff;
+        color: #64748b;
+        border: 2px solid #e2e8f0;
+      }
+      button.secondary:hover {
+        border-color: #cbd5e1;
+        background: #f8fafc;
+      }
+      footer {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-lg);
+        text-align: center;
+      }
+      footer a {
+        color: #f5576c;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="/" class="back-link"><span>←</span><span>Back to Tools</span></a>
+      <header>
+        <h1>
+          <span class="tool-icon">📝</span><span>HTML Entity Encode</span>
+        </h1>
+        <p style="color: #64748b; margin: 0">
+          Convert special characters to HTML entities
+        </p>
+      </header>
+      <main>
+        <div class="tool-container">
+          <div class="input-section">
+            <div class="section-header">
+              <h3><span class="section-icon">📝</span>Input Text</h3>
+            </div>
+            <textarea
+              id="input-text"
+              placeholder="Enter text to encode..."
+            ></textarea>
+            <div class="stats">
+              <div class="stat-item">
+                <span class="stat-label">Characters</span
+                ><span class="stat-value" id="input-chars">0</span>
+              </div>
+            </div>
+          </div>
+          <div class="output-section">
+            <div class="section-header">
+              <h3><span class="section-icon">🔒</span>HTML Encoded</h3>
+            </div>
+            <textarea
+              id="output-text"
+              placeholder="Encoded HTML will appear here..."
+              readonly
+            ></textarea>
+            <div class="stats">
+              <div class="stat-item">
+                <span class="stat-label">Characters</span
+                ><span class="stat-value" id="output-chars">0</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="output-section">
-          <div class="section-header"><h3><span class="section-icon">🔒</span>HTML Encoded</h3></div>
-          <textarea id="output-text" placeholder="Encoded HTML will appear here..." readonly></textarea>
-          <div class="stats"><div class="stat-item"><span class="stat-label">Characters</span><span class="stat-value" id="output-chars">0</span></div></div>
+        <div class="button-group">
+          <button class="primary" id="encode-btn">
+            <span>🔒</span><span>Encode HTML</span>
+          </button>
+          <button class="secondary" id="copy-btn">
+            <span>📋</span><span>Copy</span>
+          </button>
+          <button class="secondary" id="clear-btn">
+            <span>🗑️</span><span>Clear</span>
+          </button>
         </div>
-      </div>
-      <div class="button-group">
-        <button class="primary" id="encode-btn"><span>🔒</span><span>Encode HTML</span></button>
-        <button class="secondary" id="copy-btn"><span>📋</span><span>Copy</span></button>
-        <button class="secondary" id="clear-btn"><span>🗑️</span><span>Clear</span></button>
-      </div>
-      <div style="background:#f8fafc;border-left:4px solid #f5576c;padding:1.5rem;border-radius:12px;margin:2rem 0">
-        <h3 style="margin-top:0">Example</h3>
-        <p><strong>Original:</strong> &lt;div&gt;Hello &amp; Welcome&lt;/div&gt;</p>
-        <p><strong>Encoded:</strong> &amp;lt;div&amp;gt;Hello &amp;amp; Welcome&amp;lt;/div&amp;gt;</p>
-      </div>
-    </main>
-    <footer><small><p>&copy; 2025 TextKit</p><p style="margin-top:.5rem"><a href="/">Home</a> • <a href="/privacy.html">Privacy</a></p></small></footer>
-  </div>
-  <script>
-    const input=document.getElementById('input-text'),output=document.getElementById('output-text'),encodeBtn=document.getElementById('encode-btn'),copyBtn=document.getElementById('copy-btn'),clearBtn=document.getElementById('clear-btn'),inputChars=document.getElementById('input-chars'),outputChars=document.getElementById('output-chars');
-    input.addEventListener('input',()=>inputChars.textContent=input.value.length);
-    encodeBtn.addEventListener('click',()=>{if(!input.value){alert('Enter text');return}const encoded=input.value.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');output.value=encoded;outputChars.textContent=encoded.length});
-    copyBtn.addEventListener('click',async()=>{if(!output.value){alert('Encode first');return}try{await navigator.clipboard.writeText(output.value);const orig=copyBtn.innerHTML;copyBtn.innerHTML='<span>✓</span><span>Copied!</span>';setTimeout(()=>copyBtn.innerHTML=orig,2000)}catch(e){output.select();document.execCommand('copy')}});
-    clearBtn.addEventListener('click',()=>{input.value='';output.value='';inputChars.textContent='0';outputChars.textContent='0'});
-  </script>
-</body>
+        <div
+          style="
+            background: #f8fafc;
+            border-left: 4px solid #f5576c;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+          "
+        >
+          <h3 style="margin-top: 0">Example</h3>
+          <p>
+            <strong>Original:</strong> &lt;div&gt;Hello &amp;
+            Welcome&lt;/div&gt;
+          </p>
+          <p>
+            <strong>Encoded:</strong> &amp;lt;div&amp;gt;Hello &amp;amp;
+            Welcome&amp;lt;/div&amp;gt;
+          </p>
+        </div>
+      </main>
+      <footer>
+        <small
+          ><p>&copy; 2025 TextKit</p>
+          <p style="margin-top: 0.5rem">
+            <a href="/">Home</a> • <a href="/privacy.html">Privacy</a>
+          </p></small
+        >
+      </footer>
+    </div>
+    <script>
+      const input = document.getElementById("input-text"),
+        output = document.getElementById("output-text"),
+        encodeBtn = document.getElementById("encode-btn"),
+        copyBtn = document.getElementById("copy-btn"),
+        clearBtn = document.getElementById("clear-btn"),
+        inputChars = document.getElementById("input-chars"),
+        outputChars = document.getElementById("output-chars");
+      input.addEventListener(
+        "input",
+        () => (inputChars.textContent = input.value.length),
+      );
+      encodeBtn.addEventListener("click", () => {
+        if (!input.value) {
+          alert("Enter text");
+          return;
+        }
+        const encoded = input.value
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+        output.value = encoded;
+        outputChars.textContent = encoded.length;
+      });
+      copyBtn.addEventListener("click", async () => {
+        if (!output.value) {
+          alert("Encode first");
+          return;
+        }
+        try {
+          await navigator.clipboard.writeText(output.value);
+          const orig = copyBtn.innerHTML;
+          copyBtn.innerHTML = "<span>✓</span><span>Copied!</span>";
+          setTimeout(() => (copyBtn.innerHTML = orig), 2000);
+        } catch (e) {
+          output.select();
+          document.execCommand("copy");
+        }
+      });
+      clearBtn.addEventListener("click", () => {
+        input.value = "";
+        output.value = "";
+        inputChars.textContent = "0";
+        outputChars.textContent = "0";
+      });
+    </script>
+  </body>
 </html>

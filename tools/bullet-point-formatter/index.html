@@ -1,310 +1,342 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"="width=device-width, initial-case=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" ="width=device-width, initial-case=1.0" />
     <title>Bullet Point Formatter - Create Beautiful Lists</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
     <style>
-        :root {
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
+      :root {
+        --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
 
-        body {
-            background: var(--gradient-1);
-            min-height: 100vh;
-            padding: 2rem 0;
-        }
+      body {
+        background: var(--gradient-1);
+        min-height: 100vh;
+        padding: 2rem 0;
+      }
 
-        .container {
-            max-width: 1000px;
-        }
+      .container {
+        max-width: 1000px;
+      }
 
-        .tool-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            margin-bottom: 2rem;
-        }
+      .tool-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        margin-bottom: 2rem;
+      }
 
-        h1 {
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-            font-size: 2.5rem;
-        }
+      h1 {
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+        font-size: 2.5rem;
+      }
 
-        .subtitle {
-            color: #666;
-            margin-bottom: 2rem;
-        }
+      .subtitle {
+        color: #666;
+        margin-bottom: 2rem;
+      }
 
+      .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+
+      @media (max-width: 768px) {
         .grid-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+          grid-template-columns: 1fr;
         }
+      }
 
-        @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
-        }
+      textarea {
+        min-height: 250px;
+        font-family: "Courier New", monospace;
+        font-size: 0.95rem;
+      }
 
-        textarea {
-            min-height: 250px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
-        }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin: 1.5rem 0;
+        flex-wrap: wrap;
+      }
 
-        .button-group {
-            display: flex;
-            gap: 1rem;
-            margin: 1.5rem 0;
-            flex-wrap: wrap;
-        }
+      button {
+        background: var(--gradient-1);
+        border: none;
+        transition: all 0.3s;
+        padding: 0.75rem 1.25rem;
+      }
 
-        button {
-            background: var(--gradient-1);
-            border: none;
-            transition: all 0.3s;
-            padding: 0.75rem 1.25rem;
-        }
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      }
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
+      .secondary {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      }
 
-        .secondary {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
+      .bullet-styles {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 0.75rem;
+        margin: 1.5rem 0;
+      }
 
-        .bullet-styles {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 0.75rem;
-            margin: 1.5rem 0;
-        }
+      .bullet-btn {
+        background: white;
+        border: 2px solid #e0e0e0;
+        padding: 0.75rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-align: center;
+        font-family: "Courier New", monospace;
+      }
 
-        .bullet-btn {
-            background: white;
-            border: 2px solid #e0e0e0;
-            padding: 0.75rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-            font-family: 'Courier New', monospace;
-        }
+      .bullet-btn:hover {
+        border-color: #667eea;
+        background: #f0f4ff;
+        transform: translateY(-2px);
+      }
 
-        .bullet-btn:hover {
-            border-color: #667eea;
-            background: #f0f4ff;
-            transform: translateY(-2px);
-        }
+      .bullet-btn.active {
+        border-color: #667eea;
+        background: #667eea;
+        color: white;
+      }
 
-        .bullet-btn.active {
-            border-color: #667eea;
-            background: #667eea;
-            color: white;
-        }
+      .options {
+        margin: 1rem 0;
+      }
 
-        .options {
-            margin: 1rem 0;
-        }
+      label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+      }
 
-        label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-        }
+      .info-box {
+        background: #f0f4ff;
+        border-left: 4px solid #667eea;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+      }
 
-        .info-box {
-            background: #f0f4ff;
-            border-left: 4px solid #667eea;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
-
-        .preview-box {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            border-left: 4px solid #667eea;
-        }
+      .preview-box {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+        border-left: 4px solid #667eea;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="tool-card">
-            <h1>📋 Bullet Point Formatter</h1>
-            <p class="subtitle">Convert plain text to beautifully formatted bullet lists</p>
+      <div class="tool-card">
+        <h1>📋 Bullet Point Formatter</h1>
+        <p class="subtitle">
+          Convert plain text to beautifully formatted bullet lists
+        </p>
 
-            <div class="grid-container">
-                <div>
-                    <label for="input">Input Text (one item per line):</label>
-                    <textarea id="input" placeholder="Enter your list items, one per line...
+        <div class="grid-container">
+          <div>
+            <label for="input">Input Text (one item per line):</label>
+            <textarea
+              id="input"
+              placeholder="Enter your list items, one per line...
 
 Example:
 First item
 Second item
-Third item" oninput="format()">First item
+Third item"
+              oninput="format()"
+            >
+First item
 Second item
 Third item
 Nested item
-Another nested item</textarea>
-                </div>
+Another nested item</textarea
+            >
+          </div>
 
-                <div>
-                    <label for="output">Formatted Output:</label>
-                    <textarea id="output" readonly placeholder="Formatted list will appear here"></textarea>
-                </div>
-            </div>
-
-            <label>Choose Bullet Style:</label>
-            <div class="bullet-styles">
-                <div class="bullet-btn active" onclick="selectBullet('•')">• Disc</div>
-                <div class="bullet-btn" onclick="selectBullet('◦')">◦ Circle</div>
-                <div class="bullet-btn" onclick="selectBullet('▪')">▪ Square</div>
-                <div class="bullet-btn" onclick="selectBullet('▸')">▸ Triangle</div>
-                <div class="bullet-btn" onclick="selectBullet('→')">→ Arrow</div>
-                <div class="bullet-btn" onclick="selectBullet('➤')">➤ Pointer</div>
-                <div class="bullet-btn" onclick="selectBullet('✓')">✓ Check</div>
-                <div class="bullet-btn" onclick="selectBullet('★')">★ Star</div>
-                <div class="bullet-btn" onclick="selectBullet('❯')">❯ Chevron</div>
-                <div class="bullet-btn" onclick="selectBullet('⚬')">⚬ Hollow</div>
-                <div class="bullet-btn" onclick="selectBullet('○')">○ Empty</div>
-                <div class="bullet-btn" onclick="selectBullet('●')">● Filled</div>
-                <div class="bullet-btn" onclick="selectBullet('-')">- Dash</div>
-                <div class="bullet-btn" onclick="selectBullet('*')">* Asterisk</div>
-                <div class="bullet-btn" onclick="selectBullet('+')">+ Plus</div>
-                <div class="bullet-btn" onclick="selectBullet('1.')">1. Numbered</div>
-            </div>
-
-            <div class="options">
-                <label for="indent">Indentation (spaces):</label>
-                <input type="number" id="indent" value="2" min="0" max="10" style="width: 100px;" onchange="format()">
-            </div>
-
-            <div class="options">
-                <label>
-                    <input type="checkbox" id="removeEmpty" checked onchange="format()">
-                    Remove empty lines
-                </label>
-                <label>
-                    <input type="checkbox" id="trimLines" checked onchange="format()">
-                    Trim whitespace
-                </label>
-                <label>
-                    <input type="checkbox" id="markdown" onchange="format()">
-                    Markdown format
-                </label>
-            </div>
-
-            <div class="button-group">
-                <button onclick="format()">📝 Format</button>
-                <button onclick="copy()" class="secondary">📋 Copy</button>
-                <button onclick="clearAll()" class="secondary">🗑️ Clear</button>
-            </div>
-
-            <div class="info-box">
-                <strong>💡 Tips:</strong>
-                <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
-                    <li>Enter one list item per line in the input box</li>
-                    <li>Choose from 16 different bullet styles</li>
-                    <li>Use numbered format (1.) for ordered lists</li>
-                    <li>Enable Markdown format for GitHub, Reddit, etc.</li>
-                    <li>Add indentation to your lists for better readability</li>
-                </ul>
-            </div>
+          <div>
+            <label for="output">Formatted Output:</label>
+            <textarea
+              id="output"
+              readonly
+              placeholder="Formatted list will appear here"
+            ></textarea>
+          </div>
         </div>
+
+        <label>Choose Bullet Style:</label>
+        <div class="bullet-styles">
+          <div class="bullet-btn active" onclick="selectBullet('•')">
+            • Disc
+          </div>
+          <div class="bullet-btn" onclick="selectBullet('◦')">◦ Circle</div>
+          <div class="bullet-btn" onclick="selectBullet('▪')">▪ Square</div>
+          <div class="bullet-btn" onclick="selectBullet('▸')">▸ Triangle</div>
+          <div class="bullet-btn" onclick="selectBullet('→')">→ Arrow</div>
+          <div class="bullet-btn" onclick="selectBullet('➤')">➤ Pointer</div>
+          <div class="bullet-btn" onclick="selectBullet('✓')">✓ Check</div>
+          <div class="bullet-btn" onclick="selectBullet('★')">★ Star</div>
+          <div class="bullet-btn" onclick="selectBullet('❯')">❯ Chevron</div>
+          <div class="bullet-btn" onclick="selectBullet('⚬')">⚬ Hollow</div>
+          <div class="bullet-btn" onclick="selectBullet('○')">○ Empty</div>
+          <div class="bullet-btn" onclick="selectBullet('●')">● Filled</div>
+          <div class="bullet-btn" onclick="selectBullet('-')">- Dash</div>
+          <div class="bullet-btn" onclick="selectBullet('*')">* Asterisk</div>
+          <div class="bullet-btn" onclick="selectBullet('+')">+ Plus</div>
+          <div class="bullet-btn" onclick="selectBullet('1.')">1. Numbered</div>
+        </div>
+
+        <div class="options">
+          <label for="indent">Indentation (spaces):</label>
+          <input
+            type="number"
+            id="indent"
+            value="2"
+            min="0"
+            max="10"
+            style="width: 100px"
+            onchange="format()"
+          />
+        </div>
+
+        <div class="options">
+          <label>
+            <input
+              type="checkbox"
+              id="removeEmpty"
+              checked
+              onchange="format()"
+            />
+            Remove empty lines
+          </label>
+          <label>
+            <input type="checkbox" id="trimLines" checked onchange="format()" />
+            Trim whitespace
+          </label>
+          <label>
+            <input type="checkbox" id="markdown" onchange="format()" />
+            Markdown format
+          </label>
+        </div>
+
+        <div class="button-group">
+          <button onclick="format()">📝 Format</button>
+          <button onclick="copy()" class="secondary">📋 Copy</button>
+          <button onclick="clearAll()" class="secondary">🗑️ Clear</button>
+        </div>
+
+        <div class="info-box">
+          <strong>💡 Tips:</strong>
+          <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem">
+            <li>Enter one list item per line in the input box</li>
+            <li>Choose from 16 different bullet styles</li>
+            <li>Use numbered format (1.) for ordered lists</li>
+            <li>Enable Markdown format for GitHub, Reddit, etc.</li>
+            <li>Add indentation to your lists for better readability</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <script>
-        let currentBullet = '•';
+      let currentBullet = "•";
 
-        function selectBullet(bullet) {
-            currentBullet = bullet;
+      function selectBullet(bullet) {
+        currentBullet = bullet;
 
-            // Update active state
-            document.querySelectorAll('.bullet-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
+        // Update active state
+        document.querySelectorAll(".bullet-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        event.target.classList.add("active");
 
-            format();
-        }
-
-        function format() {
-            const input = document.getElementById('input').value;
-            const indent = parseInt(document.getElementById('indent').value);
-            const removeEmpty = document.getElementById('removeEmpty').checked;
-            const trimLines = document.getElementById('trimLines').checked;
-            const markdown = document.getElementById('markdown').checked;
-
-            let lines = input.split('\n');
-
-            // Process lines
-            if (removeEmpty) {
-                lines = lines.filter(line => line.trim().length > 0);
-            }
-
-            if (trimLines) {
-                lines = lines.map(line => line.trim());
-            }
-
-            // Format with bullets
-            const indentStr = ' '.repeat(indent);
-            const isNumbered = currentBullet.includes('.');
-
-            let output = lines.map((line, index) => {
-                if (!line.trim()) return '';
-
-                let bullet = currentBullet;
-                if (isNumbered) {
-                    bullet = `${index + 1}.`;
-                }
-
-                if (markdown && !isNumbered) {
-                    return `${indentStr}- ${line}`;
-                } else if (markdown && isNumbered) {
-                    return `${indentStr}${index + 1}. ${line}`;
-                } else {
-                    return `${indentStr}${bullet} ${line}`;
-                }
-            }).join('\n');
-
-            document.getElementById('output').value = output;
-        }
-
-        function copy() {
-            const output = document.getElementById('output');
-            output.select();
-            document.execCommand('copy');
-
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = '✓ Copied!';
-            setTimeout(() => {
-                btn.textContent = originalText;
-            }, 2000);
-        }
-
-        function clearAll() {
-            document.getElementById('input').value = '';
-            document.getElementById('output').value = '';
-        }
-
-        // Format on load
         format();
+      }
+
+      function format() {
+        const input = document.getElementById("input").value;
+        const indent = parseInt(document.getElementById("indent").value);
+        const removeEmpty = document.getElementById("removeEmpty").checked;
+        const trimLines = document.getElementById("trimLines").checked;
+        const markdown = document.getElementById("markdown").checked;
+
+        let lines = input.split("\n");
+
+        // Process lines
+        if (removeEmpty) {
+          lines = lines.filter((line) => line.trim().length > 0);
+        }
+
+        if (trimLines) {
+          lines = lines.map((line) => line.trim());
+        }
+
+        // Format with bullets
+        const indentStr = " ".repeat(indent);
+        const isNumbered = currentBullet.includes(".");
+
+        let output = lines
+          .map((line, index) => {
+            if (!line.trim()) return "";
+
+            let bullet = currentBullet;
+            if (isNumbered) {
+              bullet = `${index + 1}.`;
+            }
+
+            if (markdown && !isNumbered) {
+              return `${indentStr}- ${line}`;
+            } else if (markdown && isNumbered) {
+              return `${indentStr}${index + 1}. ${line}`;
+            } else {
+              return `${indentStr}${bullet} ${line}`;
+            }
+          })
+          .join("\n");
+
+        document.getElementById("output").value = output;
+      }
+
+      function copy() {
+        const output = document.getElementById("output");
+        output.select();
+        document.execCommand("copy");
+
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = "✓ Copied!";
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
+      }
+
+      function clearAll() {
+        document.getElementById("input").value = "";
+        document.getElementById("output").value = "";
+      }
+
+      // Format on load
+      format();
     </script>
-</body>
+  </body>
 </html>

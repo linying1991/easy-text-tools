@@ -1,140 +1,353 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/png" href="/favicon.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Text Case Converter - Free Online Tool</title>
-  <meta name="description" content="Convert text between uppercase, lowercase, title case, sentence case, camelCase, and more." />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.conditional.min.css"
-    integrity="sha256-v0OEZWNaUvlmR1U0LMHiwNOzzO3q2wkIipf4KlEB9NWs=" crossorigin="anonymous">
-  <style>
-    :root {--primary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);--shadow-lg: 0 8px 24px rgba(0,0,0,0.15);}
-    body {background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); min-height: 100vh;}
-    .back-link {display: inline-flex; align-items: center; gap: 0.5rem; color: white; text-decoration: none; font-weight: 600; margin-bottom: 1.5rem; padding: 0.5rem 1rem; background: rgba(255, 255, 255, 0.2); border-radius: 50px; backdrop-filter: blur(10px); transition: all 0.3s ease;}
-    .back-link:hover {background: rgba(255, 255, 255, 0.3); transform: translateX(-5px);}
-    header {background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 2.5rem; box-shadow: var(--shadow-lg);}
-    header h1 {background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 2.5rem; font-weight: 800; display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;}
-    .tool-icon {width: 60px; height: 60px; background: var(--primary-gradient); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white;}
-    main {background: rgba(255, 255, 255, 0.98); border-radius: 20px; padding: 2.5rem; margin: 2rem 0; box-shadow: var(--shadow-lg);}
-    textarea {font-family: Monaco, monospace; min-height: 250px; border: 2px solid #e2e8f0; border-radius: 12px; padding: 1rem; font-size: 0.95rem; transition: all 0.3s; resize: vertical; width: 100%;}
-    textarea:focus {border-color: #f5576c; box-shadow: 0 0 0 4px rgba(245, 87, 108, 0.1); outline: none;}
-    .stats {display: flex; gap: 2rem; margin: 1rem 0; padding: 1rem; background: #f8fafc; border-radius: 10px;}
-    .stat-item {display: flex; flex-direction: column; gap: 0.25rem;}
-    .stat-label {color: #64748b; font-size: 0.85rem; text-transform: uppercase;}
-    .stat-value {color: #1e293b; font-weight: 700; font-size: 1.1rem;}
-    .button-grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0;}
-    button {padding: 0.875rem 1.5rem; border-radius: 12px; font-weight: 600; border: none; cursor: pointer; transition: all 0.3s; width: 100%; background: white; color: #1e293b; border: 2px solid #e2e8f0;}
-    button:hover {background: #f8fafc; border-color: #f5576c; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(245, 87, 108, 0.2);}
-    .action-buttons {display: flex; gap: 1rem; margin: 1rem 0;}
-    .action-buttons button {background: var(--primary-gradient); color: white; border: none; box-shadow: 0 4px 12px rgba(245, 87, 108, 0.3);}
-    .action-buttons button:hover {transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);}
-    footer {background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow-lg); text-align: center;}
-    footer a {color: #f5576c; text-decoration: none;}
-  </style>
-</head>
-
-<body>
-  <div class="container">
-    <a href="/" class="back-link"><span>←</span><span>Back to Tools</span></a>
-    <header>
-      <h1><span class="tool-icon">Aa</span><span>Text Case Converter</span></h1>
-      <p style="color:#64748b; margin:0;">Convert text between different cases instantly</p>
-    </header>
-
-    <main>
-      <h3>Input Text</h3>
-      <textarea id="input-text" placeholder="Enter or paste your text here..."></textarea>
-      <div class="stats">
-        <div class="stat-item"><span class="stat-label">Characters</span><span class="stat-value" id="char-count">0</span></div>
-        <div class="stat-item"><span class="stat-label">Words</span><span class="stat-value" id="word-count">0</span></div>
-        <div class="stat-item"><span class="stat-label">Lines</span><span class="stat-value" id="line-count">0</span></div>
-      </div>
-
-      <h3>Convert To</h3>
-      <div class="button-grid">
-        <button onclick="convert('upper')">UPPERCASE</button>
-        <button onclick="convert('lower')">lowercase</button>
-        <button onclick="convert('title')">Title Case</button>
-        <button onclick="convert('sentence')">Sentence case</button>
-        <button onclick="convert('camel')">camelCase</button>
-        <button onclick="convert('pascal')">PascalCase</button>
-        <button onclick="convert('snake')">snake_case</button>
-        <button onclick="convert('kebab')">kebab-case</button>
-        <button onclick="convert('toggle')">tOGGLE</button>
-        <button onclick="convert('alternate')">aLtErNaTe</button>
-      </div>
-
-      <div class="action-buttons">
-        <button id="copy-btn"><span>📋</span> Copy Result</button>
-        <button id="clear-btn"><span>🗑️</span> Clear</button>
-      </div>
-    </main>
-
-    <footer><small><p>&copy; 2025 TextKit</p><p style="margin-top:0.5rem;"><a href="/">Home</a> • <a href="/privacy.html">Privacy</a></p></small></footer>
-  </div>
-
-  <script>
-    const input = document.getElementById('input-text');
-    const charCount = document.getElementById('char-count');
-    const wordCount = document.getElementById('word-count');
-    const lineCount = document.getElementById('line-count');
-
-    function updateStats() {
-      const text = input.value;
-      charCount.textContent = text.length;
-      wordCount.textContent = text.trim() ? text.trim().split(/\s+/).length : 0;
-      lineCount.textContent = text ? text.split('\n').length : 0;
-    }
-
-    input.addEventListener('input', updateStats);
-
-    function convert(type) {
-      let text = input.value;
-      if (!text) return;
-
-      switch(type) {
-        case 'upper': text = text.toUpperCase(); break;
-        case 'lower': text = text.toLowerCase(); break;
-        case 'title': text = text.replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.substr(1).toLowerCase()); break;
-        case 'sentence': text = text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase()); break;
-        case 'camel': text = text.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, c) => c.toUpperCase()); break;
-        case 'pascal':
-          text = text.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, c) => c.toUpperCase());
-          text = text.charAt(0).toUpperCase() + text.slice(1);
-          break;
-        case 'snake': text = text.trim().replace(/\s+/g, '_').replace(/([A-Z])/g, '_$1').replace(/^_/, '').toLowerCase(); break;
-        case 'kebab': text = text.trim().replace(/\s+/g, '-').replace(/([A-Z])/g, '-$1').replace(/^-/, '').toLowerCase(); break;
-        case 'toggle': text = text.split('').map(c => c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()).join(''); break;
-        case 'alternate':
-          let upper = false;
-          text = text.split('').map(c => {
-            if (c.match(/[a-zA-Z]/)) {
-              const result = upper ? c.toUpperCase() : c.toLowerCase();
-              upper = !upper;
-              return result;
-            }
-            return c;
-          }).join('');
-          break;
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Text Case Converter - Free Online Tool</title>
+    <meta
+      name="description"
+      content="Convert text between uppercase, lowercase, title case, sentence case, camelCase, and more."
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.conditional.min.css"
+      integrity="sha256-v0OEZWNaUvlmR1U0LMHiwNOzzO3q2wkIipf4KlEB9NWs="
+      crossorigin="anonymous"
+    />
+    <style>
+      :root {
+        --primary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
       }
-      input.value = text;
-      updateStats();
-    }
+      body {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        min-height: 100vh;
+      }
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50px;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+      }
+      .back-link:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateX(-5px);
+      }
+      header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: var(--shadow-lg);
+      }
+      header h1 {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 2.5rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+      }
+      .tool-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--primary-gradient);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: white;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 20px;
+        padding: 2.5rem;
+        margin: 2rem 0;
+        box-shadow: var(--shadow-lg);
+      }
+      textarea {
+        font-family: Monaco, monospace;
+        min-height: 250px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 1rem;
+        font-size: 0.95rem;
+        transition: all 0.3s;
+        resize: vertical;
+        width: 100%;
+      }
+      textarea:focus {
+        border-color: #f5576c;
+        box-shadow: 0 0 0 4px rgba(245, 87, 108, 0.1);
+        outline: none;
+      }
+      .stats {
+        display: flex;
+        gap: 2rem;
+        margin: 1rem 0;
+        padding: 1rem;
+        background: #f8fafc;
+        border-radius: 10px;
+      }
+      .stat-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .stat-label {
+        color: #64748b;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+      }
+      .stat-value {
+        color: #1e293b;
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+      .button-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 1.5rem 0;
+      }
+      button {
+        padding: 0.875rem 1.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+        width: 100%;
+        background: white;
+        color: #1e293b;
+        border: 2px solid #e2e8f0;
+      }
+      button:hover {
+        background: #f8fafc;
+        border-color: #f5576c;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(245, 87, 108, 0.2);
+      }
+      .action-buttons {
+        display: flex;
+        gap: 1rem;
+        margin: 1rem 0;
+      }
+      .action-buttons button {
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        box-shadow: 0 4px 12px rgba(245, 87, 108, 0.3);
+      }
+      .action-buttons button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+      }
+      footer {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-lg);
+        text-align: center;
+      }
+      footer a {
+        color: #f5576c;
+        text-decoration: none;
+      }
+    </style>
+  </head>
 
-    document.getElementById('copy-btn').addEventListener('click', async () => {
-      if (!input.value) {alert('Nothing to copy'); return;}
-      try {
-        await navigator.clipboard.writeText(input.value);
-        alert('Copied!');
-      } catch(e) {input.select(); document.execCommand('copy'); alert('Copied!');}
-    });
+  <body>
+    <div class="container">
+      <a href="/" class="back-link"><span>←</span><span>Back to Tools</span></a>
+      <header>
+        <h1>
+          <span class="tool-icon">Aa</span><span>Text Case Converter</span>
+        </h1>
+        <p style="color: #64748b; margin: 0">
+          Convert text between different cases instantly
+        </p>
+      </header>
 
-    document.getElementById('clear-btn').addEventListener('click', () => {
-      input.value = '';
-      updateStats();
-    });
-  </script>
-</body>
+      <main>
+        <h3>Input Text</h3>
+        <textarea
+          id="input-text"
+          placeholder="Enter or paste your text here..."
+        ></textarea>
+        <div class="stats">
+          <div class="stat-item">
+            <span class="stat-label">Characters</span
+            ><span class="stat-value" id="char-count">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Words</span
+            ><span class="stat-value" id="word-count">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Lines</span
+            ><span class="stat-value" id="line-count">0</span>
+          </div>
+        </div>
+
+        <h3>Convert To</h3>
+        <div class="button-grid">
+          <button onclick="convert('upper')">UPPERCASE</button>
+          <button onclick="convert('lower')">lowercase</button>
+          <button onclick="convert('title')">Title Case</button>
+          <button onclick="convert('sentence')">Sentence case</button>
+          <button onclick="convert('camel')">camelCase</button>
+          <button onclick="convert('pascal')">PascalCase</button>
+          <button onclick="convert('snake')">snake_case</button>
+          <button onclick="convert('kebab')">kebab-case</button>
+          <button onclick="convert('toggle')">tOGGLE</button>
+          <button onclick="convert('alternate')">aLtErNaTe</button>
+        </div>
+
+        <div class="action-buttons">
+          <button id="copy-btn"><span>📋</span> Copy Result</button>
+          <button id="clear-btn"><span>🗑️</span> Clear</button>
+        </div>
+      </main>
+
+      <footer>
+        <small
+          ><p>&copy; 2025 TextKit</p>
+          <p style="margin-top: 0.5rem">
+            <a href="/">Home</a> • <a href="/privacy.html">Privacy</a>
+          </p></small
+        >
+      </footer>
+    </div>
+
+    <script>
+      const input = document.getElementById("input-text");
+      const charCount = document.getElementById("char-count");
+      const wordCount = document.getElementById("word-count");
+      const lineCount = document.getElementById("line-count");
+
+      function updateStats() {
+        const text = input.value;
+        charCount.textContent = text.length;
+        wordCount.textContent = text.trim()
+          ? text.trim().split(/\s+/).length
+          : 0;
+        lineCount.textContent = text ? text.split("\n").length : 0;
+      }
+
+      input.addEventListener("input", updateStats);
+
+      function convert(type) {
+        let text = input.value;
+        if (!text) return;
+
+        switch (type) {
+          case "upper":
+            text = text.toUpperCase();
+            break;
+          case "lower":
+            text = text.toLowerCase();
+            break;
+          case "title":
+            text = text.replace(
+              /\w\S*/g,
+              (w) => w.charAt(0).toUpperCase() + w.substr(1).toLowerCase(),
+            );
+            break;
+          case "sentence":
+            text = text
+              .toLowerCase()
+              .replace(/(^\s*\w|[.!?]\s*\w)/g, (c) => c.toUpperCase());
+            break;
+          case "camel":
+            text = text
+              .toLowerCase()
+              .replace(/[^a-zA-Z0-9]+(.)/g, (m, c) => c.toUpperCase());
+            break;
+          case "pascal":
+            text = text
+              .toLowerCase()
+              .replace(/[^a-zA-Z0-9]+(.)/g, (m, c) => c.toUpperCase());
+            text = text.charAt(0).toUpperCase() + text.slice(1);
+            break;
+          case "snake":
+            text = text
+              .trim()
+              .replace(/\s+/g, "_")
+              .replace(/([A-Z])/g, "_$1")
+              .replace(/^_/, "")
+              .toLowerCase();
+            break;
+          case "kebab":
+            text = text
+              .trim()
+              .replace(/\s+/g, "-")
+              .replace(/([A-Z])/g, "-$1")
+              .replace(/^-/, "")
+              .toLowerCase();
+            break;
+          case "toggle":
+            text = text
+              .split("")
+              .map((c) =>
+                c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase(),
+              )
+              .join("");
+            break;
+          case "alternate":
+            let upper = false;
+            text = text
+              .split("")
+              .map((c) => {
+                if (c.match(/[a-zA-Z]/)) {
+                  const result = upper ? c.toUpperCase() : c.toLowerCase();
+                  upper = !upper;
+                  return result;
+                }
+                return c;
+              })
+              .join("");
+            break;
+        }
+        input.value = text;
+        updateStats();
+      }
+
+      document
+        .getElementById("copy-btn")
+        .addEventListener("click", async () => {
+          if (!input.value) {
+            alert("Nothing to copy");
+            return;
+          }
+          try {
+            await navigator.clipboard.writeText(input.value);
+            alert("Copied!");
+          } catch (e) {
+            input.select();
+            document.execCommand("copy");
+            alert("Copied!");
+          }
+        });
+
+      document.getElementById("clear-btn").addEventListener("click", () => {
+        input.value = "";
+        updateStats();
+      });
+    </script>
+  </body>
 </html>

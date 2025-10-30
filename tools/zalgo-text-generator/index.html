@@ -1,64 +1,282 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zalgo Text Generator - TextKit</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-<style>
-:root{--gradient:linear-gradient(135deg,#43e97b 0%,#38f9d7 100%)}
-body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
-.container{max-width:900px;margin:0 auto}
-.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
-.back-link:hover{opacity:1}
-main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
-.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
-.controls{margin-bottom:1rem}
-input[type="range"]{width:100%}
-.control{margin-bottom:1rem}
-.control label{display:flex;justify-content:space-between;margin-bottom:0.25rem;font-size:0.9rem;color:#64748b}
-textarea{min-height:150px;font-size:1.2rem;line-height:2;border:2px solid #e2e8f0;border-radius:12px;transition:all 0.3s}
-textarea:focus{border-color:#43e97b;box-shadow:0 0 0 3px rgba(67,233,123,0.1)}
-.button-group{display:flex;gap:1rem;margin-top:1rem}
-button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
-button.primary{background:var(--gradient);color:#fff}
-button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(67,233,123,0.3)}
-button.secondary{background:#f1f5f9;color:#475569}
-button.secondary:hover{background:#e2e8f0}
-footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
-</style>
-</head>
-<body>
-<div class="container">
-<a href="../../index.html" class="back-link">← Back to Home</a>
-<main>
-<h1>Zalgo Text Generator</h1>
-<p class="subtitle">Create glitchy, corrupted-looking text</p>
-<div class="controls">
-<div class="control"><label><span>Intensity</span><span id="intensityValue">5</span></label><input type="range" id="intensity" min="1" max="10" value="5"></div>
-</div>
-<label>Input Text:</label>
-<textarea id="input" placeholder="Enter text..."></textarea>
-<div class="button-group">
-<button class="primary" onclick="generate()">Generate Zalgo</button>
-<button class="secondary" onclick="copy()">Copy Result</button>
-<button class="secondary" onclick="clear()">Clear</button>
-</div>
-<label>Zalgo Text:</label>
-<textarea id="output" readonly></textarea>
-</main>
-<footer>© 2024 TextKit - All text processing happens in your browser</footer>
-</div>
-<script>
-const zalgoUp=['\u030d','\u030e','\u0304','\u0305','\u033f','\u0311','\u0306','\u0310','\u0352','\u0357','\u0351','\u0307','\u0308','\u030a','\u0342','\u0343','\u0344','\u034a','\u034b','\u034c','\u0303','\u0302','\u030c','\u0350','\u0300','\u0301','\u030b','\u030f','\u0312'];
-const zalgoMid=['\u0315','\u031b','\u0340','\u0341','\u0358','\u0321','\u0322','\u0327','\u0328','\u0334','\u0335','\u0336','\u034f','\u035c','\u035d','\u035e','\u035f','\u0360','\u0362','\u0338','\u0337','\u0361','\u0489'];
-const zalgoDown=['\u0316','\u0317','\u0318','\u0319','\u031c','\u031d','\u031e','\u031f','\u0320','\u0324','\u0325','\u0326','\u0329','\u032a','\u032b','\u032c','\u032d','\u032e','\u032f','\u0330','\u0331','\u0332','\u0333','\u0339','\u033a','\u033b','\u033c','\u0345','\u0347','\u0348','\u0349','\u034d','\u034e','\u0353','\u0354','\u0355','\u0356','\u0359','\u035a','\u0323'];
-document.getElementById('intensity').addEventListener('input',e=>{document.getElementById('intensityValue').textContent=e.target.value;generate()});
-function generate(){const text=document.getElementById('input').value;const intensity=parseInt(document.getElementById('intensity').value);let result='';for(let char of text){result+=char;for(let i=0;i<intensity;i++){const r=Math.random();if(r<0.33){result+=zalgoUp[Math.floor(Math.random()*zalgoUp.length)]}else if(r<0.66){result+=zalgoMid[Math.floor(Math.random()*zalgoMid.length)]}else{result+=zalgoDown[Math.floor(Math.random()*zalgoDown.length)]}}}document.getElementById('output').value=result}
-function copy(){const output=document.getElementById('output');output.select();document.execCommand('copy');alert('Copied to clipboard!')}
-function clear(){document.getElementById('input').value='';document.getElementById('output').value=''}
-document.getElementById('input').addEventListener('input',generate);
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zalgo Text Generator - TextKit</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      }
+      body {
+        min-height: 100vh;
+        background: var(--gradient);
+        margin: 0;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .back-link {
+        color: #fff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+        transition: opacity 0.3s;
+      }
+      .back-link:hover {
+        opacity: 1;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+      .controls {
+        margin-bottom: 1rem;
+      }
+      input[type="range"] {
+        width: 100%;
+      }
+      .control {
+        margin-bottom: 1rem;
+      }
+      .control label {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.25rem;
+        font-size: 0.9rem;
+        color: #64748b;
+      }
+      textarea {
+        min-height: 150px;
+        font-size: 1.2rem;
+        line-height: 2;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        transition: all 0.3s;
+      }
+      textarea:focus {
+        border-color: #43e97b;
+        box-shadow: 0 0 0 3px rgba(67, 233, 123, 0.1);
+      }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      button {
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: none;
+      }
+      button.primary {
+        background: var(--gradient);
+        color: #fff;
+      }
+      button.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(67, 233, 123, 0.3);
+      }
+      button.secondary {
+        background: #f1f5f9;
+        color: #475569;
+      }
+      button.secondary:hover {
+        background: #e2e8f0;
+      }
+      footer {
+        text-align: center;
+        color: #fff;
+        margin-top: 2rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../../index.html" class="back-link">← Back to Home</a>
+      <main>
+        <h1>Zalgo Text Generator</h1>
+        <p class="subtitle">Create glitchy, corrupted-looking text</p>
+        <div class="controls">
+          <div class="control">
+            <label
+              ><span>Intensity</span><span id="intensityValue">5</span></label
+            ><input type="range" id="intensity" min="1" max="10" value="5" />
+          </div>
+        </div>
+        <label>Input Text:</label>
+        <textarea id="input" placeholder="Enter text..."></textarea>
+        <div class="button-group">
+          <button class="primary" onclick="generate()">Generate Zalgo</button>
+          <button class="secondary" onclick="copy()">Copy Result</button>
+          <button class="secondary" onclick="clear()">Clear</button>
+        </div>
+        <label>Zalgo Text:</label>
+        <textarea id="output" readonly></textarea>
+      </main>
+      <footer>
+        © 2024 TextKit - All text processing happens in your browser
+      </footer>
+    </div>
+    <script>
+      const zalgoUp = [
+        "\u030d",
+        "\u030e",
+        "\u0304",
+        "\u0305",
+        "\u033f",
+        "\u0311",
+        "\u0306",
+        "\u0310",
+        "\u0352",
+        "\u0357",
+        "\u0351",
+        "\u0307",
+        "\u0308",
+        "\u030a",
+        "\u0342",
+        "\u0343",
+        "\u0344",
+        "\u034a",
+        "\u034b",
+        "\u034c",
+        "\u0303",
+        "\u0302",
+        "\u030c",
+        "\u0350",
+        "\u0300",
+        "\u0301",
+        "\u030b",
+        "\u030f",
+        "\u0312",
+      ];
+      const zalgoMid = [
+        "\u0315",
+        "\u031b",
+        "\u0340",
+        "\u0341",
+        "\u0358",
+        "\u0321",
+        "\u0322",
+        "\u0327",
+        "\u0328",
+        "\u0334",
+        "\u0335",
+        "\u0336",
+        "\u034f",
+        "\u035c",
+        "\u035d",
+        "\u035e",
+        "\u035f",
+        "\u0360",
+        "\u0362",
+        "\u0338",
+        "\u0337",
+        "\u0361",
+        "\u0489",
+      ];
+      const zalgoDown = [
+        "\u0316",
+        "\u0317",
+        "\u0318",
+        "\u0319",
+        "\u031c",
+        "\u031d",
+        "\u031e",
+        "\u031f",
+        "\u0320",
+        "\u0324",
+        "\u0325",
+        "\u0326",
+        "\u0329",
+        "\u032a",
+        "\u032b",
+        "\u032c",
+        "\u032d",
+        "\u032e",
+        "\u032f",
+        "\u0330",
+        "\u0331",
+        "\u0332",
+        "\u0333",
+        "\u0339",
+        "\u033a",
+        "\u033b",
+        "\u033c",
+        "\u0345",
+        "\u0347",
+        "\u0348",
+        "\u0349",
+        "\u034d",
+        "\u034e",
+        "\u0353",
+        "\u0354",
+        "\u0355",
+        "\u0356",
+        "\u0359",
+        "\u035a",
+        "\u0323",
+      ];
+      document.getElementById("intensity").addEventListener("input", (e) => {
+        document.getElementById("intensityValue").textContent = e.target.value;
+        generate();
+      });
+      function generate() {
+        const text = document.getElementById("input").value;
+        const intensity = parseInt(document.getElementById("intensity").value);
+        let result = "";
+        for (let char of text) {
+          result += char;
+          for (let i = 0; i < intensity; i++) {
+            const r = Math.random();
+            if (r < 0.33) {
+              result += zalgoUp[Math.floor(Math.random() * zalgoUp.length)];
+            } else if (r < 0.66) {
+              result += zalgoMid[Math.floor(Math.random() * zalgoMid.length)];
+            } else {
+              result += zalgoDown[Math.floor(Math.random() * zalgoDown.length)];
+            }
+          }
+        }
+        document.getElementById("output").value = result;
+      }
+      function copy() {
+        const output = document.getElementById("output");
+        output.select();
+        document.execCommand("copy");
+        alert("Copied to clipboard!");
+      }
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("output").value = "";
+      }
+      document.getElementById("input").addEventListener("input", generate);
+    </script>
+  </body>
 </html>

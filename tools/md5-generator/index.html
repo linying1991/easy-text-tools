@@ -1,134 +1,366 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MD5 Hash Generator - Free Online Tool</title>
+    <meta
+      name="description"
+      content="Generate MD5 hash from text instantly. Free online MD5 hash generator."
+    />
+    <meta
+      name="keywords"
+      content="md5, md5 hash, hash generator, md5 generator"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.conditional.min.css"
+      integrity="sha256-v0OEZWNaUvlmR1U0LMHiwNOzzO3q2wkIipf4KlEB9NWs="
+      crossorigin="anonymous"
+    />
+    <style>
+      :root {
+        --primary-gradient: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%);
+        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+      }
+      body {
+        background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%);
+        min-height: 100vh;
+      }
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50px;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+      }
+      .back-link:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateX(-5px);
+      }
+      header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2.5rem;
+        margin-top: 0;
+        box-shadow: var(--shadow-lg);
+      }
+      header h1 {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .tool-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--primary-gradient);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: white;
+        flex-shrink: 0;
+      }
+      header p {
+        color: #64748b;
+        font-size: 1.1rem;
+        margin: 0;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2.5rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-lg);
+      }
+      .tool-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+      @media (max-width: 968px) {
+        .tool-container {
+          grid-template-columns: 1fr;
+        }
+      }
+      .input-section,
+      .output-section {
+        display: flex;
+        flex-direction: column;
+      }
+      .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+      }
+      .section-header h3 {
+        margin: 0;
+        font-size: 1.3rem;
+        color: #1e293b;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .section-icon {
+        width: 32px;
+        height: 32px;
+        background: var(--primary-gradient);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1rem;
+      }
+      textarea {
+        font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+        min-height: 300px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 1rem;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        resize: vertical;
+      }
+      textarea:focus {
+        border-color: #ff6a88;
+        box-shadow: 0 0 0 4px rgba(255, 106, 136, 0.1);
+        outline: none;
+      }
+      textarea[readonly] {
+        background: #f8fafc;
+      }
+      .stats {
+        display: flex;
+        gap: 2rem;
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f8fafc;
+        border-radius: 10px;
+        font-size: 0.9rem;
+      }
+      .stat-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .stat-label {
+        color: #64748b;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .stat-value {
+        color: #1e293b;
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin: 2rem 0;
+        flex-wrap: wrap;
+      }
+      button {
+        padding: 0.875rem 1.75rem;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      button.primary {
+        background: var(--primary-gradient);
+        color: white;
+        box-shadow: 0 4px 12px rgba(255, 106, 136, 0.3);
+      }
+      button.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 106, 136, 0.4);
+      }
+      button.secondary {
+        background: white;
+        color: #64748b;
+        border: 2px solid #e2e8f0;
+      }
+      button.secondary:hover {
+        border-color: #cbd5e1;
+        background: #f8fafc;
+      }
+      .info-box {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-left: 4px solid #ff6a88;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin: 2rem 0;
+      }
+      .info-box h3 {
+        margin-top: 0;
+        color: #1e293b;
+        font-size: 1.2rem;
+      }
+      footer {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-lg);
+        text-align: center;
+      }
+      footer a {
+        color: #ff6a88;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      footer a:hover {
+        color: #ff9a56;
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/png" href="/favicon.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MD5 Hash Generator - Free Online Tool</title>
-  <meta name="description" content="Generate MD5 hash from text instantly. Free online MD5 hash generator." />
-  <meta name="keywords" content="md5, md5 hash, hash generator, md5 generator" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.conditional.min.css"
-    integrity="sha256-v0OEZWNaUvlmR1U0LMHiwNOzzO3q2wkIipf4KlEB9NWs=" crossorigin="anonymous">
-  <style>
-    :root {
-      --primary-gradient: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%);
-      --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-      --shadow-lg: 0 8px 24px rgba(0,0,0,0.15);
-    }
-    body {background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%); min-height: 100vh;}
-    .back-link {display: inline-flex; align-items: center; gap: 0.5rem; color: white; text-decoration: none; font-weight: 600; margin-bottom: 1.5rem; padding: 0.5rem 1rem; background: rgba(255, 255, 255, 0.2); border-radius: 50px; backdrop-filter: blur(10px); transition: all 0.3s ease;}
-    .back-link:hover {background: rgba(255, 255, 255, 0.3); transform: translateX(-5px);}
-    header {background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 2.5rem; margin-top: 0; box-shadow: var(--shadow-lg);}
-    header h1 {background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.75rem;}
-    .tool-icon {width: 60px; height: 60px; background: var(--primary-gradient); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; flex-shrink: 0;}
-    header p {color: #64748b; font-size: 1.1rem; margin: 0;}
-    main {background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); border-radius: 20px; padding: 2.5rem; margin-top: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow-lg);}
-    .tool-container {display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;}
-    @media (max-width: 968px) {.tool-container {grid-template-columns: 1fr;}}
-    .input-section, .output-section {display: flex; flex-direction: column;}
-    .section-header {display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;}
-    .section-header h3 {margin: 0; font-size: 1.3rem; color: #1e293b; display: flex; align-items: center; gap: 0.5rem;}
-    .section-icon {width: 32px; height: 32px; background: var(--primary-gradient); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1rem;}
-    textarea {font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace; min-height: 300px; border: 2px solid #e2e8f0; border-radius: 12px; padding: 1rem; font-size: 0.95rem; transition: all 0.3s ease; resize: vertical;}
-    textarea:focus {border-color: #ff6a88; box-shadow: 0 0 0 4px rgba(255, 106, 136, 0.1); outline: none;}
-    textarea[readonly] {background: #f8fafc;}
-    .stats {display: flex; gap: 2rem; margin-top: 1rem; padding: 1rem; background: #f8fafc; border-radius: 10px; font-size: 0.9rem;}
-    .stat-item {display: flex; flex-direction: column; gap: 0.25rem;}
-    .stat-label {color: #64748b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;}
-    .stat-value {color: #1e293b; font-weight: 700; font-size: 1.1rem;}
-    .button-group {display: flex; gap: 1rem; margin: 2rem 0; flex-wrap: wrap;}
-    button {padding: 0.875rem 1.75rem; border-radius: 12px; font-weight: 600; font-size: 1rem; transition: all 0.3s ease; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem;}
-    button.primary {background: var(--primary-gradient); color: white; box-shadow: 0 4px 12px rgba(255, 106, 136, 0.3);}
-    button.primary:hover {transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 106, 136, 0.4);}
-    button.secondary {background: white; color: #64748b; border: 2px solid #e2e8f0;}
-    button.secondary:hover {border-color: #cbd5e1; background: #f8fafc;}
-    .info-box {background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-left: 4px solid #ff6a88; padding: 1.5rem; border-radius: 12px; margin: 2rem 0;}
-    .info-box h3 {margin-top: 0; color: #1e293b; font-size: 1.2rem;}
-    footer {background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow-lg); text-align: center;}
-    footer a {color: #ff6a88; text-decoration: none; transition: color 0.2s;}
-    footer a:hover {color: #ff9a56;}
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-</head>
+  <body>
+    <div class="container">
+      <a href="/" class="back-link"><span>←</span><span>Back to Tools</span></a>
+      <header>
+        <h1>
+          <span class="tool-icon">🔐</span><span>MD5 Hash Generator</span>
+        </h1>
+        <p>Generate MD5 hash from text. Fast and secure.</p>
+      </header>
 
-<body>
-  <div class="container">
-    <a href="/" class="back-link"><span>←</span><span>Back to Tools</span></a>
-    <header>
-      <h1><span class="tool-icon">🔐</span><span>MD5 Hash Generator</span></h1>
-      <p>Generate MD5 hash from text. Fast and secure.</p>
-    </header>
-
-    <main>
-      <div class="tool-container">
-        <div class="input-section">
-          <div class="section-header"><h3><span class="section-icon">📝</span>Input Text</h3></div>
-          <textarea id="input-text" placeholder="Enter text to generate MD5 hash..."></textarea>
-          <div class="stats">
-            <div class="stat-item"><span class="stat-label">Characters</span><span class="stat-value" id="input-chars">0</span></div>
+      <main>
+        <div class="tool-container">
+          <div class="input-section">
+            <div class="section-header">
+              <h3><span class="section-icon">📝</span>Input Text</h3>
+            </div>
+            <textarea
+              id="input-text"
+              placeholder="Enter text to generate MD5 hash..."
+            ></textarea>
+            <div class="stats">
+              <div class="stat-item">
+                <span class="stat-label">Characters</span
+                ><span class="stat-value" id="input-chars">0</span>
+              </div>
+            </div>
+          </div>
+          <div class="output-section">
+            <div class="section-header">
+              <h3><span class="section-icon">🔐</span>MD5 Hash</h3>
+            </div>
+            <textarea
+              id="output-text"
+              placeholder="MD5 hash will appear here..."
+              readonly
+            ></textarea>
           </div>
         </div>
-        <div class="output-section">
-          <div class="section-header"><h3><span class="section-icon">🔐</span>MD5 Hash</h3></div>
-          <textarea id="output-text" placeholder="MD5 hash will appear here..." readonly></textarea>
+
+        <div class="button-group">
+          <button class="primary" id="generate-btn">
+            <span>🔐</span><span>Generate MD5</span>
+          </button>
+          <button class="secondary" id="copy-btn">
+            <span>📋</span><span>Copy Hash</span>
+          </button>
+          <button class="secondary" id="clear-btn">
+            <span>🗑️</span><span>Clear</span>
+          </button>
         </div>
-      </div>
 
-      <div class="button-group">
-        <button class="primary" id="generate-btn"><span>🔐</span><span>Generate MD5</span></button>
-        <button class="secondary" id="copy-btn"><span>📋</span><span>Copy Hash</span></button>
-        <button class="secondary" id="clear-btn"><span>🗑️</span><span>Clear</span></button>
-      </div>
+        <div class="info-box">
+          <h3>About MD5</h3>
+          <p>
+            MD5 is a widely used cryptographic hash function producing a 128-bit
+            hash value (32 hexadecimal digits). While not suitable for
+            security-critical applications, it's useful for checksums and data
+            integrity verification.
+          </p>
+        </div>
+      </main>
 
-      <div class="info-box">
-        <h3>About MD5</h3>
-        <p>MD5 is a widely used cryptographic hash function producing a 128-bit hash value (32 hexadecimal digits). While not suitable for security-critical applications, it's useful for checksums and data integrity verification.</p>
-      </div>
-    </main>
+      <footer>
+        <small
+          ><p>&copy; 2025 TextKit</p>
+          <p style="margin-top: 0.5rem">
+            <a href="/">Home</a> • <a href="/privacy.html">Privacy</a>
+          </p></small
+        >
+      </footer>
+    </div>
 
-    <footer>
-      <small><p>&copy; 2025 TextKit</p><p style="margin-top: 0.5rem;"><a href="/">Home</a> • <a href="/privacy.html">Privacy</a></p></small>
-    </footer>
-  </div>
+    <script>
+      const inputText = document.getElementById("input-text");
+      const outputText = document.getElementById("output-text");
+      const generateBtn = document.getElementById("generate-btn");
+      const copyBtn = document.getElementById("copy-btn");
+      const clearBtn = document.getElementById("clear-btn");
+      const inputChars = document.getElementById("input-chars");
 
-  <script>
-    const inputText = document.getElementById('input-text');
-    const outputText = document.getElementById('output-text');
-    const generateBtn = document.getElementById('generate-btn');
-    const copyBtn = document.getElementById('copy-btn');
-    const clearBtn = document.getElementById('clear-btn');
-    const inputChars = document.getElementById('input-chars');
+      inputText.addEventListener("input", () => {
+        inputChars.textContent = inputText.value.length.toLocaleString();
+      });
 
-    inputText.addEventListener('input', () => {
-      inputChars.textContent = inputText.value.length.toLocaleString();
-    });
+      generateBtn.addEventListener("click", () => {
+        if (!inputText.value) {
+          alert("Please enter text");
+          return;
+        }
+        const hash = CryptoJS.MD5(inputText.value).toString();
+        outputText.value = hash;
+      });
 
-    generateBtn.addEventListener('click', () => {
-      if (!inputText.value) {alert('Please enter text'); return;}
-      const hash = CryptoJS.MD5(inputText.value).toString();
-      outputText.value = hash;
-    });
+      copyBtn.addEventListener("click", async () => {
+        if (!outputText.value) {
+          alert("Generate hash first");
+          return;
+        }
+        try {
+          await navigator.clipboard.writeText(outputText.value);
+          const original = copyBtn.innerHTML;
+          copyBtn.innerHTML = "<span>✓</span><span>Copied!</span>";
+          setTimeout(() => (copyBtn.innerHTML = original), 2000);
+        } catch (e) {
+          outputText.select();
+          document.execCommand("copy");
+        }
+      });
 
-    copyBtn.addEventListener('click', async () => {
-      if (!outputText.value) {alert('Generate hash first'); return;}
-      try {
-        await navigator.clipboard.writeText(outputText.value);
-        const original = copyBtn.innerHTML;
-        copyBtn.innerHTML = '<span>✓</span><span>Copied!</span>';
-        setTimeout(() => copyBtn.innerHTML = original, 2000);
-      } catch(e) {
-        outputText.select();
-        document.execCommand('copy');
-      }
-    });
-
-    clearBtn.addEventListener('click', () => {
-      inputText.value = '';
-      outputText.value = '';
-      inputChars.textContent = '0';
-    });
-  </script>
-</body>
+      clearBtn.addEventListener("click", () => {
+        inputText.value = "";
+        outputText.value = "";
+        inputChars.textContent = "0";
+      });
+    </script>
+  </body>
 </html>

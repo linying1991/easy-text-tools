@@ -1,63 +1,218 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Slug Generator - TextKit</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-<style>
-:root{--gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%)}
-body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
-.container{max-width:900px;margin:0 auto}
-.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
-.back-link:hover{opacity:1}
-main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
-.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
-input[type="text"]{border:2px solid #e2e8f0;border-radius:8px;padding:1rem;font-size:1.1rem;width:100%;margin-bottom:1rem}
-input[type="text"]:focus{border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,0.1)}
-.options{display:flex;gap:2rem;margin-bottom:1.5rem;padding:1rem;background:#f8fafc;border-radius:12px}
-.option label{display:flex;align-items:center;gap:0.5rem;font-size:0.95rem}
-.result{padding:1.5rem;background:#f8fafc;border-radius:12px;font-family:monospace;font-size:1.2rem;color:#667eea;font-weight:600;word-break:break-all}
-.button-group{display:flex;gap:1rem;margin-top:1rem}
-button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
-button.primary{background:var(--gradient);color:#fff}
-button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(102,126,234,0.3)}
-button.secondary{background:#f1f5f9;color:#475569}
-button.secondary:hover{background:#e2e8f0}
-footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
-</style>
-</head>
-<body>
-<div class="container">
-<a href="../../index.html" class="back-link">← Back to Home</a>
-<main>
-<h1>Slug Generator</h1>
-<p class="subtitle">Generate URL-friendly slugs from text</p>
-<label>Input Text:</label>
-<input type="text" id="input" placeholder="Enter text to convert to slug...">
-<div class="options">
-<div class="option"><label><input type="radio" name="separator" value="-" checked> Hyphen (-)</label></div>
-<div class="option"><label><input type="radio" name="separator" value="_"> Underscore (_)</label></div>
-<div class="option"><label><input type="checkbox" id="lowercase" checked> Lowercase</label></div>
-</div>
-<label>Generated Slug:</label>
-<div class="result" id="output">your-slug-here</div>
-<div class="button-group">
-<button class="primary" onclick="copy()">Copy Slug</button>
-<button class="secondary" onclick="clear()">Clear</button>
-</div>
-</main>
-<footer>© 2024 TextKit - All text processing happens in your browser</footer>
-</div>
-<script>
-function generate(){const text=document.getElementById('input').value;const separator=document.querySelector('input[name="separator"]:checked').value;const lowercase=document.getElementById('lowercase').checked;let slug=text.trim().replace(/[^\w\s-]/g,'').replace(/[\s_]+/g,separator).replace(new RegExp(separator+'+','g'),separator).replace(new RegExp('^'+separator+'+|'+separator+'+$','g'),'');if(lowercase)slug=slug.toLowerCase();document.getElementById('output').textContent=slug||'your-slug-here'}
-function copy(){const text=document.getElementById('output').textContent;if(text==='your-slug-here')return;navigator.clipboard.writeText(text).then(()=>alert('Copied to clipboard!')).catch(()=>{const textarea=document.createElement('textarea');textarea.value=text;document.body.appendChild(textarea);textarea.select();document.execCommand('copy');document.body.removeChild(textarea);alert('Copied to clipboard!')})}
-function clear(){document.getElementById('input').value='';generate()}
-document.getElementById('input').addEventListener('input',generate);
-document.querySelectorAll('input[name="separator"]').forEach(r=>r.addEventListener('change',generate));
-document.getElementById('lowercase').addEventListener('change',generate);
-generate();
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slug Generator - TextKit</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      body {
+        min-height: 100vh;
+        background: var(--gradient);
+        margin: 0;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .back-link {
+        color: #fff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+        transition: opacity 0.3s;
+      }
+      .back-link:hover {
+        opacity: 1;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+      input[type="text"] {
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 1rem;
+        font-size: 1.1rem;
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+      input[type="text"]:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+      .options {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: #f8fafc;
+        border-radius: 12px;
+      }
+      .option label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.95rem;
+      }
+      .result {
+        padding: 1.5rem;
+        background: #f8fafc;
+        border-radius: 12px;
+        font-family: monospace;
+        font-size: 1.2rem;
+        color: #667eea;
+        font-weight: 600;
+        word-break: break-all;
+      }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      button {
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: none;
+      }
+      button.primary {
+        background: var(--gradient);
+        color: #fff;
+      }
+      button.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+      }
+      button.secondary {
+        background: #f1f5f9;
+        color: #475569;
+      }
+      button.secondary:hover {
+        background: #e2e8f0;
+      }
+      footer {
+        text-align: center;
+        color: #fff;
+        margin-top: 2rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../../index.html" class="back-link">← Back to Home</a>
+      <main>
+        <h1>Slug Generator</h1>
+        <p class="subtitle">Generate URL-friendly slugs from text</p>
+        <label>Input Text:</label>
+        <input
+          type="text"
+          id="input"
+          placeholder="Enter text to convert to slug..."
+        />
+        <div class="options">
+          <div class="option">
+            <label
+              ><input type="radio" name="separator" value="-" checked /> Hyphen
+              (-)</label
+            >
+          </div>
+          <div class="option">
+            <label
+              ><input type="radio" name="separator" value="_" /> Underscore
+              (_)</label
+            >
+          </div>
+          <div class="option">
+            <label
+              ><input type="checkbox" id="lowercase" checked /> Lowercase</label
+            >
+          </div>
+        </div>
+        <label>Generated Slug:</label>
+        <div class="result" id="output">your-slug-here</div>
+        <div class="button-group">
+          <button class="primary" onclick="copy()">Copy Slug</button>
+          <button class="secondary" onclick="clear()">Clear</button>
+        </div>
+      </main>
+      <footer>
+        © 2024 TextKit - All text processing happens in your browser
+      </footer>
+    </div>
+    <script>
+      function generate() {
+        const text = document.getElementById("input").value;
+        const separator = document.querySelector(
+          'input[name="separator"]:checked',
+        ).value;
+        const lowercase = document.getElementById("lowercase").checked;
+        let slug = text
+          .trim()
+          .replace(/[^\w\s-]/g, "")
+          .replace(/[\s_]+/g, separator)
+          .replace(new RegExp(separator + "+", "g"), separator)
+          .replace(
+            new RegExp("^" + separator + "+|" + separator + "+$", "g"),
+            "",
+          );
+        if (lowercase) slug = slug.toLowerCase();
+        document.getElementById("output").textContent =
+          slug || "your-slug-here";
+      }
+      function copy() {
+        const text = document.getElementById("output").textContent;
+        if (text === "your-slug-here") return;
+        navigator.clipboard
+          .writeText(text)
+          .then(() => alert("Copied to clipboard!"))
+          .catch(() => {
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+            alert("Copied to clipboard!");
+          });
+      }
+      function clear() {
+        document.getElementById("input").value = "";
+        generate();
+      }
+      document.getElementById("input").addEventListener("input", generate);
+      document
+        .querySelectorAll('input[name="separator"]')
+        .forEach((r) => r.addEventListener("change", generate));
+      document.getElementById("lowercase").addEventListener("change", generate);
+      generate();
+    </script>
+  </body>
 </html>

@@ -1,54 +1,175 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Word Frequency - TextKit</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-<style>
-:root{--gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%)}
-body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
-.container{max-width:900px;margin:0 auto}
-.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
-.back-link:hover{opacity:1}
-main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
-.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
-textarea{min-height:180px;font-family:monospace;font-size:0.95rem;border:2px solid #e2e8f0;border-radius:12px;transition:all 0.3s}
-textarea:focus{border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,0.1)}
-.button-group{display:flex;gap:1rem;margin-top:1rem}
-button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
-button.primary{background:var(--gradient);color:#fff}
-button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(102,126,234,0.3)}
-button.secondary{background:#f1f5f9;color:#475569}
-button.secondary:hover{background:#e2e8f0}
-.results{margin-top:1rem;padding:1rem;background:#f8fafc;border-radius:12px;max-height:300px;overflow-y:auto}
-.freq-item{display:flex;justify-content:space-between;padding:0.5rem;border-bottom:1px solid #e2e8f0}
-.freq-item:last-child{border-bottom:none}
-.word{font-weight:600;color:#1e293b}
-.count{color:#667eea;font-weight:700}
-footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
-</style>
-</head>
-<body>
-<div class="container">
-<a href="../../index.html" class="back-link">← Back to Home</a>
-<main>
-<h1>Word Frequency</h1>
-<p class="subtitle">Analyze word frequency in your text</p>
-<label>Input Text:</label>
-<textarea id="input" placeholder="Enter text to analyze..."></textarea>
-<div class="button-group">
-<button class="primary" onclick="analyze()">Analyze Frequency</button>
-<button class="secondary" onclick="clear()">Clear</button>
-</div>
-<div id="results" class="results" style="display:none"></div>
-</main>
-<footer>© 2024 TextKit - All text processing happens in your browser</footer>
-</div>
-<script>
-function analyze(){const text=document.getElementById('input').value.toLowerCase();const words=text.match(/\b[a-z]+\b/gi)||[];const freq={};words.forEach(w=>{freq[w]=(freq[w]||0)+1});const sorted=Object.entries(freq).sort((a,b)=>b[1]-a[1]);const results=document.getElementById('results');if(sorted.length===0){results.style.display='none';return}results.innerHTML=sorted.map(([word,count])=>`<div class="freq-item"><span class="word">${word}</span><span class="count">${count}</span></div>`).join('');results.style.display='block'}
-function clear(){document.getElementById('input').value='';document.getElementById('results').style.display='none'}
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Word Frequency - TextKit</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      body {
+        min-height: 100vh;
+        background: var(--gradient);
+        margin: 0;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .back-link {
+        color: #fff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+        transition: opacity 0.3s;
+      }
+      .back-link:hover {
+        opacity: 1;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+      textarea {
+        min-height: 180px;
+        font-family: monospace;
+        font-size: 0.95rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        transition: all 0.3s;
+      }
+      textarea:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      button {
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: none;
+      }
+      button.primary {
+        background: var(--gradient);
+        color: #fff;
+      }
+      button.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+      }
+      button.secondary {
+        background: #f1f5f9;
+        color: #475569;
+      }
+      button.secondary:hover {
+        background: #e2e8f0;
+      }
+      .results {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f8fafc;
+        border-radius: 12px;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+      .freq-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem;
+        border-bottom: 1px solid #e2e8f0;
+      }
+      .freq-item:last-child {
+        border-bottom: none;
+      }
+      .word {
+        font-weight: 600;
+        color: #1e293b;
+      }
+      .count {
+        color: #667eea;
+        font-weight: 700;
+      }
+      footer {
+        text-align: center;
+        color: #fff;
+        margin-top: 2rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../../index.html" class="back-link">← Back to Home</a>
+      <main>
+        <h1>Word Frequency</h1>
+        <p class="subtitle">Analyze word frequency in your text</p>
+        <label>Input Text:</label>
+        <textarea id="input" placeholder="Enter text to analyze..."></textarea>
+        <div class="button-group">
+          <button class="primary" onclick="analyze()">Analyze Frequency</button>
+          <button class="secondary" onclick="clear()">Clear</button>
+        </div>
+        <div id="results" class="results" style="display: none"></div>
+      </main>
+      <footer>
+        © 2024 TextKit - All text processing happens in your browser
+      </footer>
+    </div>
+    <script>
+      function analyze() {
+        const text = document.getElementById("input").value.toLowerCase();
+        const words = text.match(/\b[a-z]+\b/gi) || [];
+        const freq = {};
+        words.forEach((w) => {
+          freq[w] = (freq[w] || 0) + 1;
+        });
+        const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]);
+        const results = document.getElementById("results");
+        if (sorted.length === 0) {
+          results.style.display = "none";
+          return;
+        }
+        results.innerHTML = sorted
+          .map(
+            ([word, count]) =>
+              `<div class="freq-item"><span class="word">${word}</span><span class="count">${count}</span></div>`,
+          )
+          .join("");
+        results.style.display = "block";
+      }
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("results").style.display = "none";
+      }
+    </script>
+  </body>
 </html>

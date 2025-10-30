@@ -1,48 +1,171 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Duplicate Line Finder - TextKit</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-<style>
-:root{--gradient:linear-gradient(135deg,#f093fb 0%,#f5576c 100%)}
-body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
-.container{max-width:900px;margin:0 auto}
-.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
-.back-link:hover{opacity:1}
-main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
-.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
-textarea{min-height:180px;font-family:monospace;font-size:0.9rem;border:2px solid #e2e8f0;border-radius:12px;transition:all 0.3s}
-textarea:focus{border-color:#f093fb;box-shadow:0 0 0 3px rgba(240,147,251,0.1)}
-.button-group{display:flex;gap:1rem;margin-top:1rem}
-button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
-button.primary{background:var(--gradient);color:#fff}
-button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(240,147,251,0.3)}
-.results{margin-top:2rem;padding:1.5rem;background:#f8fafc;border-radius:12px}
-.dup-item{padding:1rem;margin-bottom:0.5rem;background:#fff;border-radius:8px;border-left:3px solid #f093fb}
-.dup-count{display:inline-block;padding:0.25rem 0.75rem;background:#f093fb;color:#fff;border-radius:12px;font-weight:600;font-size:0.85rem;margin-right:0.5rem}
-footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
-</style>
-</head>
-<body>
-<div class="container">
-<a href="../../index.html" class="back-link">← Back to Home</a>
-<main>
-<h1>Duplicate Line Finder</h1>
-<p class="subtitle">Find and count duplicate lines</p>
-<label>Input Text (one item per line):</label>
-<textarea id="input" placeholder="Enter text..."></textarea>
-<div class="button-group">
-<button class="primary" onclick="find()">Find Duplicates</button>
-</div>
-<div class="results" id="results" style="display:none"></div>
-</main>
-<footer>© 2024 TextKit - All text processing happens in your browser</footer>
-</div>
-<script>
-function find(){const text=document.getElementById('input').value;const lines=text.split('\n').filter(l=>l.trim());const counts={};lines.forEach(line=>{counts[line]=(counts[line]||0)+1});const duplicates=Object.entries(counts).filter(([_,count])=>count>1).sort((a,b)=>b[1]-a[1]);const container=document.getElementById('results');if(duplicates.length===0){container.innerHTML='<p style="color:#64748b">No duplicate lines found.</p>';container.style.display='block';return}const totalDups=duplicates.reduce((sum,[_,count])=>sum+count,0);container.innerHTML=`<h3 style="margin:0 0 1rem 0;color:#1e293b">Found ${duplicates.length} unique duplicate${duplicates.length!==1?'s':''} (${totalDups} total occurrences)</h3>`+duplicates.map(([line,count])=>`<div class="dup-item"><span class="dup-count">${count}×</span>${line}</div>`).join('');container.style.display='block'}
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Duplicate Line Finder - TextKit</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+      body {
+        min-height: 100vh;
+        background: var(--gradient);
+        margin: 0;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .back-link {
+        color: #fff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+        transition: opacity 0.3s;
+      }
+      .back-link:hover {
+        opacity: 1;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+      textarea {
+        min-height: 180px;
+        font-family: monospace;
+        font-size: 0.9rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        transition: all 0.3s;
+      }
+      textarea:focus {
+        border-color: #f093fb;
+        box-shadow: 0 0 0 3px rgba(240, 147, 251, 0.1);
+      }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      button {
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: none;
+      }
+      button.primary {
+        background: var(--gradient);
+        color: #fff;
+      }
+      button.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(240, 147, 251, 0.3);
+      }
+      .results {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #f8fafc;
+        border-radius: 12px;
+      }
+      .dup-item {
+        padding: 1rem;
+        margin-bottom: 0.5rem;
+        background: #fff;
+        border-radius: 8px;
+        border-left: 3px solid #f093fb;
+      }
+      .dup-count {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background: #f093fb;
+        color: #fff;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        margin-right: 0.5rem;
+      }
+      footer {
+        text-align: center;
+        color: #fff;
+        margin-top: 2rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../../index.html" class="back-link">← Back to Home</a>
+      <main>
+        <h1>Duplicate Line Finder</h1>
+        <p class="subtitle">Find and count duplicate lines</p>
+        <label>Input Text (one item per line):</label>
+        <textarea id="input" placeholder="Enter text..."></textarea>
+        <div class="button-group">
+          <button class="primary" onclick="find()">Find Duplicates</button>
+        </div>
+        <div class="results" id="results" style="display: none"></div>
+      </main>
+      <footer>
+        © 2024 TextKit - All text processing happens in your browser
+      </footer>
+    </div>
+    <script>
+      function find() {
+        const text = document.getElementById("input").value;
+        const lines = text.split("\n").filter((l) => l.trim());
+        const counts = {};
+        lines.forEach((line) => {
+          counts[line] = (counts[line] || 0) + 1;
+        });
+        const duplicates = Object.entries(counts)
+          .filter(([_, count]) => count > 1)
+          .sort((a, b) => b[1] - a[1]);
+        const container = document.getElementById("results");
+        if (duplicates.length === 0) {
+          container.innerHTML =
+            '<p style="color:#64748b">No duplicate lines found.</p>';
+          container.style.display = "block";
+          return;
+        }
+        const totalDups = duplicates.reduce(
+          (sum, [_, count]) => sum + count,
+          0,
+        );
+        container.innerHTML =
+          `<h3 style="margin:0 0 1rem 0;color:#1e293b">Found ${duplicates.length} unique duplicate${duplicates.length !== 1 ? "s" : ""} (${totalDups} total occurrences)</h3>` +
+          duplicates
+            .map(
+              ([line, count]) =>
+                `<div class="dup-item"><span class="dup-count">${count}×</span>${line}</div>`,
+            )
+            .join("");
+        container.style.display = "block";
+      }
+    </script>
+  </body>
 </html>

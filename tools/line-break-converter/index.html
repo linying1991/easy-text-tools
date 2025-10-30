@@ -1,311 +1,348 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Line Break Converter - LF, CRLF, CR</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
     <style>
-        :root {
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
+      :root {
+        --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
 
-        body {
-            background: var(--gradient-1);
-            min-height: 100vh;
-            padding: 2rem 0;
-        }
+      body {
+        background: var(--gradient-1);
+        min-height: 100vh;
+        padding: 2rem 0;
+      }
 
-        .container {
-            max-width: 1000px;
-        }
+      .container {
+        max-width: 1000px;
+      }
 
-        .tool-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            margin-bottom: 2rem;
-        }
+      .tool-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        margin-bottom: 2rem;
+      }
 
-        h1 {
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-            font-size: 2.5rem;
-        }
+      h1 {
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+        font-size: 2.5rem;
+      }
 
-        .subtitle {
-            color: #666;
-            margin-bottom: 2rem;
-        }
+      .subtitle {
+        color: #666;
+        margin-bottom: 2rem;
+      }
 
+      .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+
+      @media (max-width: 768px) {
         .grid-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+          grid-template-columns: 1fr;
         }
+      }
 
-        @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
-        }
+      textarea {
+        min-height: 200px;
+        font-family: "Courier New", monospace;
+        font-size: 0.95rem;
+      }
 
-        textarea {
-            min-height: 200px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
-        }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin: 1.5rem 0;
+        flex-wrap: wrap;
+      }
 
-        .button-group {
-            display: flex;
-            gap: 1rem;
-            margin: 1.5rem 0;
-            flex-wrap: wrap;
-        }
+      button {
+        background: var(--gradient-1);
+        border: none;
+        transition: all 0.3s;
+      }
 
-        button {
-            background: var(--gradient-1);
-            border: none;
-            transition: all 0.3s;
-        }
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      }
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
+      .secondary {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      }
 
-        .secondary {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
+      .stats-box {
+        background: #f0f4ff;
+        border-left: 4px solid #667eea;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+      }
 
-        .stats-box {
-            background: #f0f4ff;
-            border-left: 4px solid #667eea;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 0.5rem;
+      }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 0.5rem;
-        }
+      .stat-item {
+        background: white;
+        padding: 0.75rem;
+        border-radius: 8px;
+        text-align: center;
+      }
 
-        .stat-item {
-            background: white;
-            padding: 0.75rem;
-            border-radius: 8px;
-            text-align: center;
-        }
+      .stat-value {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #667eea;
+      }
 
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #667eea;
-        }
+      .stat-label {
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 0.25rem;
+      }
 
-        .stat-label {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 0.25rem;
-        }
+      .info-box {
+        background: #f0f4ff;
+        border-left: 4px solid #667eea;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+      }
 
-        .info-box {
-            background: #f0f4ff;
-            border-left: 4px solid #667eea;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
+      .format-selector {
+        display: flex;
+        gap: 1rem;
+        margin: 1rem 0;
+        flex-wrap: wrap;
+      }
 
-        .format-selector {
-            display: flex;
-            gap: 1rem;
-            margin: 1rem 0;
-            flex-wrap: wrap;
-        }
-
-        .format-btn {
-            flex: 1;
-            min-width: 150px;
-        }
+      .format-btn {
+        flex: 1;
+        min-width: 150px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="tool-card">
-            <h1>↩️ Line Break Converter</h1>
-            <p class="subtitle">Convert between different line ending formats (LF, CRLF, CR)</p>
+      <div class="tool-card">
+        <h1>↩️ Line Break Converter</h1>
+        <p class="subtitle">
+          Convert between different line ending formats (LF, CRLF, CR)
+        </p>
 
-            <div class="grid-container">
-                <div>
-                    <label for="input">Input Text:</label>
-                    <textarea id="input" placeholder="Paste your text here..." oninput="analyze()">Line 1
+        <div class="grid-container">
+          <div>
+            <label for="input">Input Text:</label>
+            <textarea
+              id="input"
+              placeholder="Paste your text here..."
+              oninput="analyze()"
+            >
+Line 1
 Line 2
-Line 3</textarea>
-                </div>
+Line 3</textarea
+            >
+          </div>
 
-                <div>
-                    <label for="output">Output Text:</label>
-                    <textarea id="output" readonly placeholder="Converted text will appear here"></textarea>
-                </div>
-            </div>
-
-            <div class="format-selector">
-                <button class="format-btn" onclick="convertTo('LF')">Convert to LF (Unix/Linux)</button>
-                <button class="format-btn" onclick="convertTo('CRLF')">Convert to CRLF (Windows)</button>
-                <button class="format-btn" onclick="convertTo('CR')">Convert to CR (Old Mac)</button>
-            </div>
-
-            <div class="button-group">
-                <button onclick="copy()" class="secondary">📋 Copy Output</button>
-                <button onclick="clearAll()" class="secondary">🗑️ Clear</button>
-                <button onclick="showInvisible()" class="secondary">👁️ Show Invisible</button>
-            </div>
-
-            <div class="stats-box">
-                <strong>📊 Current Line Endings:</strong>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-value" id="lfCount">0</div>
-                        <div class="stat-label">LF (\n)</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="crlfCount">0</div>
-                        <div class="stat-label">CRLF (\r\n)</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="crCount">0</div>
-                        <div class="stat-label">CR (\r)</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="mixedStatus">-</div>
-                        <div class="stat-label">Status</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="info-box">
-                <strong>💡 Line Ending Types:</strong>
-                <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
-                    <li><strong>LF (\n):</strong> Line Feed - Used by Unix, Linux, macOS (modern)</li>
-                    <li><strong>CRLF (\r\n):</strong> Carriage Return + Line Feed - Used by Windows</li>
-                    <li><strong>CR (\r):</strong> Carriage Return - Used by old Mac OS (pre-OS X)</li>
-                    <li>Mixed line endings can cause issues in version control systems</li>
-                    <li>Most modern editors and tools support all formats</li>
-                </ul>
-            </div>
+          <div>
+            <label for="output">Output Text:</label>
+            <textarea
+              id="output"
+              readonly
+              placeholder="Converted text will appear here"
+            ></textarea>
+          </div>
         </div>
+
+        <div class="format-selector">
+          <button class="format-btn" onclick="convertTo('LF')">
+            Convert to LF (Unix/Linux)
+          </button>
+          <button class="format-btn" onclick="convertTo('CRLF')">
+            Convert to CRLF (Windows)
+          </button>
+          <button class="format-btn" onclick="convertTo('CR')">
+            Convert to CR (Old Mac)
+          </button>
+        </div>
+
+        <div class="button-group">
+          <button onclick="copy()" class="secondary">📋 Copy Output</button>
+          <button onclick="clearAll()" class="secondary">🗑️ Clear</button>
+          <button onclick="showInvisible()" class="secondary">
+            👁️ Show Invisible
+          </button>
+        </div>
+
+        <div class="stats-box">
+          <strong>📊 Current Line Endings:</strong>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-value" id="lfCount">0</div>
+              <div class="stat-label">LF (\n)</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="crlfCount">0</div>
+              <div class="stat-label">CRLF (\r\n)</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="crCount">0</div>
+              <div class="stat-label">CR (\r)</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="mixedStatus">-</div>
+              <div class="stat-label">Status</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <strong>💡 Line Ending Types:</strong>
+          <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem">
+            <li>
+              <strong>LF (\n):</strong> Line Feed - Used by Unix, Linux, macOS
+              (modern)
+            </li>
+            <li>
+              <strong>CRLF (\r\n):</strong> Carriage Return + Line Feed - Used
+              by Windows
+            </li>
+            <li>
+              <strong>CR (\r):</strong> Carriage Return - Used by old Mac OS
+              (pre-OS X)
+            </li>
+            <li>
+              Mixed line endings can cause issues in version control systems
+            </li>
+            <li>Most modern editors and tools support all formats</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <script>
-        function analyze() {
-            const input = document.getElementById('input').value;
+      function analyze() {
+        const input = document.getElementById("input").value;
 
-            // Count different line endings
-            const crlfCount = (input.match(/\r\n/g) || []).length;
-            const lfCount = (input.match(/(?<!\r)\n/g) || []).length;
-            const crCount = (input.match(/\r(?!\n)/g) || []).length;
+        // Count different line endings
+        const crlfCount = (input.match(/\r\n/g) || []).length;
+        const lfCount = (input.match(/(?<!\r)\n/g) || []).length;
+        const crCount = (input.match(/\r(?!\n)/g) || []).length;
 
-            document.getElementById('crlfCount').textContent = crlfCount;
-            document.getElementById('lfCount').textContent = lfCount;
-            document.getElementById('crCount').textContent = crCount;
+        document.getElementById("crlfCount").textContent = crlfCount;
+        document.getElementById("lfCount").textContent = lfCount;
+        document.getElementById("crCount").textContent = crCount;
 
-            // Determine status
-            const types = [crlfCount > 0, lfCount > 0, crCount > 0].filter(Boolean).length;
-            let status = 'No breaks';
-            if (types === 0) {
-                status = 'None';
-            } else if (types === 1) {
-                if (crlfCount > 0) status = 'CRLF';
-                else if (lfCount > 0) status = 'LF';
-                else status = 'CR';
-            } else {
-                status = 'Mixed';
-            }
-
-            document.getElementById('mixedStatus').textContent = status;
-            document.getElementById('mixedStatus').style.color = types > 1 ? '#e74c3c' : '#27ae60';
+        // Determine status
+        const types = [crlfCount > 0, lfCount > 0, crCount > 0].filter(
+          Boolean,
+        ).length;
+        let status = "No breaks";
+        if (types === 0) {
+          status = "None";
+        } else if (types === 1) {
+          if (crlfCount > 0) status = "CRLF";
+          else if (lfCount > 0) status = "LF";
+          else status = "CR";
+        } else {
+          status = "Mixed";
         }
 
-        function convertTo(format) {
-            const input = document.getElementById('input').value;
-            let output;
+        document.getElementById("mixedStatus").textContent = status;
+        document.getElementById("mixedStatus").style.color =
+          types > 1 ? "#e74c3c" : "#27ae60";
+      }
 
-            // First normalize all line endings to \n
-            let normalized = input.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+      function convertTo(format) {
+        const input = document.getElementById("input").value;
+        let output;
 
-            // Then convert to target format
-            switch(format) {
-                case 'LF':
-                    output = normalized;
-                    break;
-                case 'CRLF':
-                    output = normalized.replace(/\n/g, '\r\n');
-                    break;
-                case 'CR':
-                    output = normalized.replace(/\n/g, '\r');
-                    break;
-                default:
-                    output = input;
-            }
+        // First normalize all line endings to \n
+        let normalized = input.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
 
-            document.getElementById('output').value = output;
-
-            // Show notification
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = `✓ Converted to ${format}`;
-            setTimeout(() => {
-                btn.textContent = originalText;
-            }, 2000);
+        // Then convert to target format
+        switch (format) {
+          case "LF":
+            output = normalized;
+            break;
+          case "CRLF":
+            output = normalized.replace(/\n/g, "\r\n");
+            break;
+          case "CR":
+            output = normalized.replace(/\n/g, "\r");
+            break;
+          default:
+            output = input;
         }
 
-        function copy() {
-            const output = document.getElementById('output');
-            output.select();
-            document.execCommand('copy');
+        document.getElementById("output").value = output;
 
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = '✓ Copied!';
-            setTimeout(() => {
-                btn.textContent = originalText;
-            }, 2000);
-        }
+        // Show notification
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = `✓ Converted to ${format}`;
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
+      }
 
-        function clearAll() {
-            document.getElementById('input').value = '';
-            document.getElementById('output').value = '';
-            analyze();
-        }
+      function copy() {
+        const output = document.getElementById("output");
+        output.select();
+        document.execCommand("copy");
 
-        function showInvisible() {
-            const input = document.getElementById('input').value;
-            let visible = input
-                .replace(/\r\n/g, '[CRLF]\n')
-                .replace(/\n/g, '[LF]\n')
-                .replace(/\r/g, '[CR]\n');
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = "✓ Copied!";
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
+      }
 
-            document.getElementById('output').value = visible;
-
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = '✓ Showing Invisible';
-            setTimeout(() => {
-                btn.textContent = originalText;
-            }, 2000);
-        }
-
-        // Analyze on load
+      function clearAll() {
+        document.getElementById("input").value = "";
+        document.getElementById("output").value = "";
         analyze();
+      }
+
+      function showInvisible() {
+        const input = document.getElementById("input").value;
+        let visible = input
+          .replace(/\r\n/g, "[CRLF]\n")
+          .replace(/\n/g, "[LF]\n")
+          .replace(/\r/g, "[CR]\n");
+
+        document.getElementById("output").value = visible;
+
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = "✓ Showing Invisible";
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
+      }
+
+      // Analyze on load
+      analyze();
     </script>
-</body>
+  </body>
 </html>

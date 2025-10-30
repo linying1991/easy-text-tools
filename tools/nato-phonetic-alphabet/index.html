@@ -1,54 +1,205 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nato Phonetic Alphabet - TextKit</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-<style>
-:root{--gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%)}
-body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
-.container{max-width:900px;margin:0 auto}
-.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
-.back-link:hover{opacity:1}
-main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
-.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
-input[type="text"]{border:2px solid #e2e8f0;border-radius:8px;padding:1rem;font-size:1.1rem;width:100%;margin-bottom:1.5rem}
-input[type="text"]:focus{border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,0.1)}
-.result{padding:2rem;background:#f8fafc;border-radius:12px;font-size:1.1rem;line-height:1.8;min-height:100px}
-.letter{color:#667eea;font-weight:700;margin-right:0.5rem}
-.button-group{display:flex;gap:1rem;margin-top:1rem}
-button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
-button.secondary{background:#f1f5f9;color:#475569}
-button.secondary:hover{background:#e2e8f0;transform:translateY(-2px)}
-footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
-</style>
-</head>
-<body>
-<div class="container">
-<a href="../../index.html" class="back-link">← Back to Home</a>
-<main>
-<h1>NATO Phonetic Alphabet</h1>
-<p class="subtitle">Convert text to NATO phonetic alphabet</p>
-<label>Input Text:</label>
-<input type="text" id="input" placeholder="Enter text to convert...">
-<label>NATO Phonetic:</label>
-<div class="result" id="output">Enter text above to see NATO phonetic conversion</div>
-<div class="button-group">
-<button class="secondary" onclick="copy()">Copy Result</button>
-<button class="secondary" onclick="clear()">Clear</button>
-</div>
-</main>
-<footer>© 2024 TextKit - All text processing happens in your browser</footer>
-</div>
-<script>
-const nato={'A':'Alfa','B':'Bravo','C':'Charlie','D':'Delta','E':'Echo','F':'Foxtrot','G':'Golf','H':'Hotel','I':'India','J':'Juliett','K':'Kilo','L':'Lima','M':'Mike','N':'November','O':'Oscar','P':'Papa','Q':'Quebec','R':'Romeo','S':'Sierra','T':'Tango','U':'Uniform','V':'Victor','W':'Whiskey','X':'X-ray','Y':'Yankee','Z':'Zulu','0':'Zero','1':'One','2':'Two','3':'Three','4':'Four','5':'Five','6':'Six','7':'Seven','8':'Eight','9':'Nine'};
-function convert(){const text=document.getElementById('input').value.toUpperCase();if(!text){document.getElementById('output').innerHTML='Enter text above to see NATO phonetic conversion';return}let html='';for(let char of text){if(nato[char]){html+=`<span class="letter">${char}:</span>${nato[char]}<br>`}else if(char===' '){html+='<br>'}else{html+=`<span class="letter">${char}</span><br>`}}document.getElementById('output').innerHTML=html||'No convertible characters'}
-function copy(){const text=document.getElementById('output').textContent;navigator.clipboard.writeText(text).then(()=>alert('Copied!')).catch(()=>alert('Copy failed'))}
-function clear(){document.getElementById('input').value='';convert()}
-document.getElementById('input').addEventListener('input',convert);
-convert();
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nato Phonetic Alphabet - TextKit</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      body {
+        min-height: 100vh;
+        background: var(--gradient);
+        margin: 0;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .back-link {
+        color: #fff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+        transition: opacity 0.3s;
+      }
+      .back-link:hover {
+        opacity: 1;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+      input[type="text"] {
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 1rem;
+        font-size: 1.1rem;
+        width: 100%;
+        margin-bottom: 1.5rem;
+      }
+      input[type="text"]:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+      .result {
+        padding: 2rem;
+        background: #f8fafc;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        min-height: 100px;
+      }
+      .letter {
+        color: #667eea;
+        font-weight: 700;
+        margin-right: 0.5rem;
+      }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      button {
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: none;
+      }
+      button.secondary {
+        background: #f1f5f9;
+        color: #475569;
+      }
+      button.secondary:hover {
+        background: #e2e8f0;
+        transform: translateY(-2px);
+      }
+      footer {
+        text-align: center;
+        color: #fff;
+        margin-top: 2rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../../index.html" class="back-link">← Back to Home</a>
+      <main>
+        <h1>NATO Phonetic Alphabet</h1>
+        <p class="subtitle">Convert text to NATO phonetic alphabet</p>
+        <label>Input Text:</label>
+        <input type="text" id="input" placeholder="Enter text to convert..." />
+        <label>NATO Phonetic:</label>
+        <div class="result" id="output">
+          Enter text above to see NATO phonetic conversion
+        </div>
+        <div class="button-group">
+          <button class="secondary" onclick="copy()">Copy Result</button>
+          <button class="secondary" onclick="clear()">Clear</button>
+        </div>
+      </main>
+      <footer>
+        © 2024 TextKit - All text processing happens in your browser
+      </footer>
+    </div>
+    <script>
+      const nato = {
+        A: "Alfa",
+        B: "Bravo",
+        C: "Charlie",
+        D: "Delta",
+        E: "Echo",
+        F: "Foxtrot",
+        G: "Golf",
+        H: "Hotel",
+        I: "India",
+        J: "Juliett",
+        K: "Kilo",
+        L: "Lima",
+        M: "Mike",
+        N: "November",
+        O: "Oscar",
+        P: "Papa",
+        Q: "Quebec",
+        R: "Romeo",
+        S: "Sierra",
+        T: "Tango",
+        U: "Uniform",
+        V: "Victor",
+        W: "Whiskey",
+        X: "X-ray",
+        Y: "Yankee",
+        Z: "Zulu",
+        0: "Zero",
+        1: "One",
+        2: "Two",
+        3: "Three",
+        4: "Four",
+        5: "Five",
+        6: "Six",
+        7: "Seven",
+        8: "Eight",
+        9: "Nine",
+      };
+      function convert() {
+        const text = document.getElementById("input").value.toUpperCase();
+        if (!text) {
+          document.getElementById("output").innerHTML =
+            "Enter text above to see NATO phonetic conversion";
+          return;
+        }
+        let html = "";
+        for (let char of text) {
+          if (nato[char]) {
+            html += `<span class="letter">${char}:</span>${nato[char]}<br>`;
+          } else if (char === " ") {
+            html += "<br>";
+          } else {
+            html += `<span class="letter">${char}</span><br>`;
+          }
+        }
+        document.getElementById("output").innerHTML =
+          html || "No convertible characters";
+      }
+      function copy() {
+        const text = document.getElementById("output").textContent;
+        navigator.clipboard
+          .writeText(text)
+          .then(() => alert("Copied!"))
+          .catch(() => alert("Copy failed"));
+      }
+      function clear() {
+        document.getElementById("input").value = "";
+        convert();
+      }
+      document.getElementById("input").addEventListener("input", convert);
+      convert();
+    </script>
+  </body>
 </html>

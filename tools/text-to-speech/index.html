@@ -1,66 +1,230 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Text to Speech - TextKit</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-<style>
-:root{--gradient:linear-gradient(135deg,#30cfd0 0%,#330867 100%)}
-body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
-.container{max-width:900px;margin:0 auto}
-.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
-.back-link:hover{opacity:1}
-main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
-.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
-textarea{min-height:180px;font-family:monospace;font-size:0.95rem;border:2px solid #e2e8f0;border-radius:12px;transition:all 0.3s}
-textarea:focus{border-color:#30cfd0;box-shadow:0 0 0 3px rgba(48,207,208,0.1)}
-.controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-top:1rem}
-.control label{display:block;margin-bottom:0.25rem;font-size:0.9rem;color:#64748b}
-input[type="range"]{width:100%}
-select{border:2px solid #e2e8f0;border-radius:8px;padding:0.5rem;width:100%}
-.button-group{display:flex;gap:1rem;margin-top:1.5rem}
-button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
-button.primary{background:var(--gradient);color:#fff}
-button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(48,207,208,0.3)}
-button.secondary{background:#f1f5f9;color:#475569}
-button.secondary:hover{background:#e2e8f0}
-footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
-</style>
-</head>
-<body>
-<div class="container">
-<a href="../../index.html" class="back-link">← Back to Home</a>
-<main>
-<h1>Text to Speech</h1>
-<p class="subtitle">Convert text to speech using browser's built-in TTS</p>
-<label>Text to Speak:</label>
-<textarea id="input" placeholder="Enter text to convert to speech..."></textarea>
-<div class="controls">
-<div class="control"><label>Rate: <span id="rateValue">1.0</span></label><input type="range" id="rate" min="0.5" max="2" step="0.1" value="1"></div>
-<div class="control"><label>Pitch: <span id="pitchValue">1.0</span></label><input type="range" id="pitch" min="0.5" max="2" step="0.1" value="1"></div>
-<div class="control"><label>Voice:</label><select id="voice"></select></div>
-</div>
-<div class="button-group">
-<button class="primary" onclick="speak()">▶ Speak</button>
-<button class="secondary" onclick="stop()">⏹ Stop</button>
-<button class="secondary" onclick="pause()">⏸ Pause</button>
-<button class="secondary" onclick="resume()">▶▶ Resume</button>
-</div>
-</main>
-<footer>© 2024 TextKit - All text processing happens in your browser</footer>
-</div>
-<script>
-let synth=window.speechSynthesis;let voices=[];
-function loadVoices(){voices=synth.getVoices();const voiceSelect=document.getElementById('voice');voiceSelect.innerHTML='';voices.forEach((voice,i)=>{const option=document.createElement('option');option.value=i;option.textContent=voice.name+' ('+voice.lang+')';voiceSelect.appendChild(option)})}
-loadVoices();if(synth.onvoiceschanged!==undefined){synth.onvoiceschanged=loadVoices}
-document.getElementById('rate').addEventListener('input',e=>document.getElementById('rateValue').textContent=e.target.value);
-document.getElementById('pitch').addEventListener('input',e=>document.getElementById('pitchValue').textContent=e.target.value);
-function speak(){const text=document.getElementById('input').value;if(!text)return;const utterance=new SpeechSynthesisUtterance(text);utterance.voice=voices[document.getElementById('voice').value];utterance.rate=parseFloat(document.getElementById('rate').value);utterance.pitch=parseFloat(document.getElementById('pitch').value);synth.speak(utterance)}
-function stop(){synth.cancel()}
-function pause(){synth.pause()}
-function resume(){synth.resume()}
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Text to Speech - TextKit</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --gradient: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+      }
+      body {
+        min-height: 100vh;
+        background: var(--gradient);
+        margin: 0;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .back-link {
+        color: #fff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+        transition: opacity 0.3s;
+      }
+      .back-link:hover {
+        opacity: 1;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+      textarea {
+        min-height: 180px;
+        font-family: monospace;
+        font-size: 0.95rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        transition: all 0.3s;
+      }
+      textarea:focus {
+        border-color: #30cfd0;
+        box-shadow: 0 0 0 3px rgba(48, 207, 208, 0.1);
+      }
+      .controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .control label {
+        display: block;
+        margin-bottom: 0.25rem;
+        font-size: 0.9rem;
+        color: #64748b;
+      }
+      input[type="range"] {
+        width: 100%;
+      }
+      select {
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 0.5rem;
+        width: 100%;
+      }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+      button {
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: none;
+      }
+      button.primary {
+        background: var(--gradient);
+        color: #fff;
+      }
+      button.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(48, 207, 208, 0.3);
+      }
+      button.secondary {
+        background: #f1f5f9;
+        color: #475569;
+      }
+      button.secondary:hover {
+        background: #e2e8f0;
+      }
+      footer {
+        text-align: center;
+        color: #fff;
+        margin-top: 2rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../../index.html" class="back-link">← Back to Home</a>
+      <main>
+        <h1>Text to Speech</h1>
+        <p class="subtitle">
+          Convert text to speech using browser's built-in TTS
+        </p>
+        <label>Text to Speak:</label>
+        <textarea
+          id="input"
+          placeholder="Enter text to convert to speech..."
+        ></textarea>
+        <div class="controls">
+          <div class="control">
+            <label>Rate: <span id="rateValue">1.0</span></label
+            ><input
+              type="range"
+              id="rate"
+              min="0.5"
+              max="2"
+              step="0.1"
+              value="1"
+            />
+          </div>
+          <div class="control">
+            <label>Pitch: <span id="pitchValue">1.0</span></label
+            ><input
+              type="range"
+              id="pitch"
+              min="0.5"
+              max="2"
+              step="0.1"
+              value="1"
+            />
+          </div>
+          <div class="control">
+            <label>Voice:</label
+            ><select id="voice"></select>
+          </div>
+        </div>
+        <div class="button-group">
+          <button class="primary" onclick="speak()">▶ Speak</button>
+          <button class="secondary" onclick="stop()">⏹ Stop</button>
+          <button class="secondary" onclick="pause()">⏸ Pause</button>
+          <button class="secondary" onclick="resume()">▶▶ Resume</button>
+        </div>
+      </main>
+      <footer>
+        © 2024 TextKit - All text processing happens in your browser
+      </footer>
+    </div>
+    <script>
+      let synth = window.speechSynthesis;
+      let voices = [];
+      function loadVoices() {
+        voices = synth.getVoices();
+        const voiceSelect = document.getElementById("voice");
+        voiceSelect.innerHTML = "";
+        voices.forEach((voice, i) => {
+          const option = document.createElement("option");
+          option.value = i;
+          option.textContent = voice.name + " (" + voice.lang + ")";
+          voiceSelect.appendChild(option);
+        });
+      }
+      loadVoices();
+      if (synth.onvoiceschanged !== undefined) {
+        synth.onvoiceschanged = loadVoices;
+      }
+      document
+        .getElementById("rate")
+        .addEventListener(
+          "input",
+          (e) =>
+            (document.getElementById("rateValue").textContent = e.target.value),
+        );
+      document
+        .getElementById("pitch")
+        .addEventListener(
+          "input",
+          (e) =>
+            (document.getElementById("pitchValue").textContent =
+              e.target.value),
+        );
+      function speak() {
+        const text = document.getElementById("input").value;
+        if (!text) return;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.voice = voices[document.getElementById("voice").value];
+        utterance.rate = parseFloat(document.getElementById("rate").value);
+        utterance.pitch = parseFloat(document.getElementById("pitch").value);
+        synth.speak(utterance);
+      }
+      function stop() {
+        synth.cancel();
+      }
+      function pause() {
+        synth.pause();
+      }
+      function resume() {
+        synth.resume();
+      }
+    </script>
+  </body>
 </html>

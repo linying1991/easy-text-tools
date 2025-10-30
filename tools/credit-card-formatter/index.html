@@ -1,63 +1,232 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Credit Card Formatter - TextKit</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-<style>
-:root{--gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%)}
-body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
-.container{max-width:900px;margin:0 auto}
-.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
-.back-link:hover{opacity:1}
-main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
-.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
-input[type="text"]{border:2px solid #e2e8f0;border-radius:8px;padding:1rem;font-size:1.3rem;width:100%;margin-bottom:1rem;font-family:monospace;letter-spacing:2px}
-input[type="text"]:focus{border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,0.1)}
-.result{padding:2rem;background:#f8fafc;border-radius:12px;text-align:center;margin-top:2rem}
-.card-number{font-size:1.8rem;font-family:monospace;letter-spacing:3px;color:#667eea;font-weight:700;margin-bottom:1rem}
-.card-info{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
-.info-item{padding:1rem;background:#fff;border-radius:8px}
-.info-label{font-size:0.85rem;color:#64748b;margin-bottom:0.25rem}
-.info-value{font-size:1.1rem;font-weight:600;color:#1e293b}
-.button-group{display:flex;gap:1rem;margin-top:1rem}
-button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
-button.secondary{background:#f1f5f9;color:#475569}
-button.secondary:hover{background:#e2e8f0;transform:translateY(-2px)}
-footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
-</style>
-</head>
-<body>
-<div class="container">
-<a href="../../index.html" class="back-link">← Back to Home</a>
-<main>
-<h1>Credit Card Formatter</h1>
-<p class="subtitle">Format and validate credit card numbers</p>
-<label>Card Number:</label>
-<input type="text" id="input" placeholder="Enter card number..." maxlength="19">
-<div class="button-group">
-<button class="secondary" onclick="copy()">Copy Formatted</button>
-<button class="secondary" onclick="clear()">Clear</button>
-</div>
-<div class="result" id="result" style="display:none">
-<div class="card-number" id="formatted"></div>
-<div class="card-info">
-<div class="info-item"><div class="info-label">Card Type</div><div class="info-value" id="type">-</div></div>
-<div class="info-item"><div class="info-label">Valid</div><div class="info-value" id="valid">-</div></div>
-</div>
-</div>
-</main>
-<footer>© 2024 TextKit - All text processing happens in your browser</footer>
-</div>
-<script>
-function luhn(num){let sum=0;let isEven=false;for(let i=num.length-1;i>=0;i--){let digit=parseInt(num[i]);if(isEven){digit*=2;if(digit>9)digit-=9}sum+=digit;isEven=!isEven}return sum%10===0}
-function getType(num){if(/^4/.test(num))return'Visa';if(/^5[1-5]/.test(num))return'Mastercard';if(/^3[47]/.test(num))return'American Express';if(/^6(?:011|5)/.test(num))return'Discover';return'Unknown'}
-function format(){const input=document.getElementById('input');let value=input.value.replace(/\s/g,'');if(!/^\d*$/.test(value)){value=value.replace(/\D/g,'');input.value=value}if(value.length>0){const formatted=value.match(/.{1,4}/g).join(' ');input.value=formatted;const clean=value.replace(/\s/g,'');const type=getType(clean);const isValid=clean.length>=13&&luhn(clean);document.getElementById('formatted').textContent=formatted;document.getElementById('type').textContent=type;document.getElementById('valid').textContent=isValid?'✓ Yes':'✗ No';document.getElementById('valid').style.color=isValid?'#10b981':'#ef4444';document.getElementById('result').style.display='block'}else{document.getElementById('result').style.display='none'}}
-function copy(){const text=document.getElementById('formatted').textContent;navigator.clipboard.writeText(text).then(()=>alert('Copied!')).catch(()=>alert('Copy failed'))}
-function clear(){document.getElementById('input').value='';document.getElementById('result').style.display='none'}
-document.getElementById('input').addEventListener('input',format);
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Credit Card Formatter - TextKit</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      body {
+        min-height: 100vh;
+        background: var(--gradient);
+        margin: 0;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .back-link {
+        color: #fff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+        transition: opacity 0.3s;
+      }
+      .back-link:hover {
+        opacity: 1;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+      input[type="text"] {
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 1rem;
+        font-size: 1.3rem;
+        width: 100%;
+        margin-bottom: 1rem;
+        font-family: monospace;
+        letter-spacing: 2px;
+      }
+      input[type="text"]:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+      .result {
+        padding: 2rem;
+        background: #f8fafc;
+        border-radius: 12px;
+        text-align: center;
+        margin-top: 2rem;
+      }
+      .card-number {
+        font-size: 1.8rem;
+        font-family: monospace;
+        letter-spacing: 3px;
+        color: #667eea;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+      .card-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .info-item {
+        padding: 1rem;
+        background: #fff;
+        border-radius: 8px;
+      }
+      .info-label {
+        font-size: 0.85rem;
+        color: #64748b;
+        margin-bottom: 0.25rem;
+      }
+      .info-value {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #1e293b;
+      }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      button {
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: none;
+      }
+      button.secondary {
+        background: #f1f5f9;
+        color: #475569;
+      }
+      button.secondary:hover {
+        background: #e2e8f0;
+        transform: translateY(-2px);
+      }
+      footer {
+        text-align: center;
+        color: #fff;
+        margin-top: 2rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../../index.html" class="back-link">← Back to Home</a>
+      <main>
+        <h1>Credit Card Formatter</h1>
+        <p class="subtitle">Format and validate credit card numbers</p>
+        <label>Card Number:</label>
+        <input
+          type="text"
+          id="input"
+          placeholder="Enter card number..."
+          maxlength="19"
+        />
+        <div class="button-group">
+          <button class="secondary" onclick="copy()">Copy Formatted</button>
+          <button class="secondary" onclick="clear()">Clear</button>
+        </div>
+        <div class="result" id="result" style="display: none">
+          <div class="card-number" id="formatted"></div>
+          <div class="card-info">
+            <div class="info-item">
+              <div class="info-label">Card Type</div>
+              <div class="info-value" id="type">-</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Valid</div>
+              <div class="info-value" id="valid">-</div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer>
+        © 2024 TextKit - All text processing happens in your browser
+      </footer>
+    </div>
+    <script>
+      function luhn(num) {
+        let sum = 0;
+        let isEven = false;
+        for (let i = num.length - 1; i >= 0; i--) {
+          let digit = parseInt(num[i]);
+          if (isEven) {
+            digit *= 2;
+            if (digit > 9) digit -= 9;
+          }
+          sum += digit;
+          isEven = !isEven;
+        }
+        return sum % 10 === 0;
+      }
+      function getType(num) {
+        if (/^4/.test(num)) return "Visa";
+        if (/^5[1-5]/.test(num)) return "Mastercard";
+        if (/^3[47]/.test(num)) return "American Express";
+        if (/^6(?:011|5)/.test(num)) return "Discover";
+        return "Unknown";
+      }
+      function format() {
+        const input = document.getElementById("input");
+        let value = input.value.replace(/\s/g, "");
+        if (!/^\d*$/.test(value)) {
+          value = value.replace(/\D/g, "");
+          input.value = value;
+        }
+        if (value.length > 0) {
+          const formatted = value.match(/.{1,4}/g).join(" ");
+          input.value = formatted;
+          const clean = value.replace(/\s/g, "");
+          const type = getType(clean);
+          const isValid = clean.length >= 13 && luhn(clean);
+          document.getElementById("formatted").textContent = formatted;
+          document.getElementById("type").textContent = type;
+          document.getElementById("valid").textContent = isValid
+            ? "✓ Yes"
+            : "✗ No";
+          document.getElementById("valid").style.color = isValid
+            ? "#10b981"
+            : "#ef4444";
+          document.getElementById("result").style.display = "block";
+        } else {
+          document.getElementById("result").style.display = "none";
+        }
+      }
+      function copy() {
+        const text = document.getElementById("formatted").textContent;
+        navigator.clipboard
+          .writeText(text)
+          .then(() => alert("Copied!"))
+          .catch(() => alert("Copy failed"));
+      }
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("result").style.display = "none";
+      }
+      document.getElementById("input").addEventListener("input", format);
+    </script>
+  </body>
 </html>

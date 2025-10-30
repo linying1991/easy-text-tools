@@ -1,57 +1,221 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Color Converter - TextKit</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-<style>
-:root{--gradient:linear-gradient(135deg,#a8edea 0%,#fed6e3 100%)}
-body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
-.container{max-width:900px;margin:0 auto}
-.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
-.back-link:hover{opacity:1}
-main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
-.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
-.color-input{display:flex;gap:1rem;align-items:center}
-input[type="color"]{width:80px;height:80px;border:none;border-radius:12px;cursor:pointer}
-input[type="text"]{flex:1;border:2px solid #e2e8f0;border-radius:8px;padding:0.75rem;font-size:1rem;font-family:monospace}
-.results{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem}
-.result-item{padding:1.5rem;background:#f8fafc;border-radius:12px}
-.result-item h3{margin:0 0 0.5rem 0;color:#1e293b;font-size:1rem}
-.result-value{font-family:monospace;font-size:1.1rem;color:#667eea;font-weight:600}
-.preview{margin-top:2rem;padding:3rem;border-radius:12px;text-align:center;color:#fff;font-size:1.2rem;font-weight:700;text-shadow:0 2px 4px rgba(0,0,0,0.3)}
-footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
-</style>
-</head>
-<body>
-<div class="container">
-<a href="../../index.html" class="back-link">← Back to Home</a>
-<main>
-<h1>Color Converter</h1>
-<p class="subtitle">Convert between HEX, RGB, and HSL color formats</p>
-<div class="color-input">
-<input type="color" id="picker" value="#667eea">
-<input type="text" id="hex" placeholder="#667eea">
-</div>
-<div class="results">
-<div class="result-item"><h3>HEX</h3><div class="result-value" id="hexOut">#667eea</div></div>
-<div class="result-item"><h3>RGB</h3><div class="result-value" id="rgb">rgb(102, 126, 234)</div></div>
-<div class="result-item"><h3>HSL</h3><div class="result-value" id="hsl">hsl(229, 76%, 66%)</div></div>
-<div class="result-item"><h3>RGBA</h3><div class="result-value" id="rgba">rgba(102, 126, 234, 1)</div></div>
-</div>
-<div class="preview" id="preview">Color Preview</div>
-</main>
-<footer>© 2024 TextKit - All text processing happens in your browser</footer>
-</div>
-<script>
-function hexToRgb(hex){const result=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);return result?{r:parseInt(result[1],16),g:parseInt(result[2],16),b:parseInt(result[3],16)}:null}
-function rgbToHsl(r,g,b){r/=255;g/=255;b/=255;const max=Math.max(r,g,b),min=Math.min(r,g,b);let h,s,l=(max+min)/2;if(max===min){h=s=0}else{const d=max-min;s=l>0.5?d/(2-max-min):d/(max+min);switch(max){case r:h=((g-b)/d+(g<b?6:0))/6;break;case g:h=((b-r)/d+2)/6;break;case b:h=((r-g)/d+4)/6;break}h*=360}return{h:Math.round(h),s:Math.round(s*100),l:Math.round(l*100)}}
-function update(hex){if(!/^#[0-9A-F]{6}$/i.test(hex))return;const rgb=hexToRgb(hex);if(!rgb)return;const hsl=rgbToHsl(rgb.r,rgb.g,rgb.b);document.getElementById('hexOut').textContent=hex.toUpperCase();document.getElementById('rgb').textContent=`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;document.getElementById('rgba').textContent=`rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 1)`;document.getElementById('hsl').textContent=`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;document.getElementById('preview').style.background=hex;document.getElementById('picker').value=hex;document.getElementById('hex').value=hex}
-document.getElementById('picker').addEventListener('input',e=>update(e.target.value));
-document.getElementById('hex').addEventListener('input',e=>update(e.target.value));
-update('#667eea');
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Converter - TextKit</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      }
+      body {
+        min-height: 100vh;
+        background: var(--gradient);
+        margin: 0;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .back-link {
+        color: #fff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+        transition: opacity 0.3s;
+      }
+      .back-link:hover {
+        opacity: 1;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+      .color-input {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+      input[type="color"] {
+        width: 80px;
+        height: 80px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+      }
+      input[type="text"] {
+        flex: 1;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 0.75rem;
+        font-size: 1rem;
+        font-family: monospace;
+      }
+      .results {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+      .result-item {
+        padding: 1.5rem;
+        background: #f8fafc;
+        border-radius: 12px;
+      }
+      .result-item h3 {
+        margin: 0 0 0.5rem 0;
+        color: #1e293b;
+        font-size: 1rem;
+      }
+      .result-value {
+        font-family: monospace;
+        font-size: 1.1rem;
+        color: #667eea;
+        font-weight: 600;
+      }
+      .preview {
+        margin-top: 2rem;
+        padding: 3rem;
+        border-radius: 12px;
+        text-align: center;
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+      footer {
+        text-align: center;
+        color: #fff;
+        margin-top: 2rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../../index.html" class="back-link">← Back to Home</a>
+      <main>
+        <h1>Color Converter</h1>
+        <p class="subtitle">Convert between HEX, RGB, and HSL color formats</p>
+        <div class="color-input">
+          <input type="color" id="picker" value="#667eea" />
+          <input type="text" id="hex" placeholder="#667eea" />
+        </div>
+        <div class="results">
+          <div class="result-item">
+            <h3>HEX</h3>
+            <div class="result-value" id="hexOut">#667eea</div>
+          </div>
+          <div class="result-item">
+            <h3>RGB</h3>
+            <div class="result-value" id="rgb">rgb(102, 126, 234)</div>
+          </div>
+          <div class="result-item">
+            <h3>HSL</h3>
+            <div class="result-value" id="hsl">hsl(229, 76%, 66%)</div>
+          </div>
+          <div class="result-item">
+            <h3>RGBA</h3>
+            <div class="result-value" id="rgba">rgba(102, 126, 234, 1)</div>
+          </div>
+        </div>
+        <div class="preview" id="preview">Color Preview</div>
+      </main>
+      <footer>
+        © 2024 TextKit - All text processing happens in your browser
+      </footer>
+    </div>
+    <script>
+      function hexToRgb(hex) {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result
+          ? {
+              r: parseInt(result[1], 16),
+              g: parseInt(result[2], 16),
+              b: parseInt(result[3], 16),
+            }
+          : null;
+      }
+      function rgbToHsl(r, g, b) {
+        r /= 255;
+        g /= 255;
+        b /= 255;
+        const max = Math.max(r, g, b),
+          min = Math.min(r, g, b);
+        let h,
+          s,
+          l = (max + min) / 2;
+        if (max === min) {
+          h = s = 0;
+        } else {
+          const d = max - min;
+          s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+          switch (max) {
+            case r:
+              h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+              break;
+            case g:
+              h = ((b - r) / d + 2) / 6;
+              break;
+            case b:
+              h = ((r - g) / d + 4) / 6;
+              break;
+          }
+          h *= 360;
+        }
+        return {
+          h: Math.round(h),
+          s: Math.round(s * 100),
+          l: Math.round(l * 100),
+        };
+      }
+      function update(hex) {
+        if (!/^#[0-9A-F]{6}$/i.test(hex)) return;
+        const rgb = hexToRgb(hex);
+        if (!rgb) return;
+        const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+        document.getElementById("hexOut").textContent = hex.toUpperCase();
+        document.getElementById("rgb").textContent =
+          `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+        document.getElementById("rgba").textContent =
+          `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 1)`;
+        document.getElementById("hsl").textContent =
+          `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+        document.getElementById("preview").style.background = hex;
+        document.getElementById("picker").value = hex;
+        document.getElementById("hex").value = hex;
+      }
+      document
+        .getElementById("picker")
+        .addEventListener("input", (e) => update(e.target.value));
+      document
+        .getElementById("hex")
+        .addEventListener("input", (e) => update(e.target.value));
+      update("#667eea");
+    </script>
+  </body>
 </html>

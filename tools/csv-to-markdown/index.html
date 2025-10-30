@@ -1,324 +1,364 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CSV to Markdown Table Converter</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
     <style>
-        :root {
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
+      :root {
+        --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
 
-        body {
-            background: var(--gradient-1);
-            min-height: 100vh;
-            padding: 2rem 0;
-        }
+      body {
+        background: var(--gradient-1);
+        min-height: 100vh;
+        padding: 2rem 0;
+      }
 
-        .container {
-            max-width: 1000px;
-        }
+      .container {
+        max-width: 1000px;
+      }
 
-        .tool-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            margin-bottom: 2rem;
-        }
+      .tool-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        margin-bottom: 2rem;
+      }
 
-        h1 {
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-            font-size: 2.5rem;
-        }
+      h1 {
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+        font-size: 2.5rem;
+      }
 
-        .subtitle {
-            color: #666;
-            margin-bottom: 2rem;
-        }
+      .subtitle {
+        color: #666;
+        margin-bottom: 2rem;
+      }
 
+      .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+
+      @media (max-width: 768px) {
         .grid-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+          grid-template-columns: 1fr;
         }
+      }
 
-        @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
-        }
+      textarea {
+        min-height: 250px;
+        font-family: "Courier New", monospace;
+        font-size: 0.9rem;
+      }
 
-        textarea {
-            min-height: 250px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-        }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin: 1.5rem 0;
+        flex-wrap: wrap;
+      }
 
-        .button-group {
-            display: flex;
-            gap: 1rem;
-            margin: 1.5rem 0;
-            flex-wrap: wrap;
-        }
+      button {
+        background: var(--gradient-1);
+        border: none;
+        transition: all 0.3s;
+      }
 
-        button {
-            background: var(--gradient-1);
-            border: none;
-            transition: all 0.3s;
-        }
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      }
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
+      .secondary {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      }
 
-        .secondary {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
+      .options {
+        display: flex;
+        gap: 1.5rem;
+        margin: 1rem 0;
+        flex-wrap: wrap;
+      }
 
-        .options {
-            display: flex;
-            gap: 1.5rem;
-            margin: 1rem 0;
-            flex-wrap: wrap;
-        }
+      label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
 
-        label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+      .preview-box {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+        overflow-x: auto;
+      }
 
-        .preview-box {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            overflow-x: auto;
-        }
+      .preview-box table {
+        width: 100%;
+        border-collapse: collapse;
+      }
 
-        .preview-box table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+      .preview-box th,
+      .preview-box td {
+        border: 1px solid #ddd;
+        padding: 0.75rem;
+        text-align: left;
+      }
 
-        .preview-box th,
-        .preview-box td {
-            border: 1px solid #ddd;
-            padding: 0.75rem;
-            text-align: left;
-        }
+      .preview-box th {
+        background: #f0f4ff;
+        font-weight: bold;
+      }
 
-        .preview-box th {
-            background: #f0f4ff;
-            font-weight: bold;
-        }
-
-        .info-box {
-            background: #f0f4ff;
-            border-left: 4px solid #667eea;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
+      .info-box {
+        background: #f0f4ff;
+        border-left: 4px solid #667eea;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="tool-card">
-            <h1>📊 CSV to Markdown Table</h1>
-            <p class="subtitle">Convert CSV data to beautifully formatted Markdown tables</p>
+      <div class="tool-card">
+        <h1>📊 CSV to Markdown Table</h1>
+        <p class="subtitle">
+          Convert CSV data to beautifully formatted Markdown tables
+        </p>
 
-            <div class="grid-container">
-                <div>
-                    <label for="input">CSV Input:</label>
-                    <textarea id="input" placeholder="Paste your CSV data here...
+        <div class="grid-container">
+          <div>
+            <label for="input">CSV Input:</label>
+            <textarea
+              id="input"
+              placeholder="Paste your CSV data here...
 Example:
 Name,Age,City
 John,30,New York
 Jane,25,London
-Bob,35,Tokyo" oninput="convert()">Name,Age,City
+Bob,35,Tokyo"
+              oninput="convert()"
+            >
+Name,Age,City
 John,30,New York
 Jane,25,London
-Bob,35,Tokyo</textarea>
-                </div>
+Bob,35,Tokyo</textarea
+            >
+          </div>
 
-                <div>
-                    <label for="output">Markdown Output:</label>
-                    <textarea id="output" readonly placeholder="Markdown table will appear here"></textarea>
-                </div>
-            </div>
-
-            <div class="options">
-                <div>
-                    <label for="delimiter">Delimiter:</label>
-                    <select id="delimiter" onchange="convert()">
-                        <option value=",">Comma (,)</option>
-                        <option value=";">Semicolon (;)</option>
-                        <option value="\t">Tab (\t)</option>
-                        <option value="|">Pipe (|)</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="alignment">Alignment:</label>
-                    <select id="alignment" onchange="convert()">
-                        <option value="left">Left</option>
-                        <option value="center">Center</option>
-                        <option value="right">Right</option>
-                    </select>
-                </div>
-
-                <label>
-                    <input type="checkbox" id="hasHeader" checked onchange="convert()">
-                    First row is header
-                </label>
-
-                <label>
-                    <input type="checkbox" id="trimCells" checked onchange="convert()">
-                    Trim cell values
-                </label>
-            </div>
-
-            <div class="button-group">
-                <button onclick="convert()">🔄 Convert</button>
-                <button onclick="copy()" class="secondary">📋 Copy Markdown</button>
-                <button onclick="clearAll()" class="secondary">🗑️ Clear</button>
-            </div>
-
-            <div class="preview-box" id="preview"></div>
-
-            <div class="info-box">
-                <strong>💡 Tips:</strong>
-                <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
-                    <li>Paste your CSV data directly from Excel, Google Sheets, or text files</li>
-                    <li>Select the appropriate delimiter based on your CSV format</li>
-                    <li>Enable "First row is header" if your CSV has column names</li>
-                    <li>The generated Markdown can be used in GitHub, GitLab, Reddit, and more</li>
-                </ul>
-            </div>
+          <div>
+            <label for="output">Markdown Output:</label>
+            <textarea
+              id="output"
+              readonly
+              placeholder="Markdown table will appear here"
+            ></textarea>
+          </div>
         </div>
+
+        <div class="options">
+          <div>
+            <label for="delimiter">Delimiter:</label>
+            <select id="delimiter" onchange="convert()">
+              <option value=",">Comma (,)</option>
+              <option value=";">Semicolon (;)</option>
+              <option value="\t">Tab (\t)</option>
+              <option value="|">Pipe (|)</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="alignment">Alignment:</label>
+            <select id="alignment" onchange="convert()">
+              <option value="left">Left</option>
+              <option value="center">Center</option>
+              <option value="right">Right</option>
+            </select>
+          </div>
+
+          <label>
+            <input
+              type="checkbox"
+              id="hasHeader"
+              checked
+              onchange="convert()"
+            />
+            First row is header
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              id="trimCells"
+              checked
+              onchange="convert()"
+            />
+            Trim cell values
+          </label>
+        </div>
+
+        <div class="button-group">
+          <button onclick="convert()">🔄 Convert</button>
+          <button onclick="copy()" class="secondary">📋 Copy Markdown</button>
+          <button onclick="clearAll()" class="secondary">🗑️ Clear</button>
+        </div>
+
+        <div class="preview-box" id="preview"></div>
+
+        <div class="info-box">
+          <strong>💡 Tips:</strong>
+          <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem">
+            <li>
+              Paste your CSV data directly from Excel, Google Sheets, or text
+              files
+            </li>
+            <li>Select the appropriate delimiter based on your CSV format</li>
+            <li>Enable "First row is header" if your CSV has column names</li>
+            <li>
+              The generated Markdown can be used in GitHub, GitLab, Reddit, and
+              more
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <script>
-        function convert() {
-            const input = document.getElementById('input').value.trim();
-            if (!input) {
-                document.getElementById('output').value = '';
-                document.getElementById('preview').innerHTML = '';
-                return;
-            }
-
-            const delimiter = document.getElementById('delimiter').value;
-            const alignment = document.getElementById('alignment').value;
-            const hasHeader = document.getElementById('hasHeader').checked;
-            const trimCells = document.getElementById('trimCells').checked;
-
-            const lines = input.split('\n').filter(line => line.trim());
-            if (lines.length === 0) return;
-
-            // Parse CSV
-            const rows = lines.map(line => {
-                const cells = line.split(delimiter === '\\t' ? '\t' : delimiter);
-                return trimCells ? cells.map(cell => cell.trim()) : cells;
-            });
-
-            // Generate alignment string
-            let alignChar;
-            switch(alignment) {
-                case 'center':
-                    alignChar = ':---:';
-                    break;
-                case 'right':
-                    alignChar = '---:';
-                    break;
-                default:
-                    alignChar = '---';
-            }
-
-            let markdown = '';
-
-            if (hasHeader && rows.length > 0) {
-                // First row as header
-                markdown += '| ' + rows[0].join(' | ') + ' |\n';
-                markdown += '| ' + rows[0].map(() => alignChar).join(' | ') + ' |\n';
-
-                // Data rows
-                for (let i = 1; i < rows.length; i++) {
-                    markdown += '| ' + rows[i].join(' | ') + ' |\n';
-                }
-            } else {
-                // No header, create generic one
-                const colCount = rows[0].length;
-                const headers = Array.from({length: colCount}, (_, i) => `Column ${i + 1}`);
-
-                markdown += '| ' + headers.join(' | ') + ' |\n';
-                markdown += '| ' + headers.map(() => alignChar).join(' | ') + ' |\n';
-
-                // All rows as data
-                rows.forEach(row => {
-                    markdown += '| ' + row.join(' | ') + ' |\n';
-                });
-            }
-
-            document.getElementById('output').value = markdown;
-            renderPreview(markdown);
+      function convert() {
+        const input = document.getElementById("input").value.trim();
+        if (!input) {
+          document.getElementById("output").value = "";
+          document.getElementById("preview").innerHTML = "";
+          return;
         }
 
-        function renderPreview(markdown) {
-            const lines = markdown.trim().split('\n');
-            if (lines.length < 2) return;
+        const delimiter = document.getElementById("delimiter").value;
+        const alignment = document.getElementById("alignment").value;
+        const hasHeader = document.getElementById("hasHeader").checked;
+        const trimCells = document.getElementById("trimCells").checked;
 
-            const headers = lines[0].split('|').filter(s => s.trim()).map(s => s.trim());
-            const dataRows = lines.slice(2);
+        const lines = input.split("\n").filter((line) => line.trim());
+        if (lines.length === 0) return;
 
-            let html = '<strong>Preview:</strong><br><br><table><thead><tr>';
-            headers.forEach(header => {
-                html += `<th>${header}</th>`;
-            });
-            html += '</tr></thead><tbody>';
+        // Parse CSV
+        const rows = lines.map((line) => {
+          const cells = line.split(delimiter === "\\t" ? "\t" : delimiter);
+          return trimCells ? cells.map((cell) => cell.trim()) : cells;
+        });
 
-            dataRows.forEach(row => {
-                const cells = row.split('|').filter(s => s.trim()).map(s => s.trim());
-                html += '<tr>';
-                cells.forEach(cell => {
-                    html += `<td>${cell || '&nbsp;'}</td>`;
-                });
-                html += '</tr>';
-            });
-
-            html += '</tbody></table>';
-            document.getElementById('preview').innerHTML = html;
+        // Generate alignment string
+        let alignChar;
+        switch (alignment) {
+          case "center":
+            alignChar = ":---:";
+            break;
+          case "right":
+            alignChar = "---:";
+            break;
+          default:
+            alignChar = "---";
         }
 
-        function copy() {
-            const output = document.getElementById('output');
-            output.select();
-            document.execCommand('copy');
+        let markdown = "";
 
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = '✓ Copied!';
-            setTimeout(() => {
-                btn.textContent = originalText;
-            }, 2000);
+        if (hasHeader && rows.length > 0) {
+          // First row as header
+          markdown += "| " + rows[0].join(" | ") + " |\n";
+          markdown += "| " + rows[0].map(() => alignChar).join(" | ") + " |\n";
+
+          // Data rows
+          for (let i = 1; i < rows.length; i++) {
+            markdown += "| " + rows[i].join(" | ") + " |\n";
+          }
+        } else {
+          // No header, create generic one
+          const colCount = rows[0].length;
+          const headers = Array.from(
+            { length: colCount },
+            (_, i) => `Column ${i + 1}`,
+          );
+
+          markdown += "| " + headers.join(" | ") + " |\n";
+          markdown += "| " + headers.map(() => alignChar).join(" | ") + " |\n";
+
+          // All rows as data
+          rows.forEach((row) => {
+            markdown += "| " + row.join(" | ") + " |\n";
+          });
         }
 
-        function clearAll() {
-            document.getElementById('input').value = '';
-            document.getElementById('output').value = '';
-            document.getElementById('preview').innerHTML = '';
-        }
+        document.getElementById("output").value = markdown;
+        renderPreview(markdown);
+      }
 
-        // Convert on load
-        convert();
+      function renderPreview(markdown) {
+        const lines = markdown.trim().split("\n");
+        if (lines.length < 2) return;
+
+        const headers = lines[0]
+          .split("|")
+          .filter((s) => s.trim())
+          .map((s) => s.trim());
+        const dataRows = lines.slice(2);
+
+        let html = "<strong>Preview:</strong><br><br><table><thead><tr>";
+        headers.forEach((header) => {
+          html += `<th>${header}</th>`;
+        });
+        html += "</tr></thead><tbody>";
+
+        dataRows.forEach((row) => {
+          const cells = row
+            .split("|")
+            .filter((s) => s.trim())
+            .map((s) => s.trim());
+          html += "<tr>";
+          cells.forEach((cell) => {
+            html += `<td>${cell || "&nbsp;"}</td>`;
+          });
+          html += "</tr>";
+        });
+
+        html += "</tbody></table>";
+        document.getElementById("preview").innerHTML = html;
+      }
+
+      function copy() {
+        const output = document.getElementById("output");
+        output.select();
+        document.execCommand("copy");
+
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = "✓ Copied!";
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
+      }
+
+      function clearAll() {
+        document.getElementById("input").value = "";
+        document.getElementById("output").value = "";
+        document.getElementById("preview").innerHTML = "";
+      }
+
+      // Convert on load
+      convert();
     </script>
-</body>
+  </body>
 </html>

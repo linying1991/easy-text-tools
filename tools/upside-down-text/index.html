@@ -1,54 +1,231 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Upside Down Text - TextKit</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-<style>
-:root{--gradient:linear-gradient(135deg,#f093fb 0%,#f5576c 100%)}
-body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
-.container{max-width:900px;margin:0 auto}
-.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
-.back-link:hover{opacity:1}
-main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
-.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
-textarea{min-height:150px;font-size:1.1rem;border:2px solid #e2e8f0;border-radius:12px;transition:all 0.3s}
-textarea:focus{border-color:#f093fb;box-shadow:0 0 0 3px rgba(240,147,251,0.1)}
-.button-group{display:flex;gap:1rem;margin-top:1rem}
-button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
-button.primary{background:var(--gradient);color:#fff}
-button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(240,147,251,0.3)}
-button.secondary{background:#f1f5f9;color:#475569}
-button.secondary:hover{background:#e2e8f0}
-footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
-</style>
-</head>
-<body>
-<div class="container">
-<a href="../../index.html" class="back-link">← Back to Home</a>
-<main>
-<h1>Upside Down Text</h1>
-<p class="subtitle">Flip text upside down (˙ʍop ǝpᴉsdn)</p>
-<label>Input Text:</label>
-<textarea id="input" placeholder="Enter text to flip..."></textarea>
-<div class="button-group">
-<button class="primary" onclick="flip()">Flip Text</button>
-<button class="secondary" onclick="copy()">Copy Result</button>
-<button class="secondary" onclick="clear()">Clear</button>
-</div>
-<label>Upside Down Text:</label>
-<textarea id="output" readonly></textarea>
-</main>
-<footer>© 2024 TextKit - All text processing happens in your browser</footer>
-</div>
-<script>
-const flipMap={'a':'ɐ','b':'q','c':'ɔ','d':'p','e':'ǝ','f':'ɟ','g':'ƃ','h':'ɥ','i':'ᴉ','j':'ɾ','k':'ʞ','l':'l','m':'ɯ','n':'u','o':'o','p':'d','q':'b','r':'ɹ','s':'s','t':'ʇ','u':'n','v':'ʌ','w':'ʍ','x':'x','y':'ʎ','z':'z','A':'∀','B':'q','C':'Ɔ','D':'p','E':'Ǝ','F':'Ⅎ','G':'⅁','H':'H','I':'I','J':'ſ','K':'⋊','L':'˥','M':'W','N':'N','O':'O','P':'Ԁ','Q':'b','R':'ᴚ','S':'S','T':'⊥','U':'∩','V':'Λ','W':'M','X':'X','Y':'⅄','Z':'Z','0':'0','1':'Ɩ','2':'ᄅ','3':'Ɛ','4':'ㄣ','5':'ϛ','6':'9','7':'ㄥ','8':'8','9':'6','.':'˙',',':'\'','?':'¿','!':'¡','\'':',','\"':'„','(':')',')':"(",'[':']',']':'[','{':'}','}':'{','<':'>','>':'<','&':'⅋','_':'‾',';':'؛','/':'\\','\\':'/','™':'™',' ':' '};
-function flip(){const text=document.getElementById('input').value;const flipped=text.split('').map(c=>flipMap[c]||c).reverse().join('');document.getElementById('output').value=flipped}
-function copy(){const output=document.getElementById('output');output.select();document.execCommand('copy');alert('Copied to clipboard!')}
-function clear(){document.getElementById('input').value='';document.getElementById('output').value=''}
-document.getElementById('input').addEventListener('input',flip);
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upside Down Text - TextKit</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+      body {
+        min-height: 100vh;
+        background: var(--gradient);
+        margin: 0;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .back-link {
+        color: #fff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+        transition: opacity 0.3s;
+      }
+      .back-link:hover {
+        opacity: 1;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+      textarea {
+        min-height: 150px;
+        font-size: 1.1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        transition: all 0.3s;
+      }
+      textarea:focus {
+        border-color: #f093fb;
+        box-shadow: 0 0 0 3px rgba(240, 147, 251, 0.1);
+      }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      button {
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: none;
+      }
+      button.primary {
+        background: var(--gradient);
+        color: #fff;
+      }
+      button.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(240, 147, 251, 0.3);
+      }
+      button.secondary {
+        background: #f1f5f9;
+        color: #475569;
+      }
+      button.secondary:hover {
+        background: #e2e8f0;
+      }
+      footer {
+        text-align: center;
+        color: #fff;
+        margin-top: 2rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../../index.html" class="back-link">← Back to Home</a>
+      <main>
+        <h1>Upside Down Text</h1>
+        <p class="subtitle">Flip text upside down (˙ʍop ǝpᴉsdn)</p>
+        <label>Input Text:</label>
+        <textarea id="input" placeholder="Enter text to flip..."></textarea>
+        <div class="button-group">
+          <button class="primary" onclick="flip()">Flip Text</button>
+          <button class="secondary" onclick="copy()">Copy Result</button>
+          <button class="secondary" onclick="clear()">Clear</button>
+        </div>
+        <label>Upside Down Text:</label>
+        <textarea id="output" readonly></textarea>
+      </main>
+      <footer>
+        © 2024 TextKit - All text processing happens in your browser
+      </footer>
+    </div>
+    <script>
+      const flipMap = {
+        a: "ɐ",
+        b: "q",
+        c: "ɔ",
+        d: "p",
+        e: "ǝ",
+        f: "ɟ",
+        g: "ƃ",
+        h: "ɥ",
+        i: "ᴉ",
+        j: "ɾ",
+        k: "ʞ",
+        l: "l",
+        m: "ɯ",
+        n: "u",
+        o: "o",
+        p: "d",
+        q: "b",
+        r: "ɹ",
+        s: "s",
+        t: "ʇ",
+        u: "n",
+        v: "ʌ",
+        w: "ʍ",
+        x: "x",
+        y: "ʎ",
+        z: "z",
+        A: "∀",
+        B: "q",
+        C: "Ɔ",
+        D: "p",
+        E: "Ǝ",
+        F: "Ⅎ",
+        G: "⅁",
+        H: "H",
+        I: "I",
+        J: "ſ",
+        K: "⋊",
+        L: "˥",
+        M: "W",
+        N: "N",
+        O: "O",
+        P: "Ԁ",
+        Q: "b",
+        R: "ᴚ",
+        S: "S",
+        T: "⊥",
+        U: "∩",
+        V: "Λ",
+        W: "M",
+        X: "X",
+        Y: "⅄",
+        Z: "Z",
+        0: "0",
+        1: "Ɩ",
+        2: "ᄅ",
+        3: "Ɛ",
+        4: "ㄣ",
+        5: "ϛ",
+        6: "9",
+        7: "ㄥ",
+        8: "8",
+        9: "6",
+        ".": "˙",
+        ",": "'",
+        "?": "¿",
+        "!": "¡",
+        "'": ",",
+        '\"': "„",
+        "(": ")",
+        ")": "(",
+        "[": "]",
+        "]": "[",
+        "{": "}",
+        "}": "{",
+        "<": ">",
+        ">": "<",
+        "&": "⅋",
+        _: "‾",
+        ";": "؛",
+        "/": "\\",
+        "\\": "/",
+        "™": "™",
+        " ": " ",
+      };
+      function flip() {
+        const text = document.getElementById("input").value;
+        const flipped = text
+          .split("")
+          .map((c) => flipMap[c] || c)
+          .reverse()
+          .join("");
+        document.getElementById("output").value = flipped;
+      }
+      function copy() {
+        const output = document.getElementById("output");
+        output.select();
+        document.execCommand("copy");
+        alert("Copied to clipboard!");
+      }
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("output").value = "";
+      }
+      document.getElementById("input").addEventListener("input", flip);
+    </script>
+  </body>
 </html>

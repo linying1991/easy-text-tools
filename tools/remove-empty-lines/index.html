@@ -1,2 +1,110 @@
 <!doctype html>
-<html><head><meta charset="UTF-8"/><title>Remove Empty Lines</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.conditional.min.css" integrity="sha256-v0OEZWNaUvlmR1U0LMHiwNOzzO3q2wkIipf4KlEB9NWs=" crossorigin="anonymous"><style>:root{--g:linear-gradient(135deg,#43e97b 0%,#38f9d7 100%)}body{background:var(--g);min-height:100vh}.container{max-width:1200px;margin:0 auto;padding:2rem}.back-link{display:inline-flex;align-items:center;gap:.5rem;color:#fff;text-decoration:none;font-weight:600;margin-bottom:1.5rem;padding:.5rem 1rem;background:rgba(255,255,255,0.2);border-radius:50px}header{background:rgba(255,255,255,0.95);border-radius:20px;padding:2.5rem}header h1{background:var(--g);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:2.5rem;font-weight:800}main{background:rgba(255,255,255,0.98);border-radius:20px;padding:2.5rem;margin:2rem 0}textarea{font-family:Monaco,monospace;min-height:250px;width:100%;border:2px solid #e2e8f0;border-radius:12px;padding:1rem}button{padding:.875rem 1.75rem;border-radius:12px;font-weight:600;border:none;cursor:pointer;margin:.5rem}button.primary{background:var(--g);color:#fff}</style></head><body><div class="container"><a href="/" class="back-link">← Back</a><header><h1>📄 Remove Empty Lines</h1></header><main><h3>Input</h3><textarea id="input" placeholder="Enter text..."></textarea><h3>Output</h3><textarea id="output" readonly></textarea><button class="primary" onclick="process()">🧹 Remove</button><button onclick="copy()">📋 Copy</button><button onclick="clear()">🗑️ Clear</button></main></div><script>function process(){const lines=document.getElementById('input').value.split('\n').filter(l=>l.trim()!=='');document.getElementById('output').value=lines.join('\n')}function copy(){navigator.clipboard.writeText(document.getElementById('output').value).then(()=>alert('Copied!'))}function clear(){document.getElementById('input').value='';document.getElementById('output').value=''}</script></body></html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Remove Empty Lines</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.conditional.min.css"
+      integrity="sha256-v0OEZWNaUvlmR1U0LMHiwNOzzO3q2wkIipf4KlEB9NWs="
+      crossorigin="anonymous"
+    />
+    <style>
+      :root {
+        --g: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      }
+      body {
+        background: var(--g);
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50px;
+      }
+      header {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 2.5rem;
+      }
+      header h1 {
+        background: var(--g);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 2.5rem;
+        font-weight: 800;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 20px;
+        padding: 2.5rem;
+        margin: 2rem 0;
+      }
+      textarea {
+        font-family: Monaco, monospace;
+        min-height: 250px;
+        width: 100%;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 1rem;
+      }
+      button {
+        padding: 0.875rem 1.75rem;
+        border-radius: 12px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        margin: 0.5rem;
+      }
+      button.primary {
+        background: var(--g);
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="/" class="back-link">← Back</a>
+      <header><h1>📄 Remove Empty Lines</h1></header>
+      <main>
+        <h3>Input</h3>
+        <textarea id="input" placeholder="Enter text..."></textarea>
+        <h3>Output</h3>
+        <textarea id="output" readonly></textarea
+        ><button class="primary" onclick="process()">🧹 Remove</button
+        ><button onclick="copy()">📋 Copy</button
+        ><button onclick="clear()">🗑️ Clear</button>
+      </main>
+    </div>
+    <script>
+      function process() {
+        const lines = document
+          .getElementById("input")
+          .value.split("\n")
+          .filter((l) => l.trim() !== "");
+        document.getElementById("output").value = lines.join("\n");
+      }
+      function copy() {
+        navigator.clipboard
+          .writeText(document.getElementById("output").value)
+          .then(() => alert("Copied!"));
+      }
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("output").value = "";
+      }
+    </script>
+  </body>
+</html>

@@ -1,340 +1,393 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Text Redaction Tool - Hide Sensitive Information</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
     <style>
-        :root {
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
+      :root {
+        --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
 
-        body {
-            background: var(--gradient-1);
-            min-height: 100vh;
-            padding: 2rem 0;
-        }
+      body {
+        background: var(--gradient-1);
+        min-height: 100vh;
+        padding: 2rem 0;
+      }
 
-        .container {
-            max-width: 1000px;
-        }
+      .container {
+        max-width: 1000px;
+      }
 
-        .tool-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            margin-bottom: 2rem;
-        }
+      .tool-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        margin-bottom: 2rem;
+      }
 
-        h1 {
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-            font-size: 2.5rem;
-        }
+      h1 {
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+        font-size: 2.5rem;
+      }
 
-        .subtitle {
-            color: #666;
-            margin-bottom: 2rem;
-        }
+      .subtitle {
+        color: #666;
+        margin-bottom: 2rem;
+      }
 
+      .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+
+      @media (max-width: 768px) {
         .grid-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+          grid-template-columns: 1fr;
         }
+      }
 
-        @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
-        }
+      textarea {
+        min-height: 250px;
+        font-family: "Courier New", monospace;
+        font-size: 0.95rem;
+      }
 
-        textarea {
-            min-height: 250px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
-        }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin: 1.5rem 0;
+        flex-wrap: wrap;
+      }
 
-        .button-group {
-            display: flex;
-            gap: 1rem;
-            margin: 1.5rem 0;
-            flex-wrap: wrap;
-        }
+      button {
+        background: var(--gradient-1);
+        border: none;
+        transition: all 0.3s;
+      }
 
-        button {
-            background: var(--gradient-1);
-            border: none;
-            transition: all 0.3s;
-        }
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      }
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
+      .secondary {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      }
 
-        .secondary {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
+      .options-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 1.5rem 0;
+      }
 
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
+      label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+      }
 
-        label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-        }
+      .redaction-style {
+        margin: 1rem 0;
+      }
 
-        .redaction-style {
-            margin: 1rem 0;
-        }
+      .stats-box {
+        background: #f0f4ff;
+        border-left: 4px solid #667eea;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+      }
 
-        .stats-box {
-            background: #f0f4ff;
-            border-left: 4px solid #667eea;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
-
-        .info-box {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
+      .info-box {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="tool-card">
-            <h1>🔒 Text Redaction Tool</h1>
-            <p class="subtitle">Hide sensitive information like emails, phone numbers, and credit cards</p>
+      <div class="tool-card">
+        <h1>🔒 Text Redaction Tool</h1>
+        <p class="subtitle">
+          Hide sensitive information like emails, phone numbers, and credit
+          cards
+        </p>
 
-            <div class="grid-container">
-                <div>
-                    <label for="input">Input Text:</label>
-                    <textarea id="input" placeholder="Enter text with sensitive information...
+        <div class="grid-container">
+          <div>
+            <label for="input">Input Text:</label>
+            <textarea
+              id="input"
+              placeholder="Enter text with sensitive information...
 
 Example:
 Contact John at john.doe@example.com
 Phone: (555) 123-4567
 SSN: 123-45-6789
-Credit Card: 4532-1234-5678-9010">Contact John at john.doe@example.com
+Credit Card: 4532-1234-5678-9010"
+            >
+Contact John at john.doe@example.com
 Phone: (555) 123-4567
 SSN: 123-45-6789
 Credit Card: 4532-1234-5678-9010
-IP Address: 192.168.1.100</textarea>
-                </div>
+IP Address: 192.168.1.100</textarea
+            >
+          </div>
 
-                <div>
-                    <label for="output">Redacted Text:</label>
-                    <textarea id="output" readonly placeholder="Redacted text will appear here"></textarea>
-                </div>
-            </div>
-
-            <div class="redaction-style">
-                <label for="style">Redaction Style:</label>
-                <select id="style" onchange="redact()">
-                    <option value="block">█████ (Black Blocks)</option>
-                    <option value="x">XXXXX (X's)</option>
-                    <option value="asterisk">***** (Asterisks)</option>
-                    <option value="redacted">[REDACTED]</option>
-                    <option value="removed">[REMOVED]</option>
-                    <option value="censored">[CENSORED]</option>
-                </select>
-            </div>
-
-            <div class="options-grid">
-                <label>
-                    <input type="checkbox" id="redactEmail" checked onchange="redact()">
-                    Redact Email Addresses
-                </label>
-                <label>
-                    <input type="checkbox" id="redactPhone" checked onchange="redact()">
-                    Redact Phone Numbers
-                </label>
-                <label>
-                    <input type="checkbox" id="redactSSN" checked onchange="redact()">
-                    Redact SSN
-                </label>
-                <label>
-                    <input type="checkbox" id="redactCreditCard" checked onchange="redact()">
-                    Redact Credit Cards
-                </label>
-                <label>
-                    <input type="checkbox" id="redactIP" checked onchange="redact()">
-                    Redact IP Addresses
-                </label>
-                <label>
-                    <input type="checkbox" id="redactURL" onchange="redact()">
-                    Redact URLs
-                </label>
-            </div>
-
-            <div class="button-group">
-                <button onclick="redact()">🔒 Redact</button>
-                <button onclick="copy()" class="secondary">📋 Copy</button>
-                <button onclick="clearAll()" class="secondary">🗑️ Clear</button>
-            </div>
-
-            <div class="stats-box" id="stats"></div>
-
-            <div class="info-box">
-                <strong>⚠️ Privacy Notice:</strong>
-                <p style="margin: 0.5rem 0 0 0;">This tool processes all data locally in your browser. Nothing is sent to any server. However, always review the output carefully before sharing redacted text.</p>
-            </div>
+          <div>
+            <label for="output">Redacted Text:</label>
+            <textarea
+              id="output"
+              readonly
+              placeholder="Redacted text will appear here"
+            ></textarea>
+          </div>
         </div>
+
+        <div class="redaction-style">
+          <label for="style">Redaction Style:</label>
+          <select id="style" onchange="redact()">
+            <option value="block">█████ (Black Blocks)</option>
+            <option value="x">XXXXX (X's)</option>
+            <option value="asterisk">***** (Asterisks)</option>
+            <option value="redacted">[REDACTED]</option>
+            <option value="removed">[REMOVED]</option>
+            <option value="censored">[CENSORED]</option>
+          </select>
+        </div>
+
+        <div class="options-grid">
+          <label>
+            <input
+              type="checkbox"
+              id="redactEmail"
+              checked
+              onchange="redact()"
+            />
+            Redact Email Addresses
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              id="redactPhone"
+              checked
+              onchange="redact()"
+            />
+            Redact Phone Numbers
+          </label>
+          <label>
+            <input type="checkbox" id="redactSSN" checked onchange="redact()" />
+            Redact SSN
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              id="redactCreditCard"
+              checked
+              onchange="redact()"
+            />
+            Redact Credit Cards
+          </label>
+          <label>
+            <input type="checkbox" id="redactIP" checked onchange="redact()" />
+            Redact IP Addresses
+          </label>
+          <label>
+            <input type="checkbox" id="redactURL" onchange="redact()" />
+            Redact URLs
+          </label>
+        </div>
+
+        <div class="button-group">
+          <button onclick="redact()">🔒 Redact</button>
+          <button onclick="copy()" class="secondary">📋 Copy</button>
+          <button onclick="clearAll()" class="secondary">🗑️ Clear</button>
+        </div>
+
+        <div class="stats-box" id="stats"></div>
+
+        <div class="info-box">
+          <strong>⚠️ Privacy Notice:</strong>
+          <p style="margin: 0.5rem 0 0 0">
+            This tool processes all data locally in your browser. Nothing is
+            sent to any server. However, always review the output carefully
+            before sharing redacted text.
+          </p>
+        </div>
+      </div>
     </div>
 
     <script>
-        function getRedactionText(length, style) {
-            switch(style) {
-                case 'block':
-                    return '█'.repeat(Math.max(5, Math.min(length, 10)));
-                case 'x':
-                    return 'X'.repeat(Math.max(5, Math.min(length, 10)));
-                case 'asterisk':
-                    return '*'.repeat(Math.max(5, Math.min(length, 10)));
-                case 'redacted':
-                    return '[REDACTED]';
-                case 'removed':
-                    return '[REMOVED]';
-                case 'censored':
-                    return '[CENSORED]';
-                default:
-                    return '[REDACTED]';
-            }
+      function getRedactionText(length, style) {
+        switch (style) {
+          case "block":
+            return "█".repeat(Math.max(5, Math.min(length, 10)));
+          case "x":
+            return "X".repeat(Math.max(5, Math.min(length, 10)));
+          case "asterisk":
+            return "*".repeat(Math.max(5, Math.min(length, 10)));
+          case "redacted":
+            return "[REDACTED]";
+          case "removed":
+            return "[REMOVED]";
+          case "censored":
+            return "[CENSORED]";
+          default:
+            return "[REDACTED]";
+        }
+      }
+
+      function redact() {
+        const input = document.getElementById("input").value;
+        const style = document.getElementById("style").value;
+        let output = input;
+        let stats = {
+          emails: 0,
+          phones: 0,
+          ssns: 0,
+          creditCards: 0,
+          ips: 0,
+          urls: 0,
+        };
+
+        // Email addresses
+        if (document.getElementById("redactEmail").checked) {
+          const emailRegex =
+            /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
+          const matches = output.match(emailRegex);
+          if (matches) {
+            stats.emails = matches.length;
+            output = output.replace(emailRegex, (match) =>
+              getRedactionText(match.length, style),
+            );
+          }
         }
 
-        function redact() {
-            const input = document.getElementById('input').value;
-            const style = document.getElementById('style').value;
-            let output = input;
-            let stats = {
-                emails: 0,
-                phones: 0,
-                ssns: 0,
-                creditCards: 0,
-                ips: 0,
-                urls: 0
-            };
-
-            // Email addresses
-            if (document.getElementById('redactEmail').checked) {
-                const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
-                const matches = output.match(emailRegex);
-                if (matches) {
-                    stats.emails = matches.length;
-                    output = output.replace(emailRegex, match => getRedactionText(match.length, style));
-                }
-            }
-
-            // Phone numbers
-            if (document.getElementById('redactPhone').checked) {
-                const phoneRegex = /(\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/g;
-                const matches = output.match(phoneRegex);
-                if (matches) {
-                    stats.phones = matches.length;
-                    output = output.replace(phoneRegex, match => getRedactionText(match.length, style));
-                }
-            }
-
-            // SSN
-            if (document.getElementById('redactSSN').checked) {
-                const ssnRegex = /\b\d{3}-\d{2}-\d{4}\b/g;
-                const matches = output.match(ssnRegex);
-                if (matches) {
-                    stats.ssns = matches.length;
-                    output = output.replace(ssnRegex, match => getRedactionText(match.length, style));
-                }
-            }
-
-            // Credit Card numbers
-            if (document.getElementById('redactCreditCard').checked) {
-                const ccRegex = /\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b/g;
-                const matches = output.match(ccRegex);
-                if (matches) {
-                    stats.creditCards = matches.length;
-                    output = output.replace(ccRegex, match => getRedactionText(match.length, style));
-                }
-            }
-
-            // IP Addresses
-            if (document.getElementById('redactIP').checked) {
-                const ipRegex = /\b(?:\d{1,3}\.){3}\d{1,3}\b/g;
-                const matches = output.match(ipRegex);
-                if (matches) {
-                    stats.ips = matches.length;
-                    output = output.replace(ipRegex, match => getRedactionText(match.length, style));
-                }
-            }
-
-            // URLs
-            if (document.getElementById('redactURL').checked) {
-                const urlRegex = /https?:\/\/[^\s]+/g;
-                const matches = output.match(urlRegex);
-                if (matches) {
-                    stats.urls = matches.length;
-                    output = output.replace(urlRegex, match => getRedactionText(match.length, style));
-                }
-            }
-
-            document.getElementById('output').value = output;
-
-            // Display stats
-            const total = Object.values(stats).reduce((a, b) => a + b, 0);
-            let statsHTML = `<strong>📊 Redaction Summary:</strong><br><br>`;
-
-            if (total === 0) {
-                statsHTML += '<span style="color: #666;">No sensitive information detected.</span>';
-            } else {
-                if (stats.emails > 0) statsHTML += `<div>✉️ Email Addresses: ${stats.emails}</div>`;
-                if (stats.phones > 0) statsHTML += `<div>📞 Phone Numbers: ${stats.phones}</div>`;
-                if (stats.ssns > 0) statsHTML += `<div>🆔 SSN: ${stats.ssns}</div>`;
-                if (stats.creditCards > 0) statsHTML += `<div>💳 Credit Cards: ${stats.creditCards}</div>`;
-                if (stats.ips > 0) statsHTML += `<div>🌐 IP Addresses: ${stats.ips}</div>`;
-                if (stats.urls > 0) statsHTML += `<div>🔗 URLs: ${stats.urls}</div>`;
-                statsHTML += `<div style="margin-top: 1rem; font-weight: bold; color: #667eea;">Total Items Redacted: ${total}</div>`;
-            }
-
-            document.getElementById('stats').innerHTML = statsHTML;
+        // Phone numbers
+        if (document.getElementById("redactPhone").checked) {
+          const phoneRegex =
+            /(\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/g;
+          const matches = output.match(phoneRegex);
+          if (matches) {
+            stats.phones = matches.length;
+            output = output.replace(phoneRegex, (match) =>
+              getRedactionText(match.length, style),
+            );
+          }
         }
 
-        function copy() {
-            const output = document.getElementById('output');
-            output.select();
-            document.execCommand('copy');
-
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = '✓ Copied!';
-            setTimeout(() => {
-                btn.textContent = originalText;
-            }, 2000);
+        // SSN
+        if (document.getElementById("redactSSN").checked) {
+          const ssnRegex = /\b\d{3}-\d{2}-\d{4}\b/g;
+          const matches = output.match(ssnRegex);
+          if (matches) {
+            stats.ssns = matches.length;
+            output = output.replace(ssnRegex, (match) =>
+              getRedactionText(match.length, style),
+            );
+          }
         }
 
-        function clearAll() {
-            document.getElementById('input').value = '';
-            document.getElementById('output').value = '';
-            document.getElementById('stats').innerHTML = '';
+        // Credit Card numbers
+        if (document.getElementById("redactCreditCard").checked) {
+          const ccRegex = /\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b/g;
+          const matches = output.match(ccRegex);
+          if (matches) {
+            stats.creditCards = matches.length;
+            output = output.replace(ccRegex, (match) =>
+              getRedactionText(match.length, style),
+            );
+          }
         }
 
-        // Redact on load
-        redact();
+        // IP Addresses
+        if (document.getElementById("redactIP").checked) {
+          const ipRegex = /\b(?:\d{1,3}\.){3}\d{1,3}\b/g;
+          const matches = output.match(ipRegex);
+          if (matches) {
+            stats.ips = matches.length;
+            output = output.replace(ipRegex, (match) =>
+              getRedactionText(match.length, style),
+            );
+          }
+        }
+
+        // URLs
+        if (document.getElementById("redactURL").checked) {
+          const urlRegex = /https?:\/\/[^\s]+/g;
+          const matches = output.match(urlRegex);
+          if (matches) {
+            stats.urls = matches.length;
+            output = output.replace(urlRegex, (match) =>
+              getRedactionText(match.length, style),
+            );
+          }
+        }
+
+        document.getElementById("output").value = output;
+
+        // Display stats
+        const total = Object.values(stats).reduce((a, b) => a + b, 0);
+        let statsHTML = `<strong>📊 Redaction Summary:</strong><br><br>`;
+
+        if (total === 0) {
+          statsHTML +=
+            '<span style="color: #666;">No sensitive information detected.</span>';
+        } else {
+          if (stats.emails > 0)
+            statsHTML += `<div>✉️ Email Addresses: ${stats.emails}</div>`;
+          if (stats.phones > 0)
+            statsHTML += `<div>📞 Phone Numbers: ${stats.phones}</div>`;
+          if (stats.ssns > 0) statsHTML += `<div>🆔 SSN: ${stats.ssns}</div>`;
+          if (stats.creditCards > 0)
+            statsHTML += `<div>💳 Credit Cards: ${stats.creditCards}</div>`;
+          if (stats.ips > 0)
+            statsHTML += `<div>🌐 IP Addresses: ${stats.ips}</div>`;
+          if (stats.urls > 0) statsHTML += `<div>🔗 URLs: ${stats.urls}</div>`;
+          statsHTML += `<div style="margin-top: 1rem; font-weight: bold; color: #667eea;">Total Items Redacted: ${total}</div>`;
+        }
+
+        document.getElementById("stats").innerHTML = statsHTML;
+      }
+
+      function copy() {
+        const output = document.getElementById("output");
+        output.select();
+        document.execCommand("copy");
+
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = "✓ Copied!";
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
+      }
+
+      function clearAll() {
+        document.getElementById("input").value = "";
+        document.getElementById("output").value = "";
+        document.getElementById("stats").innerHTML = "";
+      }
+
+      // Redact on load
+      redact();
     </script>
-</body>
+  </body>
 </html>

@@ -1,144 +1,333 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/png" href="/favicon.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UUID Generator - Create Unique Identifiers</title>
-  <meta name="description" content="Generate UUID/GUID instantly. Create unique identifiers for your applications." />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.conditional.min.css"
-    integrity="sha256-v0OEZWNaUvlmR1U0LMHiwNOzzO3q2wkIipf4KlEB9NWs=" crossorigin="anonymous">
-  <style>
-    :root {--primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);--shadow-lg: 0 8px 24px rgba(0,0,0,0.15);}
-    body {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh;}
-    .back-link {display: inline-flex; align-items: center; gap: 0.5rem; color: white; text-decoration: none; font-weight: 600; margin-bottom: 1.5rem; padding: 0.5rem 1rem; background: rgba(255, 255, 255, 0.2); border-radius: 50px; backdrop-filter: blur(10px); transition: all 0.3s ease;}
-    .back-link:hover {background: rgba(255, 255, 255, 0.3); transform: translateX(-5px);}
-    header {background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 2.5rem; box-shadow: var(--shadow-lg);}
-    header h1 {background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.75rem;}
-    .tool-icon {width: 60px; height: 60px; background: var(--primary-gradient); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white;}
-    main {background: rgba(255, 255, 255, 0.98); border-radius: 20px; padding: 2.5rem; margin-top: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow-lg);}
-    .uuid-display {background: #f8fafc; border: 3px solid #e2e8f0; border-radius: 16px; padding: 2rem; margin: 2rem 0; text-align: center; font-family: Monaco, monospace; font-size: 1.8rem; font-weight: 700; color: #667eea; min-height: 80px; display: flex; align-items: center; justify-content: center;}
-    .uuid-list {margin: 2rem 0;}
-    .uuid-item {background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.5rem; margin: 0.75rem 0; display: flex; justify-content: space-between; align-items: center; font-family: Monaco, monospace;}
-    .uuid-text {color: #1e293b; font-weight: 600;}
-    .copy-small {padding: 0.5rem 1rem; background: var(--primary-gradient); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;}
-    .copy-small:hover {transform: translateY(-2px);}
-    button {padding: 0.875rem 1.75rem; border-radius: 12px; font-weight: 600; font-size: 1rem; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.3s;}
-    button.primary {background: var(--primary-gradient); color: white; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);}
-    button.primary:hover {transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);}
-    button.secondary {background: white; color: #64748b; border: 2px solid #e2e8f0;}
-    .button-group {display: flex; gap: 1rem; flex-wrap: wrap;}
-    .controls {display: flex; gap: 1rem; align-items: center; margin: 2rem 0; flex-wrap: wrap;}
-    .controls label {font-weight: 600;}
-    .controls input[type="number"] {width: 100px; padding: 0.5rem; border: 2px solid #e2e8f0; border-radius: 8px;}
-    footer {background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow-lg); text-align: center;}
-    footer a {color: #667eea; text-decoration: none;}
-  </style>
-</head>
-<body>
-  <div class="container">
-    <a href="/" class="back-link"><span>←</span><span>Back</span></a>
-    <header><h1><span class="tool-icon">🆔</span><span>UUID Generator</span></h1><p style="color: #64748b; margin:0;">Generate unique identifiers (UUID v4)</p></header>
-    <main>
-      <div class="uuid-display" id="uuid-display">Click "Generate UUID" to create</div>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UUID Generator - Create Unique Identifiers</title>
+    <meta
+      name="description"
+      content="Generate UUID/GUID instantly. Create unique identifiers for your applications."
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.conditional.min.css"
+      integrity="sha256-v0OEZWNaUvlmR1U0LMHiwNOzzO3q2wkIipf4KlEB9NWs="
+      crossorigin="anonymous"
+    />
+    <style>
+      :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+      }
+      body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50px;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+      }
+      .back-link:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateX(-5px);
+      }
+      header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: var(--shadow-lg);
+      }
+      header h1 {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .tool-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--primary-gradient);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: white;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 20px;
+        padding: 2.5rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-lg);
+      }
+      .uuid-display {
+        background: #f8fafc;
+        border: 3px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 2rem;
+        margin: 2rem 0;
+        text-align: center;
+        font-family: Monaco, monospace;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #667eea;
+        min-height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .uuid-list {
+        margin: 2rem 0;
+      }
+      .uuid-item {
+        background: white;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        margin: 0.75rem 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: Monaco, monospace;
+      }
+      .uuid-text {
+        color: #1e293b;
+        font-weight: 600;
+      }
+      .copy-small {
+        padding: 0.5rem 1rem;
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s;
+      }
+      .copy-small:hover {
+        transform: translateY(-2px);
+      }
+      button {
+        padding: 0.875rem 1.75rem;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s;
+      }
+      button.primary {
+        background: var(--primary-gradient);
+        color: white;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      }
+      button.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+      }
+      button.secondary {
+        background: white;
+        color: #64748b;
+        border: 2px solid #e2e8f0;
+      }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .controls {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin: 2rem 0;
+        flex-wrap: wrap;
+      }
+      .controls label {
+        font-weight: 600;
+      }
+      .controls input[type="number"] {
+        width: 100px;
+        padding: 0.5rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+      }
+      footer {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-lg);
+        text-align: center;
+      }
+      footer a {
+        color: #667eea;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="/" class="back-link"><span>←</span><span>Back</span></a>
+      <header>
+        <h1><span class="tool-icon">🆔</span><span>UUID Generator</span></h1>
+        <p style="color: #64748b; margin: 0">
+          Generate unique identifiers (UUID v4)
+        </p>
+      </header>
+      <main>
+        <div class="uuid-display" id="uuid-display">
+          Click "Generate UUID" to create
+        </div>
 
-      <div class="button-group">
-        <button class="primary" id="generate-one-btn"><span>🆔</span><span>Generate One</span></button>
-        <button class="primary" id="generate-bulk-btn"><span>📝</span><span>Generate Bulk</span></button>
-        <button class="secondary" id="copy-btn"><span>📋</span><span>Copy</span></button>
-        <button class="secondary" id="clear-btn"><span>🗑️</span><span>Clear All</span></button>
-      </div>
+        <div class="button-group">
+          <button class="primary" id="generate-one-btn">
+            <span>🆔</span><span>Generate One</span>
+          </button>
+          <button class="primary" id="generate-bulk-btn">
+            <span>📝</span><span>Generate Bulk</span>
+          </button>
+          <button class="secondary" id="copy-btn">
+            <span>📋</span><span>Copy</span>
+          </button>
+          <button class="secondary" id="clear-btn">
+            <span>🗑️</span><span>Clear All</span>
+          </button>
+        </div>
 
-      <div class="controls">
-        <label for="bulk-count">Bulk Amount:</label>
-        <input type="number" id="bulk-count" min="1" max="100" value="10">
-      </div>
+        <div class="controls">
+          <label for="bulk-count">Bulk Amount:</label>
+          <input type="number" id="bulk-count" min="1" max="100" value="10" />
+        </div>
 
-      <div class="uuid-list" id="uuid-list"></div>
+        <div class="uuid-list" id="uuid-list"></div>
 
-      <div style="background: #f8fafc; border-left: 4px solid #667eea; padding: 1.5rem; border-radius: 12px; margin: 2rem 0;">
-        <h3 style="margin-top:0;">About UUID</h3>
-        <p style="color: #64748b;">UUID (Universally Unique Identifier) is a 128-bit number used to identify information. This tool generates UUID v4 (random) identifiers.</p>
-      </div>
-    </main>
-    <footer><small><p>&copy; 2025 TextKit</p><p style="margin-top:0.5rem;"><a href="/">Home</a></p></small></footer>
-  </div>
+        <div
+          style="
+            background: #f8fafc;
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+          "
+        >
+          <h3 style="margin-top: 0">About UUID</h3>
+          <p style="color: #64748b">
+            UUID (Universally Unique Identifier) is a 128-bit number used to
+            identify information. This tool generates UUID v4 (random)
+            identifiers.
+          </p>
+        </div>
+      </main>
+      <footer>
+        <small
+          ><p>&copy; 2025 TextKit</p>
+          <p style="margin-top: 0.5rem"><a href="/">Home</a></p></small
+        >
+      </footer>
+    </div>
 
-  <script>
-    const uuidDisplay = document.getElementById('uuid-display');
-    const uuidList = document.getElementById('uuid-list');
-    const generateOneBtn = document.getElementById('generate-one-btn');
-    const generateBulkBtn = document.getElementById('generate-bulk-btn');
-    const copyBtn = document.getElementById('copy-btn');
-    const clearBtn = document.getElementById('clear-btn');
-    const bulkCount = document.getElementById('bulk-count');
+    <script>
+      const uuidDisplay = document.getElementById("uuid-display");
+      const uuidList = document.getElementById("uuid-list");
+      const generateOneBtn = document.getElementById("generate-one-btn");
+      const generateBulkBtn = document.getElementById("generate-bulk-btn");
+      const copyBtn = document.getElementById("copy-btn");
+      const clearBtn = document.getElementById("clear-btn");
+      const bulkCount = document.getElementById("bulk-count");
 
-    let currentUUIDs = [];
+      let currentUUIDs = [];
 
-    function generateUUID() {
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-        const r = Math.random() * 16 | 0;
-        const v = c === 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-      });
-    }
+      function generateUUID() {
+        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+          const r = (Math.random() * 16) | 0;
+          const v = c === "x" ? r : (r & 0x3) | 0x8;
+          return v.toString(16);
+        });
+      }
 
-    function addUUIDToList(uuid) {
-      const item = document.createElement('div');
-      item.className = 'uuid-item';
-      item.innerHTML = `
+      function addUUIDToList(uuid) {
+        const item = document.createElement("div");
+        item.className = "uuid-item";
+        item.innerHTML = `
         <span class="uuid-text">${uuid}</span>
         <button class="copy-small" onclick="copyUUID('${uuid}')">Copy</button>
       `;
-      uuidList.appendChild(item);
-    }
-
-    window.copyUUID = async function(uuid) {
-      try {
-        await navigator.clipboard.writeText(uuid);
-        alert('Copied!');
-      } catch(e) {
-        alert('Copy failed');
+        uuidList.appendChild(item);
       }
-    };
 
-    generateOneBtn.addEventListener('click', () => {
-      const uuid = generateUUID();
-      currentUUIDs = [uuid];
-      uuidDisplay.textContent = uuid;
-      uuidList.innerHTML = '';
-      addUUIDToList(uuid);
-    });
+      window.copyUUID = async function (uuid) {
+        try {
+          await navigator.clipboard.writeText(uuid);
+          alert("Copied!");
+        } catch (e) {
+          alert("Copy failed");
+        }
+      };
 
-    generateBulkBtn.addEventListener('click', () => {
-      const count = parseInt(bulkCount.value) || 10;
-      currentUUIDs = [];
-      uuidList.innerHTML = '';
-      uuidDisplay.textContent = `Generated ${count} UUIDs`;
-
-      for (let i = 0; i < count; i++) {
+      generateOneBtn.addEventListener("click", () => {
         const uuid = generateUUID();
-        currentUUIDs.push(uuid);
+        currentUUIDs = [uuid];
+        uuidDisplay.textContent = uuid;
+        uuidList.innerHTML = "";
         addUUIDToList(uuid);
-      }
-    });
+      });
 
-    copyBtn.addEventListener('click', async () => {
-      if (currentUUIDs.length === 0) {alert('Generate UUIDs first'); return;}
-      const text = currentUUIDs.join('\n');
-      try {
-        await navigator.clipboard.writeText(text);
-        const orig = copyBtn.innerHTML;
-        copyBtn.innerHTML = '<span>✓</span><span>Copied!</span>';
-        setTimeout(() => copyBtn.innerHTML = orig, 2000);
-      } catch(e) {alert('Copy failed');}
-    });
+      generateBulkBtn.addEventListener("click", () => {
+        const count = parseInt(bulkCount.value) || 10;
+        currentUUIDs = [];
+        uuidList.innerHTML = "";
+        uuidDisplay.textContent = `Generated ${count} UUIDs`;
 
-    clearBtn.addEventListener('click', () => {
-      currentUUIDs = [];
-      uuidList.innerHTML = '';
-      uuidDisplay.textContent = 'Click "Generate UUID" to create';
-    });
-  </script>
-</body>
+        for (let i = 0; i < count; i++) {
+          const uuid = generateUUID();
+          currentUUIDs.push(uuid);
+          addUUIDToList(uuid);
+        }
+      });
+
+      copyBtn.addEventListener("click", async () => {
+        if (currentUUIDs.length === 0) {
+          alert("Generate UUIDs first");
+          return;
+        }
+        const text = currentUUIDs.join("\n");
+        try {
+          await navigator.clipboard.writeText(text);
+          const orig = copyBtn.innerHTML;
+          copyBtn.innerHTML = "<span>✓</span><span>Copied!</span>";
+          setTimeout(() => (copyBtn.innerHTML = orig), 2000);
+        } catch (e) {
+          alert("Copy failed");
+        }
+      });
+
+      clearBtn.addEventListener("click", () => {
+        currentUUIDs = [];
+        uuidList.innerHTML = "";
+        uuidDisplay.textContent = 'Click "Generate UUID" to create';
+      });
+    </script>
+  </body>
 </html>

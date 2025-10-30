@@ -1,57 +1,213 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IP Address Converter - TextKit</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-<style>
-:root{--gradient:linear-gradient(135deg,#43e97b 0%,#38f9d7 100%)}
-body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
-.container{max-width:900px;margin:0 auto}
-.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
-.back-link:hover{opacity:1}
-main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
-.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
-input[type="text"]{border:2px solid #e2e8f0;border-radius:8px;padding:1rem;font-size:1.1rem;width:100%;margin-bottom:1.5rem;font-family:monospace}
-input[type="text"]:focus{border-color:#43e97b;box-shadow:0 0 0 3px rgba(67,233,123,0.1)}
-.results{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.result-item{padding:1.5rem;background:#f8fafc;border-radius:12px}
-.result-item h3{margin:0 0 0.5rem 0;color:#1e293b;font-size:1rem}
-.result-value{font-family:monospace;font-size:1.1rem;color:#43e97b;font-weight:600;word-break:break-all}
-.button-group{display:flex;gap:1rem;margin-top:1rem}
-button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
-button.secondary{background:#f1f5f9;color:#475569}
-button.secondary:hover{background:#e2e8f0;transform:translateY(-2px)}
-footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
-</style>
-</head>
-<body>
-<div class="container">
-<a href="../../index.html" class="back-link">← Back to Home</a>
-<main>
-<h1>IP Address Converter</h1>
-<p class="subtitle">Convert between IPv4 formats (decimal, hex, binary)</p>
-<label>IP Address (e.g., 192.168.1.1 or 3232235777):</label>
-<input type="text" id="input" placeholder="192.168.1.1">
-<div class="results">
-<div class="result-item"><h3>Decimal (Dotted)</h3><div class="result-value" id="decimal">-</div></div>
-<div class="result-item"><h3>Integer</h3><div class="result-value" id="integer">-</div></div>
-<div class="result-item"><h3>Hexadecimal</h3><div class="result-value" id="hex">-</div></div>
-<div class="result-item"><h3>Binary</h3><div class="result-value" id="binary">-</div></div>
-</div>
-<div class="button-group">
-<button class="secondary" onclick="clear()">Clear</button>
-</div>
-</main>
-<footer>© 2024 TextKit - All text processing happens in your browser</footer>
-</div>
-<script>
-function convert(){const input=document.getElementById('input').value.trim();if(!input){document.getElementById('decimal').textContent='-';document.getElementById('integer').textContent='-';document.getElementById('hex').textContent='-';document.getElementById('binary').textContent='-';return}try{let num;if(input.includes('.')){const parts=input.split('.').map(p=>parseInt(p));if(parts.length!==4||parts.some(p=>isNaN(p)||p<0||p>255))throw new Error('Invalid IP');num=(parts[0]<<24)+(parts[1]<<16)+(parts[2]<<8)+parts[3];num=num>>>0}else{num=parseInt(input);if(num<0||num>4294967295)throw new Error('Invalid IP')}const decimal=[(num>>>24)&255,(num>>>16)&255,(num>>>8)&255,num&255].join('.');const hex='0x'+num.toString(16).toUpperCase().padStart(8,'0');const binary=num.toString(2).padStart(32,'0').match(/.{8}/g).join(' ');document.getElementById('decimal').textContent=decimal;document.getElementById('integer').textContent=num;document.getElementById('hex').textContent=hex;document.getElementById('binary').textContent=binary}catch(e){document.getElementById('decimal').textContent='Error';document.getElementById('integer').textContent='Error';document.getElementById('hex').textContent='Error';document.getElementById('binary').textContent='Error'}}
-function clear(){document.getElementById('input').value='';convert()}
-document.getElementById('input').addEventListener('input',convert);
-convert();
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IP Address Converter - TextKit</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      }
+      body {
+        min-height: 100vh;
+        background: var(--gradient);
+        margin: 0;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .back-link {
+        color: #fff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+        transition: opacity 0.3s;
+      }
+      .back-link:hover {
+        opacity: 1;
+      }
+      main {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+      input[type="text"] {
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 1rem;
+        font-size: 1.1rem;
+        width: 100%;
+        margin-bottom: 1.5rem;
+        font-family: monospace;
+      }
+      input[type="text"]:focus {
+        border-color: #43e97b;
+        box-shadow: 0 0 0 3px rgba(67, 233, 123, 0.1);
+      }
+      .results {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .result-item {
+        padding: 1.5rem;
+        background: #f8fafc;
+        border-radius: 12px;
+      }
+      .result-item h3 {
+        margin: 0 0 0.5rem 0;
+        color: #1e293b;
+        font-size: 1rem;
+      }
+      .result-value {
+        font-family: monospace;
+        font-size: 1.1rem;
+        color: #43e97b;
+        font-weight: 600;
+        word-break: break-all;
+      }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      button {
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: none;
+      }
+      button.secondary {
+        background: #f1f5f9;
+        color: #475569;
+      }
+      button.secondary:hover {
+        background: #e2e8f0;
+        transform: translateY(-2px);
+      }
+      footer {
+        text-align: center;
+        color: #fff;
+        margin-top: 2rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../../index.html" class="back-link">← Back to Home</a>
+      <main>
+        <h1>IP Address Converter</h1>
+        <p class="subtitle">
+          Convert between IPv4 formats (decimal, hex, binary)
+        </p>
+        <label>IP Address (e.g., 192.168.1.1 or 3232235777):</label>
+        <input type="text" id="input" placeholder="192.168.1.1" />
+        <div class="results">
+          <div class="result-item">
+            <h3>Decimal (Dotted)</h3>
+            <div class="result-value" id="decimal">-</div>
+          </div>
+          <div class="result-item">
+            <h3>Integer</h3>
+            <div class="result-value" id="integer">-</div>
+          </div>
+          <div class="result-item">
+            <h3>Hexadecimal</h3>
+            <div class="result-value" id="hex">-</div>
+          </div>
+          <div class="result-item">
+            <h3>Binary</h3>
+            <div class="result-value" id="binary">-</div>
+          </div>
+        </div>
+        <div class="button-group">
+          <button class="secondary" onclick="clear()">Clear</button>
+        </div>
+      </main>
+      <footer>
+        © 2024 TextKit - All text processing happens in your browser
+      </footer>
+    </div>
+    <script>
+      function convert() {
+        const input = document.getElementById("input").value.trim();
+        if (!input) {
+          document.getElementById("decimal").textContent = "-";
+          document.getElementById("integer").textContent = "-";
+          document.getElementById("hex").textContent = "-";
+          document.getElementById("binary").textContent = "-";
+          return;
+        }
+        try {
+          let num;
+          if (input.includes(".")) {
+            const parts = input.split(".").map((p) => parseInt(p));
+            if (
+              parts.length !== 4 ||
+              parts.some((p) => isNaN(p) || p < 0 || p > 255)
+            )
+              throw new Error("Invalid IP");
+            num =
+              (parts[0] << 24) + (parts[1] << 16) + (parts[2] << 8) + parts[3];
+            num = num >>> 0;
+          } else {
+            num = parseInt(input);
+            if (num < 0 || num > 4294967295) throw new Error("Invalid IP");
+          }
+          const decimal = [
+            (num >>> 24) & 255,
+            (num >>> 16) & 255,
+            (num >>> 8) & 255,
+            num & 255,
+          ].join(".");
+          const hex = "0x" + num.toString(16).toUpperCase().padStart(8, "0");
+          const binary = num
+            .toString(2)
+            .padStart(32, "0")
+            .match(/.{8}/g)
+            .join(" ");
+          document.getElementById("decimal").textContent = decimal;
+          document.getElementById("integer").textContent = num;
+          document.getElementById("hex").textContent = hex;
+          document.getElementById("binary").textContent = binary;
+        } catch (e) {
+          document.getElementById("decimal").textContent = "Error";
+          document.getElementById("integer").textContent = "Error";
+          document.getElementById("hex").textContent = "Error";
+          document.getElementById("binary").textContent = "Error";
+        }
+      }
+      function clear() {
+        document.getElementById("input").value = "";
+        convert();
+      }
+      document.getElementById("input").addEventListener("input", convert);
+      convert();
+    </script>
+  </body>
 </html>
