@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Letter Counter - TextKit</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+<style>
+:root{--gradient:linear-gradient(135deg,#f093fb 0%,#f5576c 100%)}
+body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
+.container{max-width:900px;margin:0 auto}
+.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
+.back-link:hover{opacity:1}
+main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
+.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
+textarea{min-height:200px;font-family:monospace;font-size:0.95rem;border:2px solid #e2e8f0;border-radius:12px;transition:all 0.3s}
+textarea:focus{border-color:#f093fb;box-shadow:0 0 0 3px rgba(240,147,251,0.1)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2rem}
+.stat{padding:1.5rem;background:#f8fafc;border-radius:12px;text-align:center}
+.stat-value{font-size:2rem;font-weight:700;color:#f093fb;margin-bottom:0.5rem}
+.stat-label{color:#64748b;font-size:0.85rem}
+footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../../index.html" class="back-link">← Back to Home</a>
+<main>
+<h1>Letter Counter</h1>
+<p class="subtitle">Count letters, digits, spaces, and special characters</p>
+<label>Input Text:</label>
+<textarea id="input" placeholder="Enter or paste text..."></textarea>
+<div class="stats">
+<div class="stat"><div class="stat-value" id="letters">0</div><div class="stat-label">Letters</div></div>
+<div class="stat"><div class="stat-value" id="digits">0</div><div class="stat-label">Digits</div></div>
+<div class="stat"><div class="stat-value" id="spaces">0</div><div class="stat-label">Spaces</div></div>
+<div class="stat"><div class="stat-value" id="special">0</div><div class="stat-label">Special Chars</div></div>
+<div class="stat"><div class="stat-value" id="uppercase">0</div><div class="stat-label">Uppercase</div></div>
+<div class="stat"><div class="stat-value" id="lowercase">0</div><div class="stat-label">Lowercase</div></div>
+<div class="stat"><div class="stat-value" id="punctuation">0</div><div class="stat-label">Punctuation</div></div>
+<div class="stat"><div class="stat-value" id="total">0</div><div class="stat-label">Total Characters</div></div>
+</div>
+</main>
+<footer>© 2024 TextKit - All text processing happens in your browser</footer>
+</div>
+<script>
+function count(){const text=document.getElementById('input').value;const letters=text.match(/[a-zA-Z]/g)||[];const digits=text.match(/\d/g)||[];const spaces=text.match(/\s/g)||[];const uppercase=text.match(/[A-Z]/g)||[];const lowercase=text.match(/[a-z]/g)||[];const punctuation=text.match(/[.,;:!?'"()-]/g)||[];const special=text.length-letters.length-digits.length-spaces.length;document.getElementById('letters').textContent=letters.length;document.getElementById('digits').textContent=digits.length;document.getElementById('spaces').textContent=spaces.length;document.getElementById('special').textContent=special;document.getElementById('uppercase').textContent=uppercase.length;document.getElementById('lowercase').textContent=lowercase.length;document.getElementById('punctuation').textContent=punctuation.length;document.getElementById('total').textContent=text.length}
+document.getElementById('input').addEventListener('input',count);
+count();
+</script>
+</body>
+</html>

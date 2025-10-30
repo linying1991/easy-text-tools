@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acronym Generator - TextKit</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+<style>
+:root{--gradient:linear-gradient(135deg,#43e97b 0%,#38f9d7 100%)}
+body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
+.container{max-width:900px;margin:0 auto}
+.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
+.back-link:hover{opacity:1}
+main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
+.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
+textarea{min-height:120px;font-size:1rem;border:2px solid #e2e8f0;border-radius:12px;transition:all 0.3s}
+textarea:focus{border-color:#43e97b;box-shadow:0 0 0 3px rgba(67,233,123,0.1)}
+.options{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1rem;padding:1rem;background:#f8fafc;border-radius:12px}
+.option label{display:flex;align-items:center;gap:0.5rem}
+.button-group{display:flex;gap:1rem;margin-top:1rem}
+button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
+button.primary{background:var(--gradient);color:#fff}
+button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(67,233,123,0.3)}
+.result{margin-top:2rem;padding:2rem;background:#f8fafc;border-radius:12px;text-align:center}
+.acronym{font-size:3rem;font-weight:700;color:#43e97b;margin-bottom:1rem;font-family:monospace}
+footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../../index.html" class="back-link">← Back to Home</a>
+<main>
+<h1>Acronym Generator</h1>
+<p class="subtitle">Generate acronyms from phrases</p>
+<label>Input Phrase:</label>
+<textarea id="input" placeholder="Enter phrase (e.g., Application Programming Interface)..."></textarea>
+<div class="options">
+<div class="option"><label><input type="checkbox" id="uppercase" checked> Uppercase</label></div>
+<div class="option"><label><input type="checkbox" id="skipShort" checked> Skip short words (&lt;3 chars)</label></div>
+<div class="option"><label><input type="checkbox" id="periods"> Add periods (A.P.I.)</label></div>
+<div class="option"><label><input type="checkbox" id="firstOnly" checked> First letter only</label></div>
+</div>
+<div class="button-group">
+<button class="primary" onclick="generate()">Generate Acronym</button>
+</div>
+<div class="result" id="result" style="display:none">
+<div class="acronym" id="acronym"></div>
+</div>
+</main>
+<footer>© 2024 TextKit - All text processing happens in your browser</footer>
+</div>
+<script>
+function generate(){const text=document.getElementById('input').value.trim();if(!text)return;const uppercase=document.getElementById('uppercase').checked;const skipShort=document.getElementById('skipShort').checked;const periods=document.getElementById('periods').checked;const firstOnly=document.getElementById('firstOnly').checked;let words=text.split(/\s+/);if(skipShort){words=words.filter(w=>w.length>=3)}let acronym=words.map(word=>{if(firstOnly){return word[0]}else{return word.match(/[A-Z]/g)?word.match(/[A-Z]/g).join(''):word[0]}}).join('');if(uppercase){acronym=acronym.toUpperCase()}if(periods){acronym=acronym.split('').join('.')+'.'}document.getElementById('acronym').textContent=acronym||'N/A';document.getElementById('result').style.display='block'}
+document.getElementById('input').addEventListener('input',generate);
+document.querySelectorAll('input[type="checkbox"]').forEach(cb=>cb.addEventListener('change',generate));
+</script>
+</body>
+</html>

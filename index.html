@@ -1,0 +1,1000 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TextKit - Free Online Text Processing Tools</title>
+  <meta name="description" content="Free online text processing tools: encode, decode, convert, clean, analyze text. All tools work in your browser with complete privacy." />
+  <meta name="keywords" content="text tools, text processing, base64, text converter, text analyzer" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.conditional.min.css"
+    integrity="sha256-v0OEZWNaUvlmR1U0LMHiwNOzzO3q2wkIipf4KlEB9NWs=" crossorigin="anonymous">
+  <style>
+    :root {
+      --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      --gradient-5: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      --gradient-6: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+      --gradient-7: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      --gradient-8: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%);
+      --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.15);
+      --shadow-xl: 0 12px 40px rgba(0,0,0,0.2);
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin-top: 2rem;
+      box-shadow: var(--shadow-xl);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    header h1 {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      letter-spacing: -1px;
+    }
+
+    header p {
+      color: #64748b;
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    .coffee {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .coffee:hover {
+      transform: translateY(-3px);
+    }
+
+    main {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-xl);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .search-box {
+      margin: 0 0 3rem 0;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      display: block;
+      padding: 1rem 1rem 1rem 3rem;
+      border-radius: 50px;
+      border: 2px solid #e2e8f0;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .search-box input:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+      outline: none;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-280px);
+      top: 50%;
+      margin-top: -10px;
+      color: #94a3b8;
+      font-size: 1.2rem;
+    }
+
+    .category {
+      margin: 3.5rem 0;
+    }
+
+    .category-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 3px solid transparent;
+      position: relative;
+    }
+
+    .category-title::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--gradient-1);
+      border-radius: 10px;
+    }
+
+    .category-title h2 {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .category-title .emoji {
+      font-size: 2rem;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .tool-card {
+      background: white;
+      border: 2px solid #f1f5f9;
+      border-radius: 16px;
+      padding: 1rem 1.5rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-1);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: #e0e7ff;
+    }
+
+    .tool-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .tool-card h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tool-card .icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .tool-card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #64748b;
+      line-height: 1.5;
+    }
+
+    /* Gradient colors for each category */
+    .category[data-category="generate"] .tool-card::before { background: var(--gradient-1); }
+    .category[data-category="generate"] .tool-card .icon { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+
+    .category[data-category="convert"] .tool-card::before { background: var(--gradient-2); }
+    .category[data-category="convert"] .tool-card .icon { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+
+    .category[data-category="extract"] .tool-card::before { background: var(--gradient-3); }
+    .category[data-category="extract"] .tool-card .icon { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+
+    .category[data-category="clean"] .tool-card::before { background: var(--gradient-4); }
+    .category[data-category="clean"] .tool-card .icon { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; }
+
+    .category[data-category="analyze"] .tool-card::before { background: var(--gradient-5); }
+    .category[data-category="analyze"] .tool-card .icon { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white; }
+
+    .category[data-category="compare"] .tool-card::before { background: var(--gradient-6); }
+    .category[data-category="compare"] .tool-card .icon { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); color: white; }
+
+    .category[data-category="sort"] .tool-card::before { background: var(--gradient-7); }
+    .category[data-category="sort"] .tool-card .icon { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333; }
+
+    .category[data-category="encode"] .tool-card::before { background: var(--gradient-8); }
+    .category[data-category="encode"] .tool-card .icon { background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%); color: white; }
+
+    footer {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+    }
+
+    footer a {
+      color: #667eea;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: #764ba2;
+    }
+
+    header hgroup {
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      .tool-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .search-icon {
+        left: 1rem;
+        transform: none;
+      }
+
+      .search-box input {
+        padding-left: 3rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="container">
+    <hgroup>
+      <div class="hero-badge">✨ 100% Free & Private - 130+ Tools</div>
+      <h1>TextKit</h1>
+      <a href="https://ko-fi.com/xyzsu" target="_blank" class="coffee">
+        <img style="height: 50px;" src="/kofi_bg_tag_white.svg" alt="Support me" height="50">
+      </a>
+      <p>Powerful text processing tools that work entirely in your browser. Your data never leaves your device.</p>
+    </hgroup>
+  </header>
+
+  <main class="container">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="search" id="tool-search" placeholder="Search for a tool...">
+    </div>
+
+    <!-- Generate Category -->
+    <section class="category" data-category="generate">
+      <div class="category-title">
+        <span class="emoji">📝</span>
+        <h2>Generate</h2>
+      </div>
+      <div class="tool-grid">
+        <a href="/tools/random-password-generator/" class="tool-card">
+          <h3><span class="icon">🔑</span> Password Generator</h3>
+          <p>Generate secure random passwords</p>
+        </a>
+        <a href="/tools/advanced-password-generator/" class="tool-card">
+          <h3><span class="icon">🔐</span> Advanced Password</h3>
+          <p>Password with strength meter & batch</p>
+        </a>
+        <a href="/tools/uuid-generator/" class="tool-card">
+          <h3><span class="icon">🆔</span> UUID Generator</h3>
+          <p>Generate unique identifiers</p>
+        </a>
+        <a href="/tools/lorem-ipsum-generator/" class="tool-card">
+          <h3><span class="icon">📄</span> Lorem Ipsum</h3>
+          <p>Generate placeholder text</p>
+        </a>
+        <a href="/tools/lorem-ipsum-variants/" class="tool-card">
+          <h3><span class="icon">📝</span> Lorem Variants</h3>
+          <p>Bacon, Hipster, Corporate ipsum</p>
+        </a>
+        <a href="/tools/sequence-generator/" class="tool-card">
+          <h3><span class="icon">🔢</span> Sequence Generator</h3>
+          <p>Number or letter sequences</p>
+        </a>
+        <a href="/tools/random-text-generator/" class="tool-card">
+          <h3><span class="icon">🎲</span> Random Text</h3>
+          <p>Random words and sentences</p>
+        </a>
+        <a href="/tools/random-word-generator/" class="tool-card">
+          <h3><span class="icon">🎯</span> Random Words</h3>
+          <p>By category: nouns, verbs, adjectives</p>
+        </a>
+        <a href="/tools/fancy-font-generator/" class="tool-card">
+          <h3><span class="icon">✨</span> Fancy Fonts</h3>
+          <p>Multiple Unicode font styles</p>
+        </a>
+        <a href="/tools/ascii-art-generator/" class="tool-card">
+          <h3><span class="icon">🎨</span> ASCII Art</h3>
+          <p>Banner-style ASCII art</p>
+        </a>
+        <a href="/tools/acronym-generator/" class="tool-card">
+          <h3><span class="icon">🔤</span> Acronym Generator</h3>
+          <p>Create acronyms from phrases</p>
+        </a>
+        <a href="/tools/text-to-title-generator/" class="tool-card">
+          <h3><span class="icon">📰</span> Title Generator</h3>
+          <p>Generate title variations</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Convert Category -->
+    <section class="category" data-category="convert">
+      <div class="category-title">
+        <span class="emoji">🔄</span>
+        <h2>Convert & Transform</h2>
+      </div>
+      <div class="tool-grid">
+        <a href="/tools/case-converter/" class="tool-card">
+          <h3><span class="icon">Aa</span> Case Converter</h3>
+          <p>10 different case styles</p>
+        </a>
+        <a href="/tools/case-style-converter/" class="tool-card">
+          <h3><span class="icon">🔤</span> Case Styles</h3>
+          <p>camelCase, snake_case, kebab-case</p>
+        </a>
+        <a href="/tools/base64-encode/" class="tool-card">
+          <h3><span class="icon">🔒</span> Base64 Encode</h3>
+          <p>Encode to Base64</p>
+        </a>
+        <a href="/tools/base64-decode/" class="tool-card">
+          <h3><span class="icon">🔓</span> Base64 Decode</h3>
+          <p>Decode from Base64</p>
+        </a>
+        <a href="/tools/url-encode/" class="tool-card">
+          <h3><span class="icon">🌐</span> URL Encode</h3>
+          <p>Encode text for URLs</p>
+        </a>
+        <a href="/tools/url-decode/" class="tool-card">
+          <h3><span class="icon">🔗</span> URL Decode</h3>
+          <p>Decode URL-encoded text</p>
+        </a>
+        <a href="/tools/html-encode/" class="tool-card">
+          <h3><span class="icon">📝</span> HTML Encode</h3>
+          <p>Convert to HTML entities</p>
+        </a>
+        <a href="/tools/html-decode/" class="tool-card">
+          <h3><span class="icon">📄</span> HTML Decode</h3>
+          <p>Decode HTML entities</p>
+        </a>
+        <a href="/tools/hex-encode/" class="tool-card">
+          <h3><span class="icon">16</span> Hex Encode</h3>
+          <p>Text to hexadecimal</p>
+        </a>
+        <a href="/tools/hex-decode/" class="tool-card">
+          <h3><span class="icon">AB</span> Hex Decode</h3>
+          <p>Hexadecimal to text</p>
+        </a>
+        <a href="/tools/unicode-escape/" class="tool-card">
+          <h3><span class="icon">\\u</span> Unicode Escape</h3>
+          <p>Escape to Unicode</p>
+        </a>
+        <a href="/tools/unicode-unescape/" class="tool-card">
+          <h3><span class="icon">🔓</span> Unicode Unescape</h3>
+          <p>Unescape Unicode</p>
+        </a>
+        <a href="/tools/text-to-ascii/" class="tool-card">
+          <h3><span class="icon">🔢</span> Text to ASCII</h3>
+          <p>Convert to ASCII codes</p>
+        </a>
+        <a href="/tools/ascii-to-text/" class="tool-card">
+          <h3><span class="icon">📝</span> ASCII to Text</h3>
+          <p>ASCII codes to text</p>
+        </a>
+        <a href="/tools/binary-encode/" class="tool-card">
+          <h3><span class="icon">01</span> Binary Encode</h3>
+          <p>Convert to binary</p>
+        </a>
+        <a href="/tools/binary-decode/" class="tool-card">
+          <h3><span class="icon">10</span> Binary Decode</h3>
+          <p>Binary to text</p>
+        </a>
+        <a href="/tools/morse-code-encode/" class="tool-card">
+          <h3><span class="icon">•−</span> Morse Encode</h3>
+          <p>Encode to Morse code</p>
+        </a>
+        <a href="/tools/morse-code-decode/" class="tool-card">
+          <h3><span class="icon">−•</span> Morse Decode</h3>
+          <p>Decode Morse code</p>
+        </a>
+        <a href="/tools/rot13-encode/" class="tool-card">
+          <h3><span class="icon">🔄</span> ROT13 Encode</h3>
+          <p>Encode with ROT13</p>
+        </a>
+        <a href="/tools/rot13-decode/" class="tool-card">
+          <h3><span class="icon">🔓</span> ROT13 Decode</h3>
+          <p>Decode ROT13</p>
+        </a>
+        <a href="/tools/json-formatter/" class="tool-card">
+          <h3><span class="icon">{}</span> JSON Formatter</h3>
+          <p>Format & validate JSON</p>
+        </a>
+        <a href="/tools/json-minify/" class="tool-card">
+          <h3><span class="icon">📦</span> JSON Minify</h3>
+          <p>Minify JSON with stats</p>
+        </a>
+        <a href="/tools/csv-to-json/" class="tool-card">
+          <h3><span class="icon">📊</span> CSV to JSON</h3>
+          <p>Convert CSV to JSON</p>
+        </a>
+        <a href="/tools/json-to-csv/" class="tool-card">
+          <h3><span class="icon">📄</span> JSON to CSV</h3>
+          <p>Convert JSON to CSV</p>
+        </a>
+        <a href="/tools/csv-to-markdown/" class="tool-card">
+          <h3><span class="icon">📋</span> CSV to Markdown</h3>
+          <p>Convert CSV to table</p>
+        </a>
+        <a href="/tools/xml-formatter/" class="tool-card">
+          <h3><span class="icon">&lt;&gt;</span> XML Formatter</h3>
+          <p>Format & minify XML</p>
+        </a>
+        <a href="/tools/sql-formatter/" class="tool-card">
+          <h3><span class="icon">🗄️</span> SQL Formatter</h3>
+          <p>Format SQL queries</p>
+        </a>
+        <a href="/tools/markdown-to-html/" class="tool-card">
+          <h3><span class="icon">📝</span> Markdown to HTML</h3>
+          <p>Convert Markdown to HTML</p>
+        </a>
+        <a href="/tools/html-to-markdown/" class="tool-card">
+          <h3><span class="icon">📄</span> HTML to Markdown</h3>
+          <p>Convert HTML to Markdown</p>
+        </a>
+        <a href="/tools/bbcode-to-html/" class="tool-card">
+          <h3><span class="icon">🏷️</span> BBCode to HTML</h3>
+          <p>BBCode to HTML</p>
+        </a>
+        <a href="/tools/timestamp-converter/" class="tool-card">
+          <h3><span class="icon">⏰</span> Timestamp</h3>
+          <p>Unix timestamp converter</p>
+        </a>
+        <a href="/tools/color-converter/" class="tool-card">
+          <h3><span class="icon">🎨</span> Color Converter</h3>
+          <p>HEX, RGB, HSL</p>
+        </a>
+        <a href="/tools/ip-address-converter/" class="tool-card">
+          <h3><span class="icon">🌐</span> IP Converter</h3>
+          <p>IPv4 format conversion</p>
+        </a>
+        <a href="/tools/roman-numeral-converter/" class="tool-card">
+          <h3><span class="icon">Ⅰ</span> Roman Numerals</h3>
+          <p>Convert to/from Roman</p>
+        </a>
+        <a href="/tools/number-base-converter/" class="tool-card">
+          <h3><span class="icon">🔢</span> Number Base</h3>
+          <p>Bases 2-36 conversion</p>
+        </a>
+        <a href="/tools/unit-converter/" class="tool-card">
+          <h3><span class="icon">📏</span> Unit Converter</h3>
+          <p>Length, weight, temperature</p>
+        </a>
+        <a href="/tools/keyboard-layout-converter/" class="tool-card">
+          <h3><span class="icon">⌨️</span> Keyboard Layout</h3>
+          <p>QWERTY ↔ Dvorak</p>
+        </a>
+        <a href="/tools/upside-down-text/" class="tool-card">
+          <h3><span class="icon">🙃</span> Upside Down</h3>
+          <p>Flip text upside down</p>
+        </a>
+        <a href="/tools/zalgo-text-generator/" class="tool-card">
+          <h3><span class="icon">👻</span> Zalgo Text</h3>
+          <p>Glitchy corrupted text</p>
+        </a>
+        <a href="/tools/small-caps-generator/" class="tool-card">
+          <h3><span class="icon">ᴀ</span> Small Caps</h3>
+          <p>Small capital letters</p>
+        </a>
+        <a href="/tools/wide-text-generator/" class="tool-card">
+          <h3><span class="icon">Ａ</span> Wide Text</h3>
+          <p>Full-width characters</p>
+        </a>
+        <a href="/tools/cursive-text-generator/" class="tool-card">
+          <h3><span class="icon">𝒜</span> Cursive Text</h3>
+          <p>Script/cursive styles</p>
+        </a>
+        <a href="/tools/strikethrough-generator/" class="tool-card">
+          <h3><span class="icon">A̶</span> Strikethrough</h3>
+          <p>Strikethrough styles</p>
+        </a>
+        <a href="/tools/bubble-text-generator/" class="tool-card">
+          <h3><span class="icon">Ⓐ</span> Bubble Text</h3>
+          <p>Circled letters</p>
+        </a>
+        <a href="/tools/square-text-generator/" class="tool-card">
+          <h3><span class="icon">🅰</span> Square Text</h3>
+          <p>Squared letters</p>
+        </a>
+        <a href="/tools/underline-text-generator/" class="tool-card">
+          <h3><span class="icon">A̲</span> Underline Text</h3>
+          <p>Underline effects</p>
+        </a>
+        <a href="/tools/pig-latin-translator/" class="tool-card">
+          <h3><span class="icon">🐷</span> Pig Latin</h3>
+          <p>English to Pig Latin</p>
+        </a>
+        <a href="/tools/nato-phonetic-alphabet/" class="tool-card">
+          <h3><span class="icon">🎖️</span> NATO Phonetic</h3>
+          <p>Convert to NATO alphabet</p>
+        </a>
+        <a href="/tools/text-to-slug/" class="tool-card">
+          <h3><span class="icon">🔗</span> Text to Slug</h3>
+          <p>URL-friendly slugs</p>
+        </a>
+        <a href="/tools/line-break-converter/" class="tool-card">
+          <h3><span class="icon">↩️</span> Line Breaks</h3>
+          <p>LF, CRLF, CR conversion</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Extract/Split Category -->
+    <section class="category" data-category="extract">
+      <div class="category-title">
+        <span class="emoji">✂️</span>
+        <h2>Extract / Split</h2>
+      </div>
+      <div class="tool-grid">
+        <a href="/tools/email-extractor/" class="tool-card">
+          <h3><span class="icon">📧</span> Email Extractor</h3>
+          <p>Extract email addresses</p>
+        </a>
+        <a href="/tools/url-extractor/" class="tool-card">
+          <h3><span class="icon">🔗</span> URL Extractor</h3>
+          <p>Extract URLs from text</p>
+        </a>
+        <a href="/tools/number-extractor/" class="tool-card">
+          <h3><span class="icon">🔢</span> Number Extractor</h3>
+          <p>Extract numbers from text</p>
+        </a>
+        <a href="/tools/text-splitter/" class="tool-card">
+          <h3><span class="icon">✂️</span> Text Splitter</h3>
+          <p>Split by delimiter or line</p>
+        </a>
+        <a href="/tools/text-splitter-advanced/" class="tool-card">
+          <h3><span class="icon">✂️</span> Advanced Splitter</h3>
+          <p>Split by delimiter or char count</p>
+        </a>
+        <a href="/tools/extract-brackets-content/" class="tool-card">
+          <h3><span class="icon">( )</span> Extract Brackets</h3>
+          <p>Extract from (), [], {}, &lt;&gt;</p>
+        </a>
+        <a href="/tools/csv-column-extractor/" class="tool-card">
+          <h3><span class="icon">📊</span> CSV Columns</h3>
+          <p>Extract specific columns</p>
+        </a>
+        <a href="/tools/column-to-row/" class="tool-card">
+          <h3><span class="icon">↔️</span> Column to Row</h3>
+          <p>Convert columns to rows</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Clean Category -->
+    <section class="category" data-category="clean">
+      <div class="category-title">
+        <span class="emoji">🧹</span>
+        <h2>Clean & Format</h2>
+      </div>
+      <div class="tool-grid">
+        <a href="/tools/remove-duplicate-lines/" class="tool-card">
+          <h3><span class="icon">📋</span> Remove Duplicates</h3>
+          <p>Remove duplicate lines</p>
+        </a>
+        <a href="/tools/remove-empty-lines/" class="tool-card">
+          <h3><span class="icon">📄</span> Remove Empty Lines</h3>
+          <p>Delete all empty lines</p>
+        </a>
+        <a href="/tools/trim-whitespace/" class="tool-card">
+          <h3><span class="icon">✨</span> Trim Whitespace</h3>
+          <p>Remove leading/trailing spaces</p>
+        </a>
+        <a href="/tools/remove-line-breaks/" class="tool-card">
+          <h3><span class="icon">↔️</span> Remove Line Breaks</h3>
+          <p>Join all lines into one</p>
+        </a>
+        <a href="/tools/whitespace-remover/" class="tool-card">
+          <h3><span class="icon">🧹</span> Whitespace Remover</h3>
+          <p>Multiple removal options</p>
+        </a>
+        <a href="/tools/whitespace-visualizer/" class="tool-card">
+          <h3><span class="icon">👁️</span> Whitespace Visualizer</h3>
+          <p>See invisible characters</p>
+        </a>
+        <a href="/tools/emoji-remover/" class="tool-card">
+          <h3><span class="icon">😀</span> Emoji Remover</h3>
+          <p>Remove and count emojis</p>
+        </a>
+        <a href="/tools/invisible-character-detector/" class="tool-card">
+          <h3><span class="icon">🔍</span> Invisible Chars</h3>
+          <p>Detect zero-width chars</p>
+        </a>
+        <a href="/tools/remove-special-characters/" class="tool-card">
+          <h3><span class="icon">🔤</span> Remove Special Chars</h3>
+          <p>Multiple removal options</p>
+        </a>
+        <a href="/tools/comment-remover/" class="tool-card">
+          <h3><span class="icon">//</span> Comment Remover</h3>
+          <p>Remove code comments</p>
+        </a>
+        <a href="/tools/space-to-tab-converter/" class="tool-card">
+          <h3><span class="icon">⇥</span> Space ↔ Tab</h3>
+          <p>Bidirectional conversion</p>
+        </a>
+        <a href="/tools/text-indent-tool/" class="tool-card">
+          <h3><span class="icon">→</span> Text Indent</h3>
+          <p>Add/remove indentation</p>
+        </a>
+        <a href="/tools/backslash-escape-tool/" class="tool-card">
+          <h3><span class="icon">\</span> Backslash Escape</h3>
+          <p>Escape special characters</p>
+        </a>
+        <a href="/tools/capitalize-words/" class="tool-card">
+          <h3><span class="icon">Aa</span> Capitalize Words</h3>
+          <p>Capitalize each word</p>
+        </a>
+        <a href="/tools/add-line-numbers/" class="tool-card">
+          <h3><span class="icon">#</span> Add Line Numbers</h3>
+          <p>Custom line numbering</p>
+        </a>
+        <a href="/tools/line-numbering-tool/" class="tool-card">
+          <h3><span class="icon">#</span> Line Numbering Tool</h3>
+          <p>Custom line numbering</p>
+        </a>
+        <a href="/tools/add-prefix-suffix/" class="tool-card">
+          <h3><span class="icon">📝</span> Add Prefix/Suffix</h3>
+          <p>Add text to line start/end</p>
+        </a>
+        <a href="/tools/quote-wrapper/" class="tool-card">
+          <h3><span class="icon">"</span> Quote Wrapper</h3>
+          <p>Wrap lines in quotes/brackets</p>
+        </a>
+        <a href="/tools/quote-formatter/" class="tool-card">
+          <h3><span class="icon">❝</span> Quote Formatter</h3>
+          <p>Email/markdown/HTML quotes</p>
+        </a>
+        <a href="/tools/text-border-generator/" class="tool-card">
+          <h3><span class="icon">╔╗</span> Text Borders</h3>
+          <p>ASCII boxes (4 styles)</p>
+        </a>
+        <a href="/tools/text-binary-converter/" class="tool-card">
+          <h3><span class="icon">01</span> Text to Binary Converter</h3>
+          <p>Convert text to binary</p>
+        </a>
+        <a href="/tools/text-alignment/" class="tool-card">
+          <h3><span class="icon">≡</span> Text Alignment</h3>
+          <p>Left/center/right/justify</p>
+        </a>
+        <a href="/tools/text-wrapper/" class="tool-card">
+          <h3><span class="icon">📝</span> Text Wrapper</h3>
+          <p>Wrap at column width</p>
+        </a>
+        <a href="/tools/text-truncator/" class="tool-card">
+          <h3><span class="icon">✂️</span> Text Truncator</h3>
+          <p>Shorten text with ellipsis</p>
+        </a>
+        <a href="/tools/text-repeater/" class="tool-card">
+          <h3><span class="icon">🔁</span> Text Repeater</h3>
+          <p>Repeat text multiple times</p>
+        </a>
+        <a href="/tools/bullet-point-formatter/" class="tool-card">
+          <h3><span class="icon">📋</span> Bullet Points</h3>
+          <p>16 different bullet styles</p>
+        </a>
+        <a href="/tools/column-text-formatter/" class="tool-card">
+          <h3><span class="icon">📰</span> Column Formatter</h3>
+          <p>Multi-column text layout</p>
+        </a>
+        <a href="/tools/markdown-table-generator/" class="tool-card">
+          <h3><span class="icon">📊</span> Markdown Table</h3>
+          <p>Visual table editor</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Analyze Category -->
+    <section class="category" data-category="analyze">
+      <div class="category-title">
+        <span class="emoji">📊</span>
+        <h2>Analyze & Count</h2>
+      </div>
+      <div class="tool-grid">
+        <a href="/tools/word-counter/" class="tool-card">
+          <h3><span class="icon">📝</span> Word Counter</h3>
+          <p>7 metrics including reading time</p>
+        </a>
+        <a href="/tools/character-frequency/" class="tool-card">
+          <h3><span class="icon">📈</span> Character Frequency</h3>
+          <p>Character distribution</p>
+        </a>
+        <a href="/tools/word-frequency/" class="tool-card">
+          <h3><span class="icon">📊</span> Word Frequency</h3>
+          <p>Word frequency analysis</p>
+        </a>
+        <a href="/tools/word-frequency-counter/" class="tool-card">
+          <h3><span class="icon">📊</span> Advanced Word Freq</h3>
+          <p>Visual bars & CSV export</p>
+        </a>
+        <a href="/tools/text-statistics/" class="tool-card">
+          <h3><span class="icon">📊</span> Text Statistics</h3>
+          <p>Comprehensive text analysis</p>
+        </a>
+        <a href="/tools/sentence-analyzer/" class="tool-card">
+          <h3><span class="icon">📝</span> Sentence Analyzer</h3>
+          <p>Sentence metrics</p>
+        </a>
+        <a href="/tools/letter-counter/" class="tool-card">
+          <h3><span class="icon">🔤</span> Letter Counter</h3>
+          <p>8 different character types</p>
+        </a>
+        <a href="/tools/line-counter/" class="tool-card">
+          <h3><span class="icon">#</span> Line Counter</h3>
+          <p>Total/non-empty/empty lines</p>
+        </a>
+        <a href="/tools/vowel-counter/" class="tool-card">
+          <h3><span class="icon">AEI</span> Vowel Counter</h3>
+          <p>Vowel/consonant analysis</p>
+        </a>
+        <a href="/tools/readability-calculator/" class="tool-card">
+          <h3><span class="icon">📖</span> Readability Score</h3>
+          <p>6 readability formulas</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Compare Category -->
+    <section class="category" data-category="compare">
+      <div class="category-title">
+        <span class="emoji">🔍</span>
+        <h2>Compare & Find</h2>
+      </div>
+      <div class="tool-grid">
+        <a href="/tools/text-diff/" class="tool-card">
+          <h3><span class="icon">⚖️</span> Text Diff</h3>
+          <p>Line-by-line comparison</p>
+        </a>
+        <a href="/tools/text-similarity/" class="tool-card">
+          <h3><span class="icon">🔍</span> Text Similarity</h3>
+          <p>Levenshtein distance</p>
+        </a>
+        <a href="/tools/find-duplicate-lines/" class="tool-card">
+          <h3><span class="icon">🔍</span> Find Duplicates</h3>
+          <p>Find duplicate lines</p>
+        </a>
+        <a href="/tools/duplicate-line-finder/" class="tool-card">
+          <h3><span class="icon">📋</span> Duplicate Finder</h3>
+          <p>Find and count duplicates</p>
+        </a>
+        <a href="/tools/find-and-replace/" class="tool-card">
+          <h3><span class="icon">🔍</span> Find & Replace</h3>
+          <p>Regex support, case/whole word</p>
+        </a>
+        <a href="/tools/regex-tester/" class="tool-card">
+          <h3><span class="icon">.*</span> Regex Tester</h3>
+          <p>Real-time regex testing</p>
+        </a>
+        <a href="/tools/list-merger/" class="tool-card">
+          <h3><span class="icon">🔗</span> List Merger</h3>
+          <p>Union/intersection/difference</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Sort Category -->
+    <section class="category" data-category="sort">
+      <div class="category-title">
+        <span class="emoji">🔢</span>
+        <h2>Sort / Arrange</h2>
+      </div>
+      <div class="tool-grid">
+        <a href="/tools/line-sorter/" class="tool-card">
+          <h3><span class="icon">↕️</span> Line Sorter</h3>
+          <p>8 sorting methods</p>
+        </a>
+        <a href="/tools/reverse-text/" class="tool-card">
+          <h3><span class="icon">🔄</span> Reverse Text</h3>
+          <p>Multiple reverse modes</p>
+        </a>
+        <a href="/tools/reverse-word-order/" class="tool-card">
+          <h3><span class="icon">↔️</span> Reverse Words</h3>
+          <p>Reverse word order</p>
+        </a>
+        <a href="/tools/shuffle-lines/" class="tool-card">
+          <h3><span class="icon">🎲</span> Shuffle Lines</h3>
+          <p>Fisher-Yates algorithm</p>
+        </a>
+        <a href="/tools/text-inverter/" class="tool-card">
+          <h3><span class="icon">🔄</span> Text Inverter</h3>
+          <p>4 inversion modes</p>
+        </a>
+        <a href="/tools/text-joiner/" class="tool-card">
+          <h3><span class="icon">🔗</span> Text Joiner</h3>
+          <p>Join with custom separator</p>
+        </a>
+        <a href="/tools/anagram-finder/" class="tool-card">
+          <h3><span class="icon">🔤</span> Anagram Finder</h3>
+          <p>Generate anagrams</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Encode/Hash Category -->
+    <section class="category" data-category="encode">
+      <div class="category-title">
+        <span class="emoji">🔐</span>
+        <h2>Encode / Hash / Security</h2>
+      </div>
+      <div class="tool-grid">
+        <a href="/tools/md5-generator/" class="tool-card">
+          <h3><span class="icon">🔐</span> MD5 Hash</h3>
+          <p>Generate MD5 hash</p>
+        </a>
+        <a href="/tools/sha256-generator/" class="tool-card">
+          <h3><span class="icon">🔒</span> SHA-256</h3>
+          <p>Generate SHA-256 hash</p>
+        </a>
+        <a href="/tools/text-encryption/" class="tool-card">
+          <h3><span class="icon">🔐</span> Text Encryption</h3>
+          <p>AES-256 encryption</p>
+        </a>
+        <a href="/tools/text-obfuscator/" class="tool-card">
+          <h3><span class="icon">🎭</span> Text Obfuscator</h3>
+          <p>Leet speak, vowel removal</p>
+        </a>
+        <a href="/tools/text-masking/" class="tool-card">
+          <h3><span class="icon">🎭</span> Text Masking</h3>
+          <p>6 masking styles for privacy</p>
+        </a>
+        <a href="/tools/text-redaction/" class="tool-card">
+          <h3><span class="icon">🔒</span> Text Redaction</h3>
+          <p>Hide sensitive information</p>
+        </a>
+        <a href="/tools/email-validator/" class="tool-card">
+          <h3><span class="icon">✉️</span> Email Validator</h3>
+          <p>Batch email validation</p>
+        </a>
+        <a href="/tools/password-strength-checker/" class="tool-card">
+          <h3><span class="icon">🔐</span> Password Strength</h3>
+          <p>Real-time strength meter</p>
+        </a>
+        <a href="/tools/credit-card-formatter/" class="tool-card">
+          <h3><span class="icon">💳</span> Credit Card</h3>
+          <p>Format and validate (Luhn)</p>
+        </a>
+        <a href="/tools/phone-number-formatter/" class="tool-card">
+          <h3><span class="icon">📞</span> Phone Formatter</h3>
+          <p>Multiple phone formats</p>
+        </a>
+        <a href="/tools/binary-calculator/" class="tool-card">
+          <h3><span class="icon">🔢</span> Binary Calculator</h3>
+          <p>Binary arithmetic & bitwise</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Utilities Category -->
+    <section class="category" data-category="generate">
+      <div class="category-title">
+        <span class="emoji">🛠️</span>
+        <h2>Utilities & Tools</h2>
+      </div>
+      <div class="tool-grid">
+        <a href="/tools/text-to-speech/" class="tool-card">
+          <h3><span class="icon">🔊</span> Text to Speech</h3>
+          <p>Browser TTS with controls</p>
+        </a>
+        <a href="/tools/character-replacer/" class="tool-card">
+          <h3><span class="icon">🔄</span> Char Replacer</h3>
+          <p>Replace specific characters</p>
+        </a>
+        <a href="/tools/slug-generator/" class="tool-card">
+          <h3><span class="icon">🔗</span> Slug Generator</h3>
+          <p>URL-friendly slugs</p>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="container">
+    <small>
+      <p>&copy; 2025 TextKit - 130+ Text Processing Tools</p>
+      <p style="margin-top: 0.5rem;">
+        All processing happens in your browser. Your data never leaves your device.
+      </p>
+    </small>
+  </footer>
+
+  <script>
+    // Search functionality
+    const searchInput = document.getElementById('tool-search');
+    const categories = document.querySelectorAll('.category');
+
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+
+      categories.forEach(category => {
+        let hasVisibleTools = false;
+        const cards = category.querySelectorAll('.tool-card');
+
+        cards.forEach(card => {
+          const title = card.querySelector('h3').textContent.toLowerCase();
+          const desc = card.querySelector('p').textContent.toLowerCase();
+
+          if (title.includes(searchTerm) || desc.includes(searchTerm)) {
+            card.style.display = 'block';
+            hasVisibleTools = true;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        category.style.display = hasVisibleTools ? 'block' : 'none';
+      });
+    });
+  </script>
+</body>
+
+</html>

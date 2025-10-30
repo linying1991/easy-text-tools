@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Password Strength Checker - TextKit</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+<style>
+:root{--gradient:linear-gradient(135deg,#43e97b 0%,#38f9d7 100%)}
+body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
+.container{max-width:900px;margin:0 auto}
+.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
+.back-link:hover{opacity:1}
+main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
+.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
+input[type="text"]{border:2px solid #e2e8f0;border-radius:8px;padding:1rem;font-size:1.1rem;width:100%;margin-bottom:1.5rem;font-family:monospace}
+input[type="text"]:focus{border-color:#43e97b;box-shadow:0 0 0 3px rgba(67,233,123,0.1)}
+.strength-meter{height:12px;background:#e2e8f0;border-radius:6px;overflow:hidden;margin-bottom:1rem}
+.strength-bar{height:100%;transition:all 0.3s;border-radius:6px}
+.strength-label{text-align:center;font-size:1.5rem;font-weight:700;margin-bottom:2rem}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.check{padding:1rem;background:#f8fafc;border-radius:8px;display:flex;align-items:center;gap:0.75rem}
+.check-icon{font-size:1.5rem}
+.suggestions{margin-top:2rem;padding:1.5rem;background:#fef3c7;border-radius:12px;border-left:4px solid #f59e0b}
+.suggestions h3{margin:0 0 1rem 0;color:#92400e}
+.suggestions ul{margin:0;padding-left:1.5rem;color:#78350f}
+footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../../index.html" class="back-link">← Back to Home</a>
+<main>
+<h1>Password Strength Checker</h1>
+<p class="subtitle">Check the strength of your password</p>
+<label>Enter Password:</label>
+<input type="text" id="password" placeholder="Enter password to check...">
+<div class="strength-meter"><div class="strength-bar" id="bar"></div></div>
+<div class="strength-label" id="label">Enter a password</div>
+<div class="checks">
+<div class="check" id="check1"><span class="check-icon">○</span><span>At least 8 characters</span></div>
+<div class="check" id="check2"><span class="check-icon">○</span><span>Uppercase letter</span></div>
+<div class="check" id="check3"><span class="check-icon">○</span><span>Lowercase letter</span></div>
+<div class="check" id="check4"><span class="check-icon">○</span><span>Number</span></div>
+<div class="check" id="check5"><span class="check-icon">○</span><span>Special character</span></div>
+<div class="check" id="check6"><span class="check-icon">○</span><span>At least 12 characters</span></div>
+</div>
+<div class="suggestions" id="suggestions" style="display:none"></div>
+</main>
+<footer>© 2024 TextKit - All text processing happens in your browser</footer>
+</div>
+<script>
+function check(){const pwd=document.getElementById('password').value;const checks=[pwd.length>=8,/[A-Z]/.test(pwd),/[a-z]/.test(pwd),/\d/.test(pwd),/[^A-Za-z0-9]/.test(pwd),pwd.length>=12];checks.forEach((pass,i)=>{const el=document.getElementById('check'+(i+1));el.querySelector('.check-icon').textContent=pass?'✓':'○';el.style.borderLeft=pass?'3px solid #10b981':'3px solid transparent'});const score=checks.filter(Boolean).length;const strength=['Very Weak','Weak','Fair','Good','Strong','Very Strong'][Math.min(score,5)];const colors=['#ef4444','#f59e0b','#eab308','#84cc16','#22c55e','#10b981'];document.getElementById('bar').style.width=(score/6*100)+'%';document.getElementById('bar').style.background=colors[Math.min(score,5)];document.getElementById('label').textContent=strength;document.getElementById('label').style.color=colors[Math.min(score,5)];const suggestions=[];if(pwd.length<8)suggestions.push('Use at least 8 characters');if(!/[A-Z]/.test(pwd))suggestions.push('Add uppercase letters');if(!/[a-z]/.test(pwd))suggestions.push('Add lowercase letters');if(!/\d/.test(pwd))suggestions.push('Add numbers');if(!/[^A-Za-z0-9]/.test(pwd))suggestions.push('Add special characters (!@#$%...)');if(pwd.length<12)suggestions.push('Consider using 12+ characters for maximum security');const sugEl=document.getElementById('suggestions');if(suggestions.length>0&&pwd){sugEl.innerHTML='<h3>Suggestions to improve:</h3><ul>'+suggestions.map(s=>'<li>'+s+'</li>').join('')+'</ul>';sugEl.style.display='block'}else{sugEl.style.display='none'}}
+document.getElementById('password').addEventListener('input',check);
+</script>
+</body>
+</html>

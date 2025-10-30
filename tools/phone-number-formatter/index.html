@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phone Number Formatter - TextKit</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+<style>
+:root{--gradient:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%)}
+body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
+.container{max-width:900px;margin:0 auto}
+.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
+.back-link:hover{opacity:1}
+main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
+.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
+input[type="text"]{border:2px solid #e2e8f0;border-radius:8px;padding:1rem;font-size:1.2rem;width:100%;margin-bottom:1rem;font-family:monospace}
+input[type="text"]:focus{border-color:#4facfe;box-shadow:0 0 0 3px rgba(79,172,254,0.1)}
+.formats{display:grid;gap:1rem;margin-top:2rem}
+.format-item{padding:1.5rem;background:#f8fafc;border-radius:12px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:all 0.3s}
+.format-item:hover{background:#e2e8f0;transform:translateY(-2px)}
+.format-label{font-size:0.85rem;color:#64748b;margin-bottom:0.25rem}
+.format-value{font-size:1.2rem;font-family:monospace;color:#1e293b;font-weight:600}
+footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../../index.html" class="back-link">← Back to Home</a>
+<main>
+<h1>Phone Number Formatter</h1>
+<p class="subtitle">Format phone numbers in various styles</p>
+<label>Phone Number:</label>
+<input type="text" id="input" placeholder="Enter phone number (e.g., 1234567890)...">
+<div class="formats" id="formats"></div>
+</main>
+<footer>© 2024 TextKit - All text processing happens in your browser</footer>
+</div>
+<script>
+function format(){const input=document.getElementById('input').value.replace(/\D/g,'');if(input.length===0){document.getElementById('formats').innerHTML='';return}const formats=[];if(input.length===10){formats.push({label:'Standard',value:'('+input.slice(0,3)+') '+input.slice(3,6)+'-'+input.slice(6)});formats.push({label:'Dotted',value:input.slice(0,3)+'.'+input.slice(3,6)+'.'+input.slice(6)});formats.push({label:'Dashed',value:input.slice(0,3)+'-'+input.slice(3,6)+'-'+input.slice(6)});formats.push({label:'Plain',value:input});formats.push({label:'International (US)',value:'+1 '+input.slice(0,3)+' '+input.slice(3,6)+' '+input.slice(6)})}else if(input.length===11&&input[0]==='1'){formats.push({label:'Standard',value:'+1 ('+input.slice(1,4)+') '+input.slice(4,7)+'-'+input.slice(7)});formats.push({label:'International',value:'+1 '+input.slice(1,4)+' '+input.slice(4,7)+' '+input.slice(7)})}else{formats.push({label:'As Entered',value:input})}const container=document.getElementById('formats');container.innerHTML=formats.map(f=>`<div class="format-item" onclick="copy('${f.value}')"><div><div class="format-label">${f.label}</div><div class="format-value">${f.value}</div></div><div style="color:#4facfe;font-size:1.2rem">📋</div></div>`).join('')}
+function copy(text){navigator.clipboard.writeText(text).then(()=>alert('Copied: '+text)).catch(()=>alert('Copy failed'))}
+document.getElementById('input').addEventListener('input',format);
+</script>
+</body>
+</html>

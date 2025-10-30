@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regex Tester - TextKit</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+<style>
+:root{--gradient:linear-gradient(135deg,#fa709a 0%,#fee140 100%)}
+body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
+.container{max-width:900px;margin:0 auto}
+.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
+.back-link:hover{opacity:1}
+main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
+.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
+.regex-input{display:grid;grid-template-columns:1fr auto;gap:1rem;margin-bottom:1rem}
+input[type="text"]{border:2px solid #e2e8f0;border-radius:8px;padding:0.75rem;font-family:monospace;font-size:1rem}
+.flags{display:flex;gap:1rem;padding:0.75rem;background:#f8fafc;border-radius:8px}
+.flag label{display:flex;align-items:center;gap:0.5rem;font-size:0.9rem}
+textarea{min-height:150px;font-family:monospace;font-size:0.95rem;border:2px solid #e2e8f0;border-radius:12px;transition:all 0.3s;white-space:pre-wrap}
+textarea:focus{border-color:#fa709a;box-shadow:0 0 0 3px rgba(250,112,154,0.1)}
+.results{margin-top:1rem;padding:1.5rem;background:#f8fafc;border-radius:12px}
+.match{background:#fef3c7;padding:0.2rem 0.4rem;border-radius:4px;font-weight:600}
+.stats{color:#64748b;font-size:0.9rem;margin-top:1rem}
+footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../../index.html" class="back-link">← Back to Home</a>
+<main>
+<h1>Regex Tester</h1>
+<p class="subtitle">Test regular expressions and see matches in real-time</p>
+<label>Regular Expression:</label>
+<div class="regex-input">
+<input type="text" id="regex" placeholder="e.g., \b[A-Z]\w+\b">
+<div class="flags">
+<div class="flag"><label><input type="checkbox" id="g" checked> g</label></div>
+<div class="flag"><label><input type="checkbox" id="i"> i</label></div>
+<div class="flag"><label><input type="checkbox" id="m"> m</label></div>
+</div>
+</div>
+<label>Test Text:</label>
+<textarea id="input" placeholder="Enter text to test against the regex..."></textarea>
+<div class="results" id="results" style="display:none">
+<h3 style="margin:0 0 1rem 0;color:#1e293b">Matches:</h3>
+<div id="matches" style="font-family:monospace;line-height:1.8"></div>
+<div class="stats" id="stats"></div>
+</div>
+</main>
+<footer>© 2024 TextKit - All text processing happens in your browser</footer>
+</div>
+<script>
+function test(){const pattern=document.getElementById('regex').value;const text=document.getElementById('input').value;if(!pattern||!text){document.getElementById('results').style.display='none';return}try{let flags='';if(document.getElementById('g').checked)flags+='g';if(document.getElementById('i').checked)flags+='i';if(document.getElementById('m').checked)flags+='m';const regex=new RegExp(pattern,flags);const matches=text.match(regex);if(matches&&matches.length>0){let highlighted=text;matches.forEach(m=>{highlighted=highlighted.replace(new RegExp(m.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'g'),'<span class="match">'+m+'</span>')});document.getElementById('matches').innerHTML=highlighted;document.getElementById('stats').textContent='Found '+matches.length+' match'+(matches.length!==1?'es':'');document.getElementById('results').style.display='block'}else{document.getElementById('matches').textContent='No matches found';document.getElementById('stats').textContent='';document.getElementById('results').style.display='block'}}catch(e){document.getElementById('matches').textContent='Error: '+e.message;document.getElementById('stats').textContent='';document.getElementById('results').style.display='block'}}
+document.getElementById('regex').addEventListener('input',test);
+document.getElementById('input').addEventListener('input',test);
+document.getElementById('g').addEventListener('change',test);
+document.getElementById('i').addEventListener('change',test);
+document.getElementById('m').addEventListener('change',test);
+</script>
+</body>
+</html>

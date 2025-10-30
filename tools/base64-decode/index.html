@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Base64 Decode - Free Online Base64 Decoder</title>
+  <meta name="description" content="Decode Base64 to text online. Fast, secure, and works entirely in your browser." />
+  <meta name="keywords" content="base64 decode, base64 decoder, base64 to text, decode base64" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.conditional.min.css"
+    integrity="sha256-v0OEZWNaUvlmR1U0LMHiwNOzzO3q2wkIipf4KlEB9NWs=" crossorigin="anonymous">
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.15);
+    }
+
+    body {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      min-height: 100vh;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateX(-5px);
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin-top: 0;
+      box-shadow: var(--shadow-lg);
+    }
+
+    header h1 {
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .tool-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--primary-gradient);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    header p {
+      color: #64748b;
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    main {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .tool-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    @media (max-width: 968px) {
+      .tool-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .input-section, .output-section {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .section-header h3 {
+      margin: 0;
+      font-size: 1.3rem;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--primary-gradient);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1rem;
+    }
+
+    textarea {
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      min-height: 300px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1rem;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      resize: vertical;
+    }
+
+    textarea:focus {
+      border-color: #00f2fe;
+      box-shadow: 0 0 0 4px rgba(0, 242, 254, 0.1);
+      outline: none;
+    }
+
+    textarea[readonly] {
+      background: #f8fafc;
+    }
+
+    .stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f8fafc;
+      border-radius: 10px;
+      font-size: 0.9rem;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-label {
+      color: #64748b;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-value {
+      color: #1e293b;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 0.875rem 1.75rem;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    button.primary {
+      background: var(--primary-gradient);
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 242, 254, 0.3);
+    }
+
+    button.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 242, 254, 0.4);
+    }
+
+    button.secondary {
+      background: white;
+      color: #64748b;
+      border: 2px solid #e2e8f0;
+    }
+
+    button.secondary:hover {
+      border-color: #cbd5e1;
+      background: #f8fafc;
+    }
+
+    .info-box {
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border-left: 4px solid #00f2fe;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin: 2rem 0;
+    }
+
+    .info-box h3 {
+      margin-top: 0;
+      color: #1e293b;
+      font-size: 1.2rem;
+    }
+
+    .info-box ul {
+      margin: 0.5rem 0 0 0;
+      padding-left: 1.5rem;
+    }
+
+    .info-box li {
+      color: #64748b;
+      margin: 0.5rem 0;
+    }
+
+    .example-box {
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+    }
+
+    .example-box code {
+      background: #f8fafc;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      color: #00f2fe;
+    }
+
+    footer {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+    }
+
+    footer a {
+      color: #00f2fe;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: #4facfe;
+    }
+
+    .related-tools {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 2px solid #e2e8f0;
+    }
+
+    .related-tools h3 {
+      color: #1e293b;
+      margin-bottom: 1rem;
+    }
+
+    .related-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .related-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #64748b;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .related-link:hover {
+      border-color: #00f2fe;
+      color: #00f2fe;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .error-message {
+      background: #fee;
+      border-left: 4px solid #f44;
+      padding: 1rem;
+      border-radius: 8px;
+      color: #c00;
+      margin: 1rem 0;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <a href="/" class="back-link">
+      <span>←</span>
+      <span>Back to Tools</span>
+    </a>
+
+    <header>
+      <h1>
+        <span class="tool-icon">🔓</span>
+        <span>Base64 Decode</span>
+      </h1>
+      <p>Decode Base64 encoded text back to its original format. Fast and secure.</p>
+    </header>
+
+    <main>
+      <div class="tool-container">
+        <div class="input-section">
+          <div class="section-header">
+            <h3>
+              <span class="section-icon">🔒</span>
+              Base64 Input
+            </h3>
+          </div>
+          <textarea id="input-text" placeholder="Enter Base64 encoded text to decode..."></textarea>
+          <div class="stats">
+            <div class="stat-item">
+              <span class="stat-label">Characters</span>
+              <span class="stat-value" id="input-chars">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Bytes</span>
+              <span class="stat-value" id="input-bytes">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="output-section">
+          <div class="section-header">
+            <h3>
+              <span class="section-icon">📝</span>
+              Decoded Output
+            </h3>
+          </div>
+          <textarea id="output-text" placeholder="Decoded text will appear here..." readonly></textarea>
+          <div class="stats">
+            <div class="stat-item">
+              <span class="stat-label">Characters</span>
+              <span class="stat-value" id="output-chars">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Bytes</span>
+              <span class="stat-value" id="output-bytes">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="error-message" id="error-message"></div>
+
+      <div class="button-group">
+        <button class="primary" id="decode-btn">
+          <span>🔓</span>
+          <span>Decode from Base64</span>
+        </button>
+        <button class="secondary" id="copy-btn">
+          <span>📋</span>
+          <span>Copy Result</span>
+        </button>
+        <button class="secondary" id="clear-btn">
+          <span>🗑️</span>
+          <span>Clear All</span>
+        </button>
+      </div>
+
+      <div class="info-box">
+        <h3>About Base64 Decoding</h3>
+        <p>This tool decodes Base64 encoded strings back to their original text format. Base64 is commonly used to encode binary data into text format for transmission or storage.</p>
+      </div>
+
+      <div class="example-box">
+        <h4>Example</h4>
+        <p><strong>Base64:</strong> <code>SGVsbG8gV29ybGQ=</code></p>
+        <p><strong>Decoded:</strong> <code>Hello World</code></p>
+      </div>
+
+      <div class="info-box">
+        <h3>Common Uses</h3>
+        <ul>
+          <li>Decode Base64 encoded API responses</li>
+          <li>Extract data from data URLs</li>
+          <li>Decode email attachments</li>
+          <li>Read Base64 encoded configuration data</li>
+          <li>Debug Base64 encoded strings in development</li>
+        </ul>
+      </div>
+
+      <div class="related-tools">
+        <h3>Related Tools</h3>
+        <div class="related-links">
+          <a href="/tools/base64-encode/" class="related-link">
+            <span>🔒</span>
+            <span>Base64 Encode</span>
+          </a>
+          <a href="/tools/url-decode/" class="related-link">
+            <span>🔗</span>
+            <span>URL Decode</span>
+          </a>
+          <a href="/tools/hex-decode/" class="related-link">
+            <span>AB</span>
+            <span>Hex Decode</span>
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <small>
+        <p>&copy; 2025 TextKit - Text Processing Tools</p>
+        <p style="margin-top: 0.5rem;">
+          <a href="/">Home</a> •
+          <a href="/privacy.html">Privacy Policy</a>
+        </p>
+      </small>
+    </footer>
+  </div>
+
+  <script>
+    const inputText = document.getElementById('input-text');
+    const outputText = document.getElementById('output-text');
+    const decodeBtn = document.getElementById('decode-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const inputChars = document.getElementById('input-chars');
+    const inputBytes = document.getElementById('input-bytes');
+    const outputChars = document.getElementById('output-chars');
+    const outputBytes = document.getElementById('output-bytes');
+    const errorMessage = document.getElementById('error-message');
+
+    // Update stats
+    function updateStats() {
+      const inputValue = inputText.value;
+      const outputValue = outputText.value;
+
+      inputChars.textContent = inputValue.length.toLocaleString();
+      inputBytes.textContent = new Blob([inputValue]).size.toLocaleString();
+      outputChars.textContent = outputValue.length.toLocaleString();
+      outputBytes.textContent = new Blob([outputValue]).size.toLocaleString();
+    }
+
+    // Show error message
+    function showError(message) {
+      errorMessage.textContent = message;
+      errorMessage.style.display = 'block';
+      setTimeout(() => {
+        errorMessage.style.display = 'none';
+      }, 5000);
+    }
+
+    // Auto-update input stats
+    inputText.addEventListener('input', updateStats);
+
+    // Decode from Base64
+    decodeBtn.addEventListener('click', () => {
+      try {
+        const text = inputText.value;
+        if (!text) {
+          showError('Please enter some Base64 text to decode');
+          return;
+        }
+        const decoded = decodeURIComponent(escape(atob(text)));
+        outputText.value = decoded;
+        updateStats();
+        errorMessage.style.display = 'none';
+      } catch (error) {
+        showError('Error: Invalid Base64 string. Please check your input and try again.');
+        outputText.value = '';
+        updateStats();
+      }
+    });
+
+    // Copy to clipboard
+    copyBtn.addEventListener('click', async () => {
+      if (!outputText.value) {
+        showError('Nothing to copy. Please decode some text first.');
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(outputText.value);
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<span>✓</span><span>Copied!</span>';
+        setTimeout(() => {
+          copyBtn.innerHTML = originalText;
+        }, 2000);
+      } catch (error) {
+        outputText.select();
+        document.execCommand('copy');
+        alert('Copied to clipboard!');
+      }
+    });
+
+    // Clear all
+    clearBtn.addEventListener('click', () => {
+      inputText.value = '';
+      outputText.value = '';
+      updateStats();
+      errorMessage.style.display = 'none';
+      inputText.focus();
+    });
+
+    // Ctrl/Cmd+Enter to decode
+    inputText.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        decodeBtn.click();
+      }
+    });
+
+    // Initial update
+    updateStats();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSV to JSON - TextKit</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+<style>
+:root{--gradient:linear-gradient(135deg,#a8edea 0%,#fed6e3 100%)}
+body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
+.container{max-width:900px;margin:0 auto}
+.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
+.back-link:hover{opacity:1}
+main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
+.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
+textarea{min-height:180px;font-family:monospace;font-size:0.9rem;border:2px solid #e2e8f0;border-radius:12px;transition:all 0.3s}
+textarea:focus{border-color:#a8edea;box-shadow:0 0 0 3px rgba(168,237,234,0.1)}
+.button-group{display:flex;gap:1rem;margin-top:1rem}
+button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
+button.primary{background:var(--gradient);color:#fff}
+button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(168,237,234,0.3)}
+button.secondary{background:#f1f5f9;color:#475569}
+button.secondary:hover{background:#e2e8f0}
+footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../../index.html" class="back-link">← Back to Home</a>
+<main>
+<h1>CSV to JSON</h1>
+<p class="subtitle">Convert CSV data to JSON format</p>
+<label>Input CSV (first row as headers):</label>
+<textarea id="input" placeholder="name,age,email&#10;John,30,john@example.com&#10;Jane,25,jane@example.com"></textarea>
+<div class="button-group">
+<button class="primary" onclick="convert()">Convert to JSON</button>
+<button class="secondary" onclick="copy()">Copy Result</button>
+<button class="secondary" onclick="clear()">Clear</button>
+</div>
+<label>JSON Output:</label>
+<textarea id="output" readonly></textarea>
+</main>
+<footer>© 2024 TextKit - All text processing happens in your browser</footer>
+</div>
+<script>
+function convert(){const csv=document.getElementById('input').value.trim();if(!csv)return;const lines=csv.split('\n').map(l=>l.trim()).filter(l=>l);if(lines.length<2){alert('Need at least header row and one data row');return}const headers=lines[0].split(',').map(h=>h.trim());const result=lines.slice(1).map(line=>{const values=line.split(',').map(v=>v.trim());const obj={};headers.forEach((h,i)=>{obj[h]=values[i]||''});return obj});document.getElementById('output').value=JSON.stringify(result,null,2)}
+function copy(){const output=document.getElementById('output');output.select();document.execCommand('copy');alert('Copied to clipboard!')}
+function clear(){document.getElementById('input').value='';document.getElementById('output').value=''}
+</script>
+</body>
+</html>

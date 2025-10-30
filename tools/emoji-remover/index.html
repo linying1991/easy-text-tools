@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emoji Remover - TextKit</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+<style>
+:root{--gradient:linear-gradient(135deg,#30cfd0 0%,#330867 100%)}
+body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
+.container{max-width:900px;margin:0 auto}
+.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
+.back-link:hover{opacity:1}
+main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
+.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
+textarea{min-height:180px;font-size:0.95rem;border:2px solid #e2e8f0;border-radius:12px;transition:all 0.3s}
+textarea:focus{border-color:#30cfd0;box-shadow:0 0 0 3px rgba(48,207,208,0.1)}
+.button-group{display:flex;gap:1rem;margin-top:1rem}
+button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
+button.primary{background:var(--gradient);color:#fff}
+button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(48,207,208,0.3)}
+button.secondary{background:#f1f5f9;color:#475569}
+button.secondary:hover{background:#e2e8f0}
+.stats{margin-top:1rem;padding:1rem;background:#f8fafc;border-radius:12px;color:#64748b;font-size:0.9rem}
+footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../../index.html" class="back-link">← Back to Home</a>
+<main>
+<h1>Emoji Remover</h1>
+<p class="subtitle">Remove emojis and symbols from text</p>
+<label>Input Text:</label>
+<textarea id="input" placeholder="Enter text with emojis 😊🎉..."></textarea>
+<div class="button-group">
+<button class="primary" onclick="remove()">Remove Emojis</button>
+<button class="secondary" onclick="copy()">Copy Result</button>
+<button class="secondary" onclick="clear()">Clear</button>
+</div>
+<div class="stats" id="stats"></div>
+<label>Output:</label>
+<textarea id="output" readonly></textarea>
+</main>
+<footer>© 2024 TextKit - All text processing happens in your browser</footer>
+</div>
+<script>
+function remove(){const text=document.getElementById('input').value;const emojiRegex=/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F018}-\u{1F270}\u{238C}-\u{2454}\u{20D0}-\u{20FF}\u{FE0F}]/gu;const emojis=text.match(emojiRegex)||[];const result=text.replace(emojiRegex,'');document.getElementById('output').value=result;document.getElementById('stats').textContent=`Removed ${emojis.length} emoji${emojis.length!==1?'s':''}`+(emojis.length>0?': '+emojis.join(' '):'')}
+function copy(){const output=document.getElementById('output');output.select();document.execCommand('copy');alert('Copied to clipboard!')}
+function clear(){document.getElementById('input').value='';document.getElementById('output').value='';document.getElementById('stats').textContent=''}
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XML Formatter - TextKit</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+<style>
+:root{--gradient:linear-gradient(135deg,#30cfd0 0%,#330867 100%)}
+body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
+.container{max-width:900px;margin:0 auto}
+.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
+.back-link:hover{opacity:1}
+main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
+.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
+textarea{min-height:200px;font-family:monospace;font-size:0.9rem;border:2px solid #e2e8f0;border-radius:12px;transition:all 0.3s}
+textarea:focus{border-color:#30cfd0;box-shadow:0 0 0 3px rgba(48,207,208,0.1)}
+.button-group{display:flex;gap:1rem;margin-top:1rem}
+button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
+button.primary{background:var(--gradient);color:#fff}
+button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(48,207,208,0.3)}
+button.secondary{background:#f1f5f9;color:#475569}
+button.secondary:hover{background:#e2e8f0}
+.error{color:#ef4444;margin-top:0.5rem;font-size:0.9rem}
+footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../../index.html" class="back-link">← Back to Home</a>
+<main>
+<h1>XML Formatter</h1>
+<p class="subtitle">Format and beautify XML</p>
+<label>Input XML:</label>
+<textarea id="input" placeholder="<root><item>content</item></root>"></textarea>
+<div id="error" class="error"></div>
+<div class="button-group">
+<button class="primary" onclick="format()">Format XML</button>
+<button class="primary" onclick="minify()">Minify XML</button>
+<button class="secondary" onclick="copy()">Copy Result</button>
+<button class="secondary" onclick="clear()">Clear</button>
+</div>
+<label>Output:</label>
+<textarea id="output" readonly></textarea>
+</main>
+<footer>© 2024 TextKit - All text processing happens in your browser</footer>
+</div>
+<script>
+function format(){try{const xml=document.getElementById('input').value;const parser=new DOMParser();const xmlDoc=parser.parseFromString(xml,'text/xml');if(xmlDoc.getElementsByTagName('parsererror').length>0){throw new Error('Invalid XML')}const formatted=formatXML(xml);document.getElementById('output').value=formatted;document.getElementById('error').textContent='✓ Valid XML'}catch(e){document.getElementById('error').textContent='Error: '+e.message}}
+function formatXML(xml){const PADDING='  ';const reg=/(>)(<)(\/*)/g;xml=xml.replace(reg,'$1\r\n$2$3');let pad=0;return xml.split('\r\n').map(node=>{let indent=0;if(node.match(/.+<\/\w[^>]*>$/))indent=0;else if(node.match(/^<\/\w/))indent=pad-=1;else if(node.match(/^<\w[^>]*[^\/]>.*$/))indent=pad++;else indent=0;return PADDING.repeat(indent)+node}).join('\r\n')}
+function minify(){const xml=document.getElementById('input').value;const minified=xml.replace(/>\s+</g,'><').trim();document.getElementById('output').value=minified}
+function copy(){const output=document.getElementById('output');output.select();document.execCommand('copy');alert('Copied to clipboard!')}
+function clear(){document.getElementById('input').value='';document.getElementById('output').value='';document.getElementById('error').textContent=''}
+</script>
+</body>
+</html>

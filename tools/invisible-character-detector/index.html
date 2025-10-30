@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invisible Character Detector - TextKit</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+<style>
+:root{--gradient:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%)}
+body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
+.container{max-width:900px;margin:0 auto}
+.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
+.back-link:hover{opacity:1}
+main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
+.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
+textarea{min-height:150px;font-family:monospace;font-size:0.9rem;border:2px solid #e2e8f0;border-radius:12px;transition:all 0.3s}
+textarea:focus{border-color:#4facfe;box-shadow:0 0 0 3px rgba(79,172,254,0.1)}
+.button-group{display:flex;gap:1rem;margin-top:1rem}
+button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
+button.primary{background:var(--gradient);color:#fff}
+button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(79,172,254,0.3)}
+button.secondary{background:#f1f5f9;color:#475569}
+button.secondary:hover{background:#e2e8f0}
+.results{margin-top:2rem;padding:1.5rem;background:#f8fafc;border-radius:12px}
+.char-item{padding:0.75rem;margin-bottom:0.5rem;background:#fff;border-radius:8px;display:flex;justify-content:space-between;align-items:center;font-family:monospace}
+.char-name{font-weight:600;color:#1e293b}
+.char-code{color:#64748b;font-size:0.85rem}
+footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../../index.html" class="back-link">← Back to Home</a>
+<main>
+<h1>Invisible Character Detector</h1>
+<p class="subtitle">Find and remove invisible/hidden characters</p>
+<label>Input Text:</label>
+<textarea id="input" placeholder="Paste text to check for invisible characters..."></textarea>
+<div class="button-group">
+<button class="primary" onclick="detect()">Detect Invisible Chars</button>
+<button class="primary" onclick="remove()">Remove & Clean</button>
+<button class="secondary" onclick="copy()">Copy Cleaned</button>
+<button class="secondary" onclick="clear()">Clear</button>
+</div>
+<div class="results" id="results" style="display:none"></div>
+<label>Cleaned Output:</label>
+<textarea id="output" readonly></textarea>
+</main>
+<footer>© 2024 TextKit - All text processing happens in your browser</footer>
+</div>
+<script>
+const invisibleChars={'\u200B':'Zero Width Space','\u200C':'Zero Width Non-Joiner','\u200D':'Zero Width Joiner','\uFEFF':'Zero Width No-Break Space','\u00A0':'Non-Breaking Space','\u2028':'Line Separator','\u2029':'Paragraph Separator','\u202A':'Left-to-Right Embedding','\u202B':'Right-to-Left Embedding','\u202C':'Pop Directional Formatting','\u202D':'Left-to-Right Override','\u202E':'Right-to-Left Override'};
+function detect(){const text=document.getElementById('input').value;const found={};for(let char of text){if(invisibleChars[char]){found[char]=(found[char]||0)+1}}const results=document.getElementById('results');if(Object.keys(found).length===0){results.innerHTML='<p style="color:#10b981;font-weight:600">✓ No invisible characters detected!</p>';results.style.display='block';return}let html='<h3 style="margin:0 0 1rem 0;color:#1e293b">Found Invisible Characters:</h3>';Object.entries(found).forEach(([char,count])=>{const code=char.charCodeAt(0).toString(16).toUpperCase().padStart(4,'0');html+=`<div class="char-item"><span class="char-name">${invisibleChars[char]} (×${count})</span><span class="char-code">U+${code}</span></div>`});results.innerHTML=html;results.style.display='block'}
+function remove(){let text=document.getElementById('input').value;Object.keys(invisibleChars).forEach(char=>{text=text.split(char).join('')});document.getElementById('output').value=text;detect()}
+function copy(){const output=document.getElementById('output');output.select();document.execCommand('copy');alert('Copied to clipboard!')}
+function clear(){document.getElementById('input').value='';document.getElementById('output').value='';document.getElementById('results').style.display='none'}
+</script>
+</body>
+</html>

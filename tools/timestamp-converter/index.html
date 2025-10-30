@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timestamp Converter - TextKit</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+<style>
+:root{--gradient:linear-gradient(135deg,#fa709a 0%,#fee140 100%)}
+body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
+.container{max-width:900px;margin:0 auto}
+.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
+.back-link:hover{opacity:1}
+main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
+.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
+.current{padding:1.5rem;background:#f8fafc;border-radius:12px;margin-bottom:2rem}
+.current h3{margin:0 0 1rem 0;color:#1e293b}
+.current-time{font-size:1.5rem;font-weight:700;color:#fa709a;font-family:monospace}
+input[type="text"],input[type="datetime-local"]{border:2px solid #e2e8f0;border-radius:8px;padding:0.75rem;font-size:1rem;width:100%;font-family:monospace}
+.button-group{display:flex;gap:1rem;margin:1rem 0}
+button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
+button.primary{background:var(--gradient);color:#fff}
+button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(250,112,154,0.3)}
+.result{padding:1rem;background:#f8fafc;border-radius:8px;margin-top:1rem;font-family:monospace;color:#1e293b}
+footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../../index.html" class="back-link">← Back to Home</a>
+<main>
+<h1>Timestamp Converter</h1>
+<p class="subtitle">Convert between Unix timestamp and human-readable date</p>
+<div class="current">
+<h3>Current Time</h3>
+<div class="current-time" id="current"></div>
+</div>
+<label>Unix Timestamp to Date:</label>
+<input type="text" id="timestamp" placeholder="e.g., 1704067200">
+<div class="button-group">
+<button class="primary" onclick="timestampToDate()">Convert to Date</button>
+</div>
+<div id="result1" class="result" style="display:none"></div>
+<label style="margin-top:2rem;display:block">Date to Unix Timestamp:</label>
+<input type="datetime-local" id="datetime">
+<div class="button-group">
+<button class="primary" onclick="dateToTimestamp()">Convert to Timestamp</button>
+</div>
+<div id="result2" class="result" style="display:none"></div>
+</main>
+<footer>© 2024 TextKit - All text processing happens in your browser</footer>
+</div>
+<script>
+function updateCurrent(){const now=Date.now();document.getElementById('current').textContent=Math.floor(now/1000)+' ('+new Date().toLocaleString()+')'}
+updateCurrent();setInterval(updateCurrent,1000);
+function timestampToDate(){const ts=document.getElementById('timestamp').value;if(!ts)return;const date=new Date(parseInt(ts)*1000);document.getElementById('result1').innerHTML='<strong>Date:</strong> '+date.toLocaleString()+'<br><strong>ISO:</strong> '+date.toISOString()+'<br><strong>UTC:</strong> '+date.toUTCString();document.getElementById('result1').style.display='block'}
+function dateToTimestamp(){const dt=document.getElementById('datetime').value;if(!dt)return;const timestamp=Math.floor(new Date(dt).getTime()/1000);document.getElementById('result2').innerHTML='<strong>Unix Timestamp:</strong> '+timestamp;document.getElementById('result2').style.display='block'}
+</script>
+</body>
+</html>

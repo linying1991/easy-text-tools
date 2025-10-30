@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text to Title Generator - TextKit</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+<style>
+:root{--gradient:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%)}
+body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
+.container{max-width:900px;margin:0 auto}
+.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
+.back-link:hover{opacity:1}
+main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
+.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
+textarea{min-height:120px;font-size:1rem;border:2px solid #e2e8f0;border-radius:12px;transition:all 0.3s}
+textarea:focus{border-color:#4facfe;box-shadow:0 0 0 3px rgba(79,172,254,0.1)}
+.options{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1rem;padding:1rem;background:#f8fafc;border-radius:12px}
+.option label{display:flex;align-items:center;gap:0.5rem}
+.button-group{display:flex;gap:1rem;margin-top:1rem}
+button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
+button.primary{background:var(--gradient);color:#fff}
+button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(79,172,254,0.3)}
+.results{margin-top:2rem}
+.title-option{padding:1.5rem;margin-bottom:1rem;background:#f8fafc;border-radius:12px;cursor:pointer;transition:all 0.3s}
+.title-option:hover{background:#e2e8f0;transform:translateY(-2px)}
+.title-text{font-size:1.3rem;font-weight:600;color:#1e293b;margin-bottom:0.25rem}
+.title-label{font-size:0.85rem;color:#64748b}
+footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../../index.html" class="back-link">← Back to Home</a>
+<main>
+<h1>Text to Title Generator</h1>
+<p class="subtitle">Generate title variations from text</p>
+<label>Input Text:</label>
+<textarea id="input" placeholder="Enter your text or topic..."></textarea>
+<div class="options">
+<div class="option"><label><input type="checkbox" id="removeStopWords"> Remove common words (a, the, is...)</label></div>
+<div class="option"><label><input type="checkbox" id="addEmojis"> Add emoji suggestions</label></div>
+</div>
+<div class="button-group">
+<button class="primary" onclick="generate()">Generate Titles</button>
+</div>
+<div class="results" id="results"></div>
+</main>
+<footer>© 2024 TextKit - All text processing happens in your browser</footer>
+</div>
+<script>
+const stopWords=['a','an','the','is','are','was','were','be','been','being','and','or','but','in','on','at','to','for','of','with','by'];
+const emojis=['📝','✨','🚀','💡','🎯','📌','⭐','🔥','💪','🎨','📚'];
+function generate(){const text=document.getElementById('input').value.trim();if(!text){document.getElementById('results').innerHTML='';return}const removeStop=document.getElementById('removeStopWords').checked;const addEmoji=document.getElementById('addEmojis').checked;let words=text.toLowerCase().split(/\s+/);if(removeStop){words=words.filter(w=>!stopWords.includes(w))}const titleCase=words.map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');const upper=words.join(' ').toUpperCase();const questions=['How to '+words.join(' ')+'?','What is '+words.join(' ')+'?','Why '+words.join(' ')+' matters','The ultimate guide to '+words.join(' ')];const titles=[{text:titleCase,label:'Title Case'},{text:upper,label:'All Caps'},{text:titleCase+': A Complete Guide',label:'Guide Format'},{text:'Everything You Need to Know About '+titleCase,label:'Comprehensive'},...questions.map(q=>({text:q.charAt(0).toUpperCase()+q.slice(1),label:'Question Format'}))];let html='<h3 style="margin:0 0 1rem 0;color:#1e293b">Title Suggestions:</h3>';titles.forEach(title=>{const emoji=addEmoji?emojis[Math.floor(Math.random()*emojis.length)]+' ':'';html+=`<div class="title-option" onclick="copy('${title.text.replace(/'/g,"\\'")}')"><div class="title-text">${emoji}${title.text}</div><div class="title-label">${title.label}</div></div>`});document.getElementById('results').innerHTML=html}
+function copy(text){navigator.clipboard.writeText(text).then(()=>alert('Copied: '+text)).catch(()=>alert('Copy failed'))}
+</script>
+</body>
+</html>

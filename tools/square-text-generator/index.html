@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Square Text Generator - TextKit</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+<style>
+:root{--gradient:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%)}
+body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
+.container{max-width:900px;margin:0 auto}
+.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
+.back-link:hover{opacity:1}
+main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
+.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
+textarea{min-height:120px;font-size:1.1rem;border:2px solid #e2e8f0;border-radius:12px;transition:all 0.3s}
+textarea:focus{border-color:#4facfe;box-shadow:0 0 0 3px rgba(79,172,254,0.1)}
+.button-group{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1rem}
+button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none;padding:0.75rem}
+button.primary{background:var(--gradient);color:#fff}
+button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(79,172,254,0.3)}
+button.secondary{background:#f1f5f9;color:#475569}
+button.secondary:hover{background:#e2e8f0}
+.result{margin-top:1rem;padding:1.5rem;background:#f8fafc;border-radius:12px;font-size:1.5rem;min-height:60px;word-wrap:break-word}
+footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../../index.html" class="back-link">← Back to Home</a>
+<main>
+<h1>Square Text Generator</h1>
+<p class="subtitle">Convert text to squared letters (🆂🆀🆄🅰🆁🅴)</p>
+<label>Input Text:</label>
+<textarea id="input" placeholder="Enter text..."></textarea>
+<div class="button-group">
+<button class="primary" onclick="convert('negative')">🅽🅴🅶🅰🆃🅸🆅🅴</button>
+<button class="primary" onclick="convert('outline')">🄾🅄🅃🄻🄸🄽🄴</button>
+<button class="secondary" onclick="copy()">Copy Result</button>
+<button class="secondary" onclick="clear()">Clear</button>
+</div>
+<div class="result" id="output">Styled text will appear here</div>
+</main>
+<footer>© 2024 TextKit - All text processing happens in your browser</footer>
+</div>
+<script>
+const negative={'a':'🅰','b':'🅱','c':'🅲','d':'🅳','e':'🅴','f':'🅵','g':'🅶','h':'🅷','i':'🅸','j':'🅹','k':'🅺','l':'🅻','m':'🅼','n':'🅽','o':'🅾','p':'🅿','q':'🆀','r':'🆁','s':'🆂','t':'🆃','u':'🆄','v':'🆅','w':'🆆','x':'🆇','y':'🆈','z':'🆉','A':'🅰','B':'🅱','C':'🅲','D':'🅳','E':'🅴','F':'🅵','G':'🅶','H':'🅷','I':'🅸','J':'🅹','K':'🅺','L':'🅻','M':'🅼','N':'🅽','O':'🅾','P':'🅿','Q':'🆀','R':'🆁','S':'🆂','T':'🆃','U':'🆄','V':'🆅','W':'🆆','X':'🆇','Y':'🆈','Z':'🆉'};
+const outline={'a':'🄰','b':'🄱','c':'🄲','d':'🄳','e':'🄴','f':'🄵','g':'🄶','h':'🄷','i':'🄸','j':'🄹','k':'🄺','l':'🄻','m':'🄼','n':'🄽','o':'🄾','p':'🄿','q':'🅀','r':'🅁','s':'🅂','t':'🅃','u':'🅄','v':'🅅','w':'🅆','x':'🅇','y':'🅈','z':'🅉','A':'🄰','B':'🄱','C':'🄲','D':'🄳','E':'🄴','F':'🄵','G':'🄶','H':'🄷','I':'🄸','J':'🄹','K':'🄺','L':'🄻','M':'🄼','N':'🄽','O':'🄾','P':'🄿','Q':'🅀','R':'🅁','S':'🅂','T':'🅃','U':'🅄','V':'🅅','W':'🅆','X':'🅇','Y':'🅈','Z':'🅉'};
+function convert(style){const text=document.getElementById('input').value;const map=style==='negative'?negative:outline;const result=text.split('').map(c=>map[c]||c).join('');document.getElementById('output').textContent=result}
+function copy(){const text=document.getElementById('output').textContent;navigator.clipboard.writeText(text).then(()=>alert('Copied!')).catch(()=>alert('Copy failed'))}
+function clear(){document.getElementById('input').value='';document.getElementById('output').textContent='Styled text will appear here'}
+</script>
+</body>
+</html>

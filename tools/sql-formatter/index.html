@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL Formatter - TextKit</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+<style>
+:root{--gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%)}
+body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
+.container{max-width:900px;margin:0 auto}
+.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
+.back-link:hover{opacity:1}
+main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
+.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
+textarea{min-height:200px;font-family:monospace;font-size:0.9rem;border:2px solid #e2e8f0;border-radius:12px;transition:all 0.3s}
+textarea:focus{border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,0.1)}
+.button-group{display:flex;gap:1rem;margin-top:1rem}
+button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
+button.primary{background:var(--gradient);color:#fff}
+button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(102,126,234,0.3)}
+button.secondary{background:#f1f5f9;color:#475569}
+button.secondary:hover{background:#e2e8f0}
+footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../../index.html" class="back-link">← Back to Home</a>
+<main>
+<h1>SQL Formatter</h1>
+<p class="subtitle">Format and beautify SQL queries</p>
+<label>Input SQL:</label>
+<textarea id="input" placeholder="SELECT * FROM users WHERE id=1"></textarea>
+<div class="button-group">
+<button class="primary" onclick="format()">Format SQL</button>
+<button class="primary" onclick="uppercase()">Uppercase Keywords</button>
+<button class="secondary" onclick="copy()">Copy Result</button>
+<button class="secondary" onclick="clear()">Clear</button>
+</div>
+<label>Output:</label>
+<textarea id="output" readonly></textarea>
+</main>
+<footer>© 2024 TextKit - All text processing happens in your browser</footer>
+</div>
+<script>
+const keywords=['SELECT','FROM','WHERE','JOIN','LEFT','RIGHT','INNER','OUTER','ON','AND','OR','ORDER','BY','GROUP','HAVING','INSERT','INTO','VALUES','UPDATE','SET','DELETE','CREATE','TABLE','ALTER','DROP','AS','DISTINCT','LIMIT','OFFSET','UNION','ALL','CASE','WHEN','THEN','ELSE','END','IN','NOT','NULL','IS','LIKE','BETWEEN'];
+function format(){let sql=document.getElementById('input').value;sql=sql.replace(/\s+/g,' ').trim();keywords.forEach(kw=>{const regex=new RegExp('\\b'+kw+'\\b','gi');sql=sql.replace(regex,'\n'+kw)});sql=sql.replace(/,/g,',\n  ');sql=sql.replace(/\(/g,'(\n  ').replace(/\)/g,'\n)');sql=sql.trim().split('\n').map(line=>line.trim()).join('\n');document.getElementById('output').value=sql}
+function uppercase(){let sql=document.getElementById('input').value;keywords.forEach(kw=>{const regex=new RegExp('\\b'+kw+'\\b','gi');sql=sql.replace(regex,kw)});document.getElementById('output').value=sql}
+function copy(){const output=document.getElementById('output');output.select();document.execCommand('copy');alert('Copied to clipboard!')}
+function clear(){document.getElementById('input').value='';document.getElementById('output').value=''}
+</script>
+</body>
+</html>

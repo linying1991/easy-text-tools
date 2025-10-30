@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Similarity - TextKit</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+<style>
+:root{--gradient:linear-gradient(135deg,#fa709a 0%,#fee140 100%)}
+body{min-height:100vh;background:var(--gradient);margin:0;padding:2rem}
+.container{max-width:900px;margin:0 auto}
+.back-link{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;opacity:0.9;transition:opacity 0.3s}
+.back-link:hover{opacity:1}
+main{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:24px;padding:3rem;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+h1{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0 0 0.5rem 0;font-size:2.5rem}
+.subtitle{color:#64748b;margin-bottom:2rem;font-size:1.1rem}
+textarea{min-height:150px;font-family:monospace;font-size:0.95rem;border:2px solid #e2e8f0;border-radius:12px;transition:all 0.3s}
+textarea:focus{border-color:#fa709a;box-shadow:0 0 0 3px rgba(250,112,154,0.1)}
+.button-group{display:flex;gap:1rem;margin-top:1rem}
+button{border-radius:12px;font-weight:600;transition:all 0.3s;border:none}
+button.primary{background:var(--gradient);color:#fff}
+button.primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(250,112,154,0.3)}
+.result{margin-top:2rem;padding:2rem;background:#f8fafc;border-radius:12px;text-align:center}
+.similarity{font-size:3rem;font-weight:700;color:#fa709a;margin-bottom:0.5rem}
+.result-label{color:#64748b;font-size:1.1rem}
+.method{margin-top:1rem;color:#64748b;font-size:0.9rem}
+footer{text-align:center;color:#fff;margin-top:2rem;opacity:0.8}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../../index.html" class="back-link">← Back to Home</a>
+<main>
+<h1>Text Similarity</h1>
+<p class="subtitle">Compare similarity between two texts (Levenshtein distance)</p>
+<label>First Text:</label>
+<textarea id="text1" placeholder="Enter first text..."></textarea>
+<label>Second Text:</label>
+<textarea id="text2" placeholder="Enter second text..."></textarea>
+<div class="button-group">
+<button class="primary" onclick="compare()">Compare Similarity</button>
+</div>
+<div class="result" id="result" style="display:none">
+<div class="similarity" id="similarity">0%</div>
+<div class="result-label">Similarity Score</div>
+<div class="method">Using Levenshtein Distance Algorithm</div>
+</div>
+</main>
+<footer>© 2024 TextKit - All text processing happens in your browser</footer>
+</div>
+<script>
+function levenshtein(a,b){const matrix=[];for(let i=0;i<=b.length;i++)matrix[i]=[i];for(let j=0;j<=a.length;j++)matrix[0][j]=j;for(let i=1;i<=b.length;i++){for(let j=1;j<=a.length;j++){if(b.charAt(i-1)===a.charAt(j-1)){matrix[i][j]=matrix[i-1][j-1]}else{matrix[i][j]=Math.min(matrix[i-1][j-1]+1,matrix[i][j-1]+1,matrix[i-1][j]+1)}}}return matrix[b.length][a.length]}
+function compare(){const text1=document.getElementById('text1').value;const text2=document.getElementById('text2').value;if(!text1||!text2){alert('Please enter both texts');return}const distance=levenshtein(text1,text2);const maxLen=Math.max(text1.length,text2.length);const similarity=((1-distance/maxLen)*100).toFixed(2);document.getElementById('similarity').textContent=similarity+'%';document.getElementById('result').style.display='block'}
+</script>
+</body>
+</html>

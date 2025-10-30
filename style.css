@@ -1,0 +1,478 @@
+/* Prevent layout shift during loading */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 60px;
+  color: #0172AD;
+  text-shadow: 4px 4px 4px #0172AD33;
+}
+
+h2 {
+  --pico-font-size: 1rem;
+  --pico-line-height: 1;
+  --pico-typography-spacing-top: 2.25rem
+}
+
+main {
+  margin: 50px 0;
+}
+
+footer {
+  margin: 40px 0;
+  text-align: center;
+}
+
+#canvas {
+  border-radius: var(--pico-border-radius);
+  background: var(--pico-card-background-color);
+  box-shadow: var(--pico-card-box-shadow);
+}
+
+header {
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  div.language {
+    width: 220px;
+    position: absolute;
+    right: 0;
+    top: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  a.coffee {
+    width: 160px;
+    position: absolute;
+    right: 240px;
+    top: 20px;
+  }
+}
+
+a.coffee img {
+  cursor: pointer;
+}
+
+p.dialog-title {
+  font-weight: bold;
+}
+
+.files-container {
+  border: 4px dashed var(--pico-form-element-border-color);
+  border-radius: var(--pico-border-radius);
+  height: 200px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  cursor: pointer;
+  padding: 30px;
+}
+
+/* GIF specific styles */
+.frame-info {
+  font-size: 0.9rem;
+  color: var(--pico-muted-color);
+  margin-top: 0.5rem;
+}
+
+.processing-indicator {
+  display: none;
+  text-align: center;
+  padding: 20px;
+  color: var(--pico-primary);
+}
+
+.processing-indicator.show {
+  display: block;
+}
+
+/* Enhanced file container for GIF files */
+.files-container:hover {
+  border-color: #0172AD;
+  background-color: #0172AD22;
+}
+
+.files-container.dragover {
+  border-color: #0172AD;
+  background-color: #0172AD22;
+  transform: scale(1.02);
+  transition: all 0.2s ease;
+}
+
+/* Frame range input styling */
+#frame-range {
+  font-family: monospace;
+}
+
+/* Success message styling */
+.dialog-message {
+  line-height: 1.6;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 40px;
+  }
+  
+  .files-container {
+    height: 150px;
+    padding: 20px;
+  }
+}
+
+/* Progress bar styles */
+.progress-container {
+  margin-top: 15px;
+  width: 100%;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background-color: var(--pico-form-element-background-color);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--pico-form-element-border-color);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(45deg, #0172AD, #00a6ff);
+  width: 0%;
+  transition: width 0.3s ease;
+  border-radius: 10px;
+}
+
+.progress-text {
+  text-align: center;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--pico-primary);
+}
+
+/* Navigation styles */
+.main-nav {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--pico-form-element-border-color);
+  border-bottom: 1px solid var(--pico-form-element-border-color);
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: var(--pico-color);
+  background: var(--pico-card-background-color);
+  border: 1px solid var(--pico-form-element-border-color);
+  border-radius: var(--pico-border-radius);
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  background: var(--pico-primary);
+  color: var(--pico-primary-inverse);
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link:active {
+  transform: translateY(0);
+}
+
+/* Improved header spacing */
+header hgroup {
+  margin-bottom: 1rem;
+}
+
+/* Better feature grid styling */
+.grid > div {
+  padding: 1.5rem;
+  background: var(--pico-card-background-color);
+  border-radius: var(--pico-border-radius);
+  border: 1px solid var(--pico-form-element-border-color);
+  transition: all 0.2s ease;
+}
+
+.grid > div:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-color: #0172AD;
+}
+
+.grid > div h3 {
+  margin-bottom: 1rem;
+  color: var(--pico-primary);
+}
+
+/* Enhanced FAQ section */
+.faq h3 {
+  color: var(--pico-primary);
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.faq h3:first-of-type {
+  margin-top: 1rem;
+}
+
+/* Improved button styling */
+[role="button"].outline:hover {
+  background: var(--pico-primary);
+  color: var(--pico-primary-inverse);
+  border-color: var(--pico-primary);
+}
+
+/* Mobile navigation */
+@media (max-width: 768px) {
+  .nav-links {
+    gap: 1rem;
+  }
+  
+  .nav-link {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  .main-nav {
+    margin-top: 1.5rem;
+  }
+}
+
+/* Enhanced footer */
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.footer-content > div:last-child {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    gap: 0.8rem;
+  }
+}
+
+/* Features section styling */
+.features-section {
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.05), rgba(247, 147, 30, 0.05));
+  padding: 2rem;
+  border-radius: var(--pico-border-radius);
+  margin: 3rem 0;
+  max-width: 100%;
+}
+
+.feature-card {
+  text-align: center;
+  height: 100%;
+}
+
+.feature-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.feature-card p {
+  line-height: 1.6;
+  color: var(--pico-muted-color);
+}
+
+/* CTA buttons styling */
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.cta-buttons [role="button"] {
+  min-width: 180px;
+}
+
+/* Enhanced main converter section */
+.pico article {
+  background: var(--pico-card-background-color);
+  border: 1px solid var(--pico-form-element-border-color);
+  border-radius: var(--pico-border-radius);
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Improved files container */
+.files-container {
+  background: #0172AD11;
+  border-style: dashed;
+  border-width: 3px;
+  transition: all 0.3s ease;
+}
+
+.files-container div {
+  font-size: 1.1rem;
+  color: var(--pico-muted-color);
+  font-weight: 500;
+}
+
+/* Enhanced processing indicator */
+.processing-indicator {
+  background: var(--pico-card-background-color);
+  border-radius: var(--pico-border-radius);
+  border: 1px solid var(--pico-form-element-border-color);
+  margin-top: 1rem;
+}
+
+/* Better section spacing */
+section.pico {
+  margin-bottom: 3rem;
+}
+
+/* Improved typography */
+h2 {
+  color: var(--pico-primary);
+  font-weight: 600;
+}
+
+/* Mobile responsiveness for CTA buttons */
+@media (max-width: 768px) {
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .cta-buttons [role="button"] {
+    width: 100%;
+    max-width: 280px;
+  }
+  
+  .features-section {
+    padding: 1.5rem;
+  }
+}
+
+/* FAQ section styling */
+.faq-section {
+  background: var(--pico-card-background-color);
+  padding: 2.5rem;
+  border-radius: var(--pico-border-radius);
+  border: 1px solid var(--pico-form-element-border-color);
+  max-width: 100%;
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  max-width: 100%;
+}
+
+@media (min-width: 1200px) {
+  .faq-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .faq-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.faq-item {
+  background: rgba(255, 107, 53, 0.02);
+  padding: 1.5rem;
+  border-radius: var(--pico-border-radius);
+  border: 1px solid rgba(255, 107, 53, 0.1);
+  transition: all 0.2s ease;
+}
+
+.faq-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-color: rgba(255, 107, 53, 0.3);
+}
+
+.faq-item h3 {
+  color: var(--pico-primary);
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.faq-item p {
+  line-height: 1.3;
+  color: var(--pico-muted-color);
+  margin-bottom: 0;
+}
+
+/* Mobile FAQ grid */
+@media (max-width: 768px) {
+  .faq-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .faq-section {
+    padding: 1.5rem;
+  }
+  
+  .faq-item {
+    padding: 1.2rem;
+  }
+}
+
+/* Prevent any section from exceeding container width */
+section.pico {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Override any potential full-width issues */
+.features-section,
+.faq-section,
+.main-nav {
+  width: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+}
