@@ -20,7 +20,29 @@
       }
 
       .container {
-        max-width: 1000px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+      
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50px;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+      }
+      
+      .back-link:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateX(-5px);
       }
 
       .tool-card {
@@ -165,6 +187,7 @@
   </head>
   <body>
     <div class="container">
+      <a href="/" class="back-link"><span>←</span><span>Back to Home</span></a>
       <div class="tool-card">
         <h1>📖 Readability Score Calculator</h1>
         <p class="subtitle">
