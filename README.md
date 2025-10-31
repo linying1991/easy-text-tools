@@ -1,6 +1,6 @@
-# WebP to PNG Converter
+# Easy Text Tools
 
-A simple, privacy-focused WebP to PNG converter that runs entirely in your browser. Extract frames from animated GIFs with no uploads required.
+A simple, privacy-focused Easy Text Tools that runs entirely in your browser. Extract frames from animated GIFs with no uploads required.
 
 ## Features
 

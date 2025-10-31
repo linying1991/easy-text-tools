@@ -26,6 +26,10 @@ const footerContent = `
         All processing happens in your browser. Your data never leaves your device.
       </p>
     </small>
+    <small>
+      <a href="/">Home</a> •
+      <a target="_blank" rel="nofollow" href="mailto:support@webptopng.dev">Contact Us</a>
+    </small>
     </footer>`
 
 export default defineConfig({
