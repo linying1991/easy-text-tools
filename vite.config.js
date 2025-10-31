@@ -12,6 +12,21 @@ const analysisCode = `<script async src="https://www.googletagmanager.com/gtag/j
 
   gtag('config', 'G-WXD70RT28R');
 </script>`;
+const footerContent = `
+    <style>
+      footer {
+        text-align: center;
+        margin-top: 2rem;
+      }
+    </style>
+    <footer>
+    <small>
+      <p>&copy; 2025 Easy Text Tools - 100+ Text Processing Tools</p>
+      <p style="margin-top: 0.5rem;">
+        All processing happens in your browser. Your data never leaves your device.
+      </p>
+    </small>
+    </footer>`
 
 export default defineConfig({
   build: {
@@ -196,27 +211,34 @@ export default defineConfig({
         "unicodeEscapeSequence": false
       }
     }),
-    // {
-    //   name: 'inject-analytics',
-    //   transformIndexHtml: {
-    //     order: 'pre',
-    //     handler(html, { path }) {
-    //       console.log(`处理：${path}`);
+    {
+      name: 'inject-analytics',
+      transformIndexHtml: {
+        order: 'pre',
+        handler(html, { path }) {
+          console.log(`处理：${path}`);
 
-    //       // 排除某些特定文件
-    //       const excludeFiles = ['privacy.html']; // 可以添加要排除的文件
+          // 排除某些特定文件
+          const excludeFiles = ['privacy.html']; // 可以添加要排除的文件
           
-    //       if (excludeFiles.some(excludeFile => path.endsWith(excludeFile))) {
-    //         return html; // 不插入代码
-    //       }
+          if (excludeFiles.some(excludeFile => path.endsWith(excludeFile))) {
+            return html; // 不插入代码
+          }
+
+          let newHtml = html;
+          // newHtml = newHtml.replace(
+          //   '</head>',
+          //   `${analysisCode}\n</head>`
+          //   // `${adsCode}\n${analysisCode}\n</head>`
+          // )
+          newHtml = newHtml.replace(
+            '<footer></footer>',
+            footerContent
+          )
           
-    //       return html.replace(
-    //         '</head>',
-    //         `${analysisCode}\n</head>`
-    //         // `${adsCode}\n${analysisCode}\n</head>`
-    //       )
-    //     }
-    //   }
-    // },
+          return newHtml;
+        }
+      }
+    },
   ],
 })
