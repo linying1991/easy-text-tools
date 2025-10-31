@@ -5,12 +5,16 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="/favicon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TextKit - Free Online Text Processing Tools</title>
-  <meta name="description" content="Free online text processing tools: encode, decode, convert, clean, analyze text. All tools work in your browser with complete privacy." />
-  <meta name="keywords" content="text tools, text processing, base64, text converter, text analyzer" />
+  <title>Easy Text Tools - 100+ Free Online Text Tools</title>
+  <meta name="description" content="100+ free online text tools made simple. Convert text case, generate passwords, count words, encode/decode, and more. No signup required. Fast and easy to use." />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.conditional.min.css"
     integrity="sha256-v0OEZWNaUvlmR1U0LMHiwNOzzO3q2wkIipf4KlEB9NWs=" crossorigin="anonymous">
   <style>
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 100px;
+    }
+
     :root {
       --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
@@ -271,6 +275,79 @@
       position: relative;
     }
 
+    .quick-nav {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #64748b;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1.2rem;
+      background: white;
+      border: 2px solid #f1f5f9;
+      border-radius: 50px;
+      text-decoration: none;
+      color: #475569;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .nav-link:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: #667eea;
+      color: #667eea;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    }
+
+    .nav-link:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .quick-nav {
+        position: relative;
+        top: 0;
+      }
+
+      .nav-links {
+        gap: 0.5rem;
+      }
+
+      .nav-link {
+        padding: 0.5rem 0.9rem;
+        font-size: 0.85rem;
+      }
+    }
+
     .hero-badge {
       display: inline-block;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -308,13 +385,28 @@
   <header class="container">
     <hgroup>
       <div class="hero-badge">✨ 100% Free & Private - 130+ Tools</div>
-      <h1>TextKit</h1>
+      <h1>Easy Text Tools</h1>
       <a href="https://ko-fi.com/xyzsu" target="_blank" class="coffee">
         <img style="height: 50px;" src="/kofi_bg_tag_white.svg" alt="Support me" height="50">
       </a>
       <p>Powerful text processing tools that work entirely in your browser. Your data never leaves your device.</p>
     </hgroup>
   </header>
+
+  <!-- Quick Navigation -->
+  <nav class="container quick-nav">
+    <div class="nav-links">
+      <a href="#generate" class="nav-link">📝 Generate</a>
+      <a href="#convert" class="nav-link">🔄 Convert</a>
+      <a href="#extract" class="nav-link">✂️ Extract</a>
+      <a href="#clean" class="nav-link">🧹 Clean</a>
+      <a href="#analyze" class="nav-link">📊 Analyze</a>
+      <a href="#compare" class="nav-link">🔍 Compare</a>
+      <a href="#sort" class="nav-link">🔢 Sort</a>
+      <a href="#encode" class="nav-link">🔐 Security</a>
+      <a href="#utilities" class="nav-link">🛠️ Utilities</a>
+    </div>
+  </nav>
 
   <main class="container">
     <div class="search-box">
@@ -323,7 +415,7 @@
     </div>
 
     <!-- Generate Category -->
-    <section class="category" data-category="generate">
+    <section id="generate" class="category" data-category="generate">
       <div class="category-title">
         <span class="emoji">📝</span>
         <h2>Generate</h2>
@@ -381,7 +473,7 @@
     </section>
 
     <!-- Convert Category -->
-    <section class="category" data-category="convert">
+    <section id="convert" class="category" data-category="convert">
       <div class="category-title">
         <span class="emoji">🔄</span>
         <h2>Convert & Transform</h2>
@@ -591,7 +683,7 @@
     </section>
 
     <!-- Extract/Split Category -->
-    <section class="category" data-category="extract">
+    <section id="extract" class="category" data-category="extract">
       <div class="category-title">
         <span class="emoji">✂️</span>
         <h2>Extract / Split</h2>
@@ -633,7 +725,7 @@
     </section>
 
     <!-- Clean Category -->
-    <section class="category" data-category="clean">
+    <section id="clean" class="category" data-category="clean">
       <div class="category-title">
         <span class="emoji">🧹</span>
         <h2>Clean & Format</h2>
@@ -755,7 +847,7 @@
     </section>
 
     <!-- Analyze Category -->
-    <section class="category" data-category="analyze">
+    <section id="analyze" class="category" data-category="analyze">
       <div class="category-title">
         <span class="emoji">📊</span>
         <h2>Analyze & Count</h2>
@@ -805,7 +897,7 @@
     </section>
 
     <!-- Compare Category -->
-    <section class="category" data-category="compare">
+    <section id="compare" class="category" data-category="compare">
       <div class="category-title">
         <span class="emoji">🔍</span>
         <h2>Compare & Find</h2>
@@ -843,7 +935,7 @@
     </section>
 
     <!-- Sort Category -->
-    <section class="category" data-category="sort">
+    <section id="sort" class="category" data-category="sort">
       <div class="category-title">
         <span class="emoji">🔢</span>
         <h2>Sort / Arrange</h2>
@@ -881,7 +973,7 @@
     </section>
 
     <!-- Encode/Hash Category -->
-    <section class="category" data-category="encode">
+    <section id="encode" class="category" data-category="encode">
       <div class="category-title">
         <span class="emoji">🔐</span>
         <h2>Encode / Hash / Security</h2>
@@ -935,7 +1027,7 @@
     </section>
 
     <!-- Utilities Category -->
-    <section class="category" data-category="generate">
+    <section id="utilities" class="category" data-category="generate">
       <div class="category-title">
         <span class="emoji">🛠️</span>
         <h2>Utilities & Tools</h2>
@@ -960,7 +1052,7 @@
 
   <footer class="container">
     <small>
-      <p>&copy; 2025 TextKit - 130+ Text Processing Tools</p>
+      <p>&copy; 2025 Easy Text Tools - 100+ Text Processing Tools</p>
       <p style="margin-top: 0.5rem;">
         All processing happens in your browser. Your data never leaves your device.
       </p>
