@@ -4,14 +4,7 @@ import { defineConfig } from 'vite'
 import obfuscatorPlugin from 'vite-plugin-javascript-obfuscator'
 
 const adsCode = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6973856684486491" crossorigin="anonymous"></script>`;
-const analysisCode = `<script async src="https://www.googletagmanager.com/gtag/js?id=G-WXD70RT28R"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-WXD70RT28R');
-</script>`;
+const analysisCode = ``;
 const footerContent = `
     <style>
       footer {

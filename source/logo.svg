@@ -3,15 +3,12 @@
 <svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 44 44" style="enable-background:new 0 0 44 44;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#00F4CE;}
-	.st1{fill:#FFFFFF;stroke:#FFFFFF;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st0{fill:#FF4A4A;}
+	.st1{fill:#FFFFFF;stroke:#FFFFFF;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
 </style>
 <g id="图层_2_1_">
 	<path class="st0" d="M40.1,42H3.9c-1,0-1.9-0.9-1.9-1.9V3.9C2,2.9,2.9,2,3.9,2h36.2c1,0,1.9,0.9,1.9,1.9v36.2
 		C42,41.1,41.1,42,40.1,42z"/>
 </g>
-<g>
-	<path class="st1" d="M11.5,12.7H4.6v-1.5h15.4v1.5h-6.8v20.1h-1.8V12.7z"/>
-	<path class="st1" d="M30.7,12.7h-6.8v-1.5h15.4v1.5h-6.8v20.1h-1.8V12.7z"/>
-</g>
+<path class="st1" d="M20.7,13.4H10.6v-2.2h22.9v2.2H23.3v19.3h-2.7C20.7,32.8,20.7,13.4,20.7,13.4z"/>
 </svg>
