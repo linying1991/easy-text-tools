@@ -474,6 +474,24 @@
             </a>
           </div>
         </div>
+        
+        <details style="margin-top: 2rem; background: rgba(255, 255, 255, 0.98); padding: 1.5rem; border-radius: 20px; box-shadow: var(--shadow-lg);">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What is URL decoding?</h4>
+            <p>URL decoding (percent decoding) converts percent-encoded characters back to their original form. For example, %20 becomes a space, %40 becomes @, and %3D becomes =. This is the reverse of URL encoding.</p>
+          
+            <h4>When is URL decoding needed?</h4>
+            <p>URL decoding is needed when analyzing query strings, processing form data, debugging API requests, examining web traffic, or reading URL parameters that contain special characters that were encoded for safe transmission.</p>
+          
+            <h4>What characters get URL encoded?</h4>
+            <p>Reserved characters (like ?, #, [, ], @, !, $, &, =, +, ,, ;) and non-ASCII characters (Unicode, accented letters) are typically encoded. Spaces become %20, and special symbols are converted to % followed by hexadecimal values.</p>
+          
+            <h4>How does URL decoding differ from other decoding methods?</h4>
+            <p>URL decoding specifically handles percent-encoded sequences (%XX), unlike HTML entity decoding (which handles &amp; codes) or Base64 decoding (which handles base64 strings). Each encoding method serves different purposes in data transmission.</p>
+          </div>
+        </details>
       </main>
 
       <footer></footer>

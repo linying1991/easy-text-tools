@@ -128,11 +128,30 @@
         />
         <div class="button-group">
           <button class="primary" onclick="convert()">Convert</button>
+          <button class="secondary" onclick="clear()" style="border-radius: 12px; font-weight: 600; border: none; padding: 0.75rem 1rem; background: #f1f5f9; color: #475569; transition: all 0.3s; cursor: pointer;">Clear</button>
         </div>
         <div class="result" id="result" style="display: none">
           <div class="result-value" id="output"></div>
           <div class="note" id="note"></div>
         </div>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What are Roman numerals?</h4>
+            <p>Roman numerals are a numeral system originating in ancient Rome that uses combinations of letters from the Latin alphabet (I, V, X, L, C, D, M) to represent numbers.</p>
+          
+            <h4>What numbers can be converted?</h4>
+            <p>This tool supports conversion for numbers 1-3999. Roman numerals traditionally don't have standardized representations for zero or numbers above 3999.</p>
+          
+            <h4>How do Roman numeral conversions work?</h4>
+            <p>Converting to Roman numerals uses subtraction notation (e.g., IV for 4, IX for 9) and additive notation (e.g., VI for 6, XI for 11). Converting from Roman numerals follows the same principles in reverse.</p>
+          
+            <h4>Where are Roman numerals still used today?</h4>
+            <p>Roman numerals are commonly seen on clocks, in movie credits for copyright years, chapter numbering in books, monarch names (Queen Elizabeth II), and formal documentation.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>
@@ -206,6 +225,11 @@
       document.getElementById("input").addEventListener("keypress", (e) => {
         if (e.key === "Enter") convert();
       });
+      
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("result").style.display = "none";
+      }
     </script>
   </body>
 </html>

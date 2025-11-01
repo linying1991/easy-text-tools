@@ -120,6 +120,24 @@
         </div>
         <label>JSON Output:</label>
         <textarea id="output" readonly></textarea>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>How does the CSV to JSON conversion work?</h4>
+            <p>The tool treats the first row of your CSV as headers/keys for the JSON objects. Each subsequent row becomes a JSON object where the keys are the headers and the values are from the row.</p>
+          
+            <h4>What if my CSV has special characters or commas in values?</h4>
+            <p>This simple converter doesn't handle quoted fields containing commas. For CSV with complex data that includes commas in values, you'll need a more advanced CSV parser that understands quoting.</p>
+          
+            <h4>Will all values be strings in the JSON output?</h4>
+            <p>Yes, this converter treats all values as strings in the JSON output. If you need specific data types (numbers, booleans, etc.), you'll need to parse them after conversion.</p>
+          
+            <h4>Can I convert large CSV files?</h4>
+            <p>The tool processes data in your browser. For very large CSV files (hundreds of MB), you might experience performance issues. For large files, consider using command-line tools or server-side conversion.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

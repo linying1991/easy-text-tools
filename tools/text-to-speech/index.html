@@ -169,7 +169,26 @@
           <button class="secondary" onclick="stop()">⏹ Stop</button>
           <button class="secondary" onclick="pause()">⏸ Pause</button>
           <button class="secondary" onclick="resume()">▶▶ Resume</button>
+          <button class="secondary" onclick="clear()" style="border-radius: 12px; font-weight: 600; border: none; padding: 0.875rem 1.75rem; background: #f1f5f9; color: #475569; transition: all 0.3s; cursor: pointer;">🗑️ Clear</button>
         </div>
+        
+        <details style="margin-top: 2rem; background: rgba(255, 255, 255, 0.98); padding: 1.5rem; border-radius: 24px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>How does browser text-to-speech work?</h4>
+            <p>This tool uses the Web Speech API, which accesses your browser's built-in text-to-speech engine. It works entirely in your browser with no external services required, ensuring privacy and instant processing.</p>
+          
+            <h4>What voice options are available?</h4>
+            <p>Voice options depend on your operating system and browser. Common voices include Google's neural voices, Microsoft's Cortana voices, and system-native voices. Quality and language support vary by platform.</p>
+          
+            <h4>How do rate and pitch affect speech?</h4>
+            <p>Rate controls speaking speed (0.5-2.0), with 1.0 being normal. Pitch adjusts voice tone (0.5-2.0), with 1.0 being normal pitch. Higher rates are faster, lower rates are slower. Higher pitches sound more feminine, lower pitches more masculine.</p>
+          
+            <h4>Are there any limitations to browser TTS?</h4>
+            <p>Browser TTS quality varies by platform and may not support all languages or voices. Some browsers have better implementations than others. For production use, consider specialized TTS services for consistent quality.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>
@@ -223,6 +242,10 @@
       }
       function resume() {
         synth.resume();
+      }
+      function clear() {
+        document.getElementById("input").value = "";
+        stop();
       }
     </script>
   </body>

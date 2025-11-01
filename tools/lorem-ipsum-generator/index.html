@@ -211,7 +211,28 @@
           <button class="secondary" id="copy-btn">
             <span>📋</span><span>Copy</span>
           </button>
+          <button class="secondary" id="clear-btn">
+            <span>🗑️</span><span>Clear</span>
+          </button>
         </div>
+        
+        <details style="margin-top: 2rem; background: rgba(255, 255, 255, 0.98); padding: 1.5rem; border-radius: 12px; box-shadow: var(--shadow-lg);">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What is Lorem Ipsum?</h4>
+            <p>Lorem Ipsum is placeholder text commonly used in the printing and typesetting industry. It's derived from a passage in Cicero's "De finibus bonorum et malorum" written in 45 BC.</p>
+          
+            <h4>Why is Lorem Ipsum used instead of real content?</h4>
+            <p>Designers use Lorem Ipsum because it approximates the letter distribution of English and doesn't distract from the visual elements of a design. It simulates readable text better than "dummy" text like "abc" sequences.</p>
+          
+            <h4>Is Lorem Ipsum always the same text?</h4>
+            <p>Traditional Lorem Ipsum is a specific passage, but many generators like this one create variations using the original vocabulary to produce different text each time while maintaining the same unreadable but natural-looking characteristics.</p>
+          
+            <h4>Can I use Lorem Ipsum for commercial projects?</h4>
+            <p>Yes, Lorem Ipsum is public domain content that can be used for any purpose, including commercial projects. However, make sure to replace it with real content before final delivery to clients.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>
@@ -278,6 +299,9 @@
             document.execCommand("copy");
           }
         });
+      document.getElementById("clear-btn").addEventListener("click", () => {
+        document.getElementById("output-text").value = "";
+      });
       document.getElementById("generate-btn").click();
     </script>
   </body>

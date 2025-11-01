@@ -260,6 +260,25 @@
             <span>🗑️</span><span>Clear</span>
           </button>
         </div>
+        
+        <details style="margin-top: 2rem; background: rgba(255, 255, 255, 0.98); padding: 1.5rem; border-radius: 12px; box-shadow: var(--shadow-lg);">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What characters does HTML encoding convert?</h4>
+            <p>HTML encoding converts special characters that have meaning in HTML: &amp; becomes &amp;amp;, &lt; becomes &amp;lt;, &gt; becomes &amp;gt;, " becomes &amp;quot;, and ' becomes &amp;#39;.</p>
+          
+            <h4>Why is HTML encoding necessary?</h4>
+            <p>HTML encoding is essential when displaying user-generated content or code on web pages to prevent XSS attacks and ensure proper rendering of special characters.</p>
+          
+            <h4>When should I use HTML encoding?</h4>
+            <p>Use HTML encoding when inserting untrusted data into HTML pages, displaying code snippets, or storing user input that might contain HTML characters in databases.</p>
+          
+            <h4>What's the difference between HTML encoding and decoding?</h4>
+            <p>HTML encoding converts special characters to safe entities (e.g., &lt; to &amp;lt;), while HTML decoding converts entities back to their original characters (e.g., &amp;lt; back to &lt;).</p>
+          </div>
+        </details>
+        
         <div
           style="
             background: #f8fafc;

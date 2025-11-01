@@ -82,6 +82,24 @@
         <button class="primary" onclick="find()">🔍 Find</button
         ><button onclick="copy()">📋 Copy</button
         ><button onclick="clear()">🗑️ Clear</button>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>How does duplicate line detection work?</h4>
+            <p>The tool compares each line in your text and counts how many times identical lines appear. Lines that appear more than once are considered duplicates.</p>
+          
+            <h4>Does whitespace affect duplicate detection?</h4>
+            <p>Yes, lines with different amounts of whitespace are treated as different lines. For example, "text" and " text" would be considered different lines.</p>
+          
+            <h4>What if I want to remove duplicates instead of just finding them?</h4>
+            <p>For removing duplicates while keeping unique lines, use our "Remove Duplicate Lines" tool which keeps one instance of each unique line.</p>
+          
+            <h4>Can this handle large text files?</h4>
+            <p>The tool works in your browser and its performance depends on your device. For very large files (hundreds of thousands of lines), consider using command-line tools like 'uniq' on Unix systems.</p>
+          </div>
+        </details>
       </main>
     </div>
     <script>

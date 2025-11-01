@@ -108,6 +108,7 @@
         </p>
         <label>Input Text:</label>
         <textarea id="input" placeholder="Enter or paste text..."></textarea>
+        <button class="secondary" onclick="clear()" style="border-radius: 12px; font-weight: 600; border: none; padding: 0.875rem 1.75rem; background: #f1f5f9; color: #475569; transition: all 0.3s; cursor: pointer; display: inline-block; margin-top: 1rem;">🗑️ Clear</button>
         <div class="stats">
           <div class="stat">
             <div class="stat-value" id="letters">0</div>
@@ -142,6 +143,24 @@
             <div class="stat-label">Total Characters</div>
           </div>
         </div>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What character types are counted?</h4>
+            <p>The tool counts letters (A-Z, a-z), digits (0-9), spaces (including tabs and newlines), special characters (symbols), uppercase letters, lowercase letters, punctuation marks, and total characters.</p>
+          
+            <h4>How are special characters defined?</h4>
+            <p>Special characters include symbols like @, #, $, %, &, *, etc. They're calculated by subtracting letters, digits, and whitespace from the total character count.</p>
+          
+            <h4>What's the difference between letters and punctuation?</h4>
+            <p>Letters are alphabetic characters (A-Z, a-z). Punctuation includes specific symbols like periods, commas, exclamation marks, question marks, and other grammatical symbols.</p>
+          
+            <h4>When is character counting useful?</h4>
+            <p>Character counting is useful for validating input lengths, analyzing text complexity, checking content requirements, estimating reading time, and understanding text composition for various applications.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>
@@ -167,6 +186,18 @@
       }
       document.getElementById("input").addEventListener("input", count);
       count();
+      
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("letters").textContent = "0";
+        document.getElementById("digits").textContent = "0";
+        document.getElementById("spaces").textContent = "0";
+        document.getElementById("special").textContent = "0";
+        document.getElementById("uppercase").textContent = "0";
+        document.getElementById("lowercase").textContent = "0";
+        document.getElementById("punctuation").textContent = "0";
+        document.getElementById("total").textContent = "0";
+      }
     </script>
   </body>
 </html>

@@ -122,6 +122,25 @@
             <div class="stat-label">Empty Lines</div>
           </div>
         </div>
+        <button class="secondary" onclick="clear()" style="margin-top: 1rem; border-radius: 12px; font-weight: 600; border: none; padding: 0.75rem 1rem; background: #f1f5f9; color: #475569; transition: all 0.3s; cursor: pointer; display: inline-block;">Clear</button>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>How does line counting work?</h4>
+            <p>Lines are counted by splitting text at line break characters (newlines). Total lines include both empty and non-empty lines, while non-empty lines only count lines with content.</p>
+          
+            <h4>What counts as an empty line?</h4>
+            <p>Empty lines are counted as lines that contain only whitespace characters (spaces, tabs) or are completely blank. Lines with any non-whitespace characters are counted as non-empty.</p>
+          
+            <h4>Why would I need to count lines?</h4>
+            <p>Line counting is useful for document analysis, verifying file content, estimating code complexity, checking submission requirements (e.g., essay line limits), and various text processing tasks.</p>
+          
+            <h4>Is there a limit to the text size this can handle?</h4>
+            <p>The tool processes text in your browser, so it depends on your device's memory capacity. It should handle reasonably large files but may slow down with extremely large text inputs.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>
@@ -135,6 +154,10 @@
         document.getElementById("total").textContent = total;
         document.getElementById("nonempty").textContent = nonempty;
         document.getElementById("empty").textContent = empty;
+      }
+      function clear() {
+        document.getElementById("input").value = "";
+        count();
       }
       document.getElementById("input").addEventListener("input", count);
       count();

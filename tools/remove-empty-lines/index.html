@@ -82,6 +82,24 @@
         ><button class="primary" onclick="process()">🧹 Remove</button
         ><button onclick="copy()">📋 Copy</button
         ><button onclick="clear()">🗑️ Clear</button>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What counts as an empty line?</h4>
+            <p>Any line that contains only whitespace characters (spaces, tabs) or is completely blank is considered empty and will be removed by this tool.</p>
+          
+            <h4>Does this tool preserve line order?</h4>
+            <p>Yes, the tool maintains the original order of non-empty lines, simply eliminating the empty lines between them.</p>
+          
+            <h4>Will this tool affect lines with spaces?</h4>
+            <p>Lines that contain only spaces or tabs are considered empty and will be removed. Lines with actual content but containing spaces between words will be preserved.</p>
+          
+            <h4>Can this be used for code formatting?</h4>
+            <p>Yes, this tool is commonly used to clean up code files by removing extra blank lines. However, be aware that some coding styles intentionally use multiple blank lines for organization.</p>
+          </div>
+        </details>
       </main>
     </div>
     <script>

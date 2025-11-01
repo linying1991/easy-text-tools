@@ -139,10 +139,29 @@
           id="password"
           placeholder="Enter password to check..."
         />
+        <button class="secondary" onclick="clear()" style="border-radius: 12px; font-weight: 600; border: none; padding: 0.75rem 1rem; background: #f1f5f9; color: #475569; transition: all 0.3s; cursor: pointer; display: inline-block; margin-bottom: 1rem;">Clear</button>
         <div class="strength-meter">
           <div class="strength-bar" id="bar"></div>
         </div>
         <div class="strength-label" id="label">Enter a password</div>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>How is password strength calculated?</h4>
+            <p>Password strength is determined by multiple factors: length (at least 8+ characters, ideally 12+), inclusion of uppercase letters, lowercase letters, numbers, and special characters. Each factor contributes to an overall score.</p>
+          
+            <h4>What makes a password strong?</h4>
+            <p>Strong passwords are long (12+ characters), include mixed case letters, numbers, and special characters, and avoid common words, patterns, or personal information. Passphrases are often recommended for better security.</p>
+          
+            <h4>Should I use the same password everywhere?</h4>
+            <p>No, never reuse passwords across different sites. If one service is compromised, all accounts with the same password become vulnerable. Use a unique password for each important account.</p>
+          
+            <h4>Is a password manager necessary?</h4>
+            <p>While not mandatory, password managers are highly recommended. They securely generate and store complex, unique passwords for all your accounts, eliminating the need to remember multiple complex passwords.</p>
+          </div>
+        </details>
         <div class="checks">
           <div class="check" id="check1">
             <span class="check-icon">○</span><span>At least 8 characters</span>
@@ -231,6 +250,23 @@
         }
       }
       document.getElementById("password").addEventListener("input", check);
+      
+      function clear() {
+        document.getElementById("password").value = "";
+        // Reset all checks to neutral state
+        for (let i = 1; i <= 6; i++) {
+          const el = document.getElementById("check" + i);
+          el.querySelector(".check-icon").textContent = "○";
+          el.style.borderLeft = "3px solid transparent";
+        }
+        // Reset strength meter
+        document.getElementById("bar").style.width = "0%";
+        document.getElementById("bar").style.background = "#e2e8f0";
+        document.getElementById("label").textContent = "Enter a password";
+        document.getElementById("label").style.color = "#64748b";
+        // Hide suggestions
+        document.getElementById("suggestions").style.display = "none";
+      }
     </script>
   </body>
 </html>

@@ -87,6 +87,13 @@
         transform: translateY(-2px);
         box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
       }
+      button.secondary {
+        background: #f1f5f9;
+        color: #475569;
+      }
+      button.secondary:hover {
+        background: #e2e8f0;
+      }
       .results {
         padding: 1.5rem;
         background: #f8fafc;
@@ -128,8 +135,27 @@
           <button class="primary" onclick="generate()">
             Generate Anagrams
           </button>
+          <button class="secondary" onclick="clear()">Clear</button>
         </div>
         <div class="results" id="results"></div>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What is an anagram?</h4>
+            <p>An anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once. For example, "listen" and "silent" are anagrams.</p>
+          
+            <h4>How does this anagram generator work?</h4>
+            <p>This tool randomly rearranges the letters in your input to create variations. Note that these are not guaranteed to be valid dictionary words.</p>
+          
+            <h4>Are the generated anagrams real words?</h4>
+            <p>The results are random letter rearrangements. While some might be real words, most will not be. This tool focuses on generating letter variations rather than dictionary-valid anagrams.</p>
+          
+            <h4>Can I generate anagrams for long phrases?</h4>
+            <p>Yes, you can enter longer phrases. The tool will remove spaces and generate anagrams from all available letters.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>
@@ -169,6 +195,10 @@
           '<h3 style="margin:0 0 1rem 0;color:#1e293b">Generated Anagrams:</h3>' +
           results.map((a) => `<span class="anagram">${a}</span>`).join("") +
           '<p class="info">Note: These are random letter rearrangements. Not all may be valid words.</p>';
+      }
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("results").innerHTML = "";
       }
     </script>
   </body>

@@ -260,6 +260,24 @@ Line 3</textarea
             <li>Most modern editors and tools support all formats</li>
           </ul>
         </div>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What are line endings and why do they matter?</h4>
+            <p>Line endings are special characters that mark the end of a line in text files. Different operating systems use different line endings: Unix/Linux/macOS use LF (\n), Windows uses CRLF (\r\n), and old Mac OS uses CR (\r). Mixing these can cause issues in version control and file processing.</p>
+          
+            <h4>When do line ending issues occur?</h4>
+            <p>Issues commonly occur when collaborating on projects across different operating systems, transferring files between systems, or when using tools that expect specific line endings. Version control systems like Git may show warnings about mixed line endings.</p>
+          
+            <h4>How does the converter handle mixed line endings?</h4>
+            <p>The tool first normalizes all line endings to a common format (\n), then converts them to your selected target format. This ensures consistent output regardless of the input mixture of line endings.</p>
+          
+            <h4>Can I see what line endings are in my text?</h4>
+            <p>Yes, the "Show Invisible" button reveals line endings as visible text markers ([CRLF], [LF], [CR]). The stats panel also shows counts of each line ending type in your input text.</p>
+          </div>
+        </details>
       </div>
     </div>
 

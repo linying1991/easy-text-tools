@@ -152,6 +152,24 @@
         </div>
         <label>Minified Output:</label>
         <textarea id="output" readonly></textarea>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What does JSON minification do?</h4>
+            <p>JSON minification removes all unnecessary whitespace, tabs, and line breaks while preserving the data structure. This significantly reduces file size without changing functionality.</p>
+          
+            <h4>When should I use minified JSON?</h4>
+            <p>Minified JSON is ideal for data transmission over networks, as it reduces bandwidth usage and speeds up transfer times. It's commonly used in APIs and for storing JSON in production environments.</p>
+          
+            <h4>Will minification change my data?</h4>
+            <p>No, minification only removes whitespace and formatting. The actual data values, structure, and functionality remain identical - only the presentation changes.</p>
+          
+            <h4>Can minified JSON be converted back to formatted JSON?</h4>
+            <p>Yes, minified JSON can be reformatted to a readable structure at any time. The minification process is reversible without any data loss.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

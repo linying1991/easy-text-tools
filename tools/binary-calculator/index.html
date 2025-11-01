@@ -76,6 +76,19 @@
         border-radius: 8px;
         padding: 0.75rem;
       }
+      button {
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: none;
+      }
+      button.secondary {
+        background: #f1f5f9;
+        color: #475569;
+      }
+      button.secondary:hover {
+        background: #e2e8f0;
+      }
       .result {
         padding: 2rem;
         background: #f8fafc;
@@ -137,7 +150,26 @@
             ><input type="text" id="num2" placeholder="e.g., 0110" />
           </div>
         </div>
+        <button class="secondary" onclick="clear()">Clear</button>
         <div class="result" id="result" style="display: none"></div>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What is binary?</h4>
+            <p>Binary is a base-2 numeral system that uses only two digits: 0 and 1. It's fundamental to computer science and digital electronics.</p>
+          
+            <h4>What operations can this calculator perform?</h4>
+            <p>Our binary calculator supports arithmetic operations (addition, subtraction, multiplication, division) and logical operations (AND, OR, XOR).</p>
+          
+            <h4>How do I use the calculator?</h4>
+            <p>Enter two binary numbers in the input fields, select an operation from the dropdown menu, and the result will appear automatically in binary, decimal, and hexadecimal formats.</p>
+          
+            <h4>What's the difference between binary and decimal?</h4>
+            <p>Binary (base-2) uses only 0s and 1s, while decimal (base-10) uses digits 0-9. For example, the decimal number 5 is represented as 101 in binary.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>
@@ -189,6 +221,12 @@
 <div class="result-row"><div class="result-label">Second Number (Dec):</div><div class="result-value">${num2}</div></div>`;
         document.getElementById("result").innerHTML = html;
         document.getElementById("result").style.display = "block";
+      }
+      function clear() {
+        document.getElementById("num1").value = "";
+        document.getElementById("num2").value = "";
+        document.getElementById("operation").value = "add";
+        document.getElementById("result").style.display = "none";
       }
       document.getElementById("num1").addEventListener("input", calculate);
       document.getElementById("num2").addEventListener("input", calculate);

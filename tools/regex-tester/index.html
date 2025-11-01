@@ -148,6 +148,7 @@
           id="input"
           placeholder="Enter text to test against the regex..."
         ></textarea>
+        <button class="secondary" onclick="clear()" style="border-radius: 12px; font-weight: 600; border: none; padding: 0.75rem 1rem; background: #f1f5f9; color: #475569; transition: all 0.3s; cursor: pointer; display: inline-block; margin-top: 1rem;">Clear</button>
         <div class="results" id="results" style="display: none">
           <h3 style="margin: 0 0 1rem 0; color: #1e293b">Matches:</h3>
           <div
@@ -156,6 +157,24 @@
           ></div>
           <div class="stats" id="stats"></div>
         </div>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What are the regex flags and what do they do?</h4>
+            <p>The "g" flag (global) finds all matches rather than stopping at the first. The "i" flag (case insensitive) makes the pattern match regardless of case. The "m" flag (multiline) makes ^ and $ match line beginnings/ends instead of just string beginning/end.</p>
+          
+            <h4>How do I test my regex patterns?</h4>
+            <p>Enter your regex pattern in the top input field and sample text in the text area. Matches will be highlighted in yellow in real-time as you type. The match count is shown at the bottom of the results.</p>
+          
+            <h4>What regex syntax is supported?</h4>
+            <p>The tool supports standard JavaScript regex syntax including character classes, quantifiers, groups, anchors, and escape sequences. Special characters like . ^ $ * + ? {} [] \ | () all work as expected.</p>
+          
+            <h4>Are my regex patterns and text secure?</h4>
+            <p>Yes, all processing happens locally in your browser. Your regex patterns and test text are never sent to any server, ensuring complete privacy and security for sensitive data.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>
@@ -206,6 +225,15 @@
       document.getElementById("g").addEventListener("change", test);
       document.getElementById("i").addEventListener("change", test);
       document.getElementById("m").addEventListener("change", test);
+      
+      function clear() {
+        document.getElementById("regex").value = "";
+        document.getElementById("input").value = "";
+        document.getElementById("results").style.display = "none";
+        document.getElementById("g").checked = true;
+        document.getElementById("i").checked = false;
+        document.getElementById("m").checked = false;
+      }
     </script>
   </body>
 </html>

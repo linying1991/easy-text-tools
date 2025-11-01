@@ -443,6 +443,10 @@
             <span>📋</span>
             <span>Copy Password</span>
           </button>
+          <button class="secondary" id="clear-btn">
+            <span>🗑️</span>
+            <span>Clear</span>
+          </button>
         </div>
 
         <div class="info-box">
@@ -459,6 +463,24 @@
             </li>
           </ul>
         </div>
+        
+        <details style="margin-top: 2rem; background: rgba(255, 255, 255, 0.98); padding: 1.5rem; border-radius: 12px; box-shadow: var(--shadow-lg);">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>How secure are the generated passwords?</h4>
+            <p>Our tool generates cryptographically secure random passwords using your browser's built-in crypto.getRandomValues() function. Passwords are never transmitted to any server, ensuring complete privacy.</p>
+          
+            <h4>What makes a password strong?</h4>
+            <p>Strong passwords are long (12+ characters), include mixed case letters, numbers, and symbols, and avoid dictionary words or personal information. The strength meter evaluates these factors in real-time.</p>
+          
+            <h4>Should I memorize generated passwords?</h4>
+            <p>It's not recommended to memorize complex passwords. Instead, use a password manager to securely store and autofill your passwords. This allows you to use unique, complex passwords for every account.</p>
+          
+            <h4>How often should I change passwords?</h4>
+            <p>Change passwords periodically (every 3-6 months) and immediately if a service reports a security breach. For critical accounts like email and banking, consider more frequent updates.</p>
+          </div>
+        </details>
       </main>
 
       <footer></footer>
@@ -593,6 +615,16 @@
         } catch (error) {
           alert("Copied to clipboard!");
         }
+      });
+      
+      // Clear password
+      document.getElementById("clear-btn").addEventListener("click", () => {
+        passwordDisplay.innerHTML = '<span class="password-placeholder">Click "Generate Password" to create a secure password</span>';
+        passwordDisplay.classList.remove("generated");
+        strengthFill.className = "strength-fill";
+        strengthText.textContent = "Not Generated";
+        strengthText.style.color = "#1e293b";
+        currentPassword = "";
       });
     </script>
   </body>

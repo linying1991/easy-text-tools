@@ -117,6 +117,24 @@
         </div>
         <label>Morse Code Output:</label>
         <textarea id="output" readonly></textarea>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>How is text converted to Morse code?</h4>
+            <p>Each character in the input text is converted to its corresponding Morse code representation using a lookup table. Letters are separated by spaces and words are separated by "/" in the output.</p>
+          
+            <h4>What characters are supported?</h4>
+            <p>The tool supports letters A-Z, numbers 0-9, and common punctuation marks including periods, commas, question marks, apostrophes, exclamation points, and others. Unsupported characters are left unchanged.</p>
+          
+            <h4>Why are all letters uppercase in the conversion?</h4>
+            <p>Morse code traditionally doesn't distinguish between uppercase and lowercase letters. The tool converts all input to uppercase for consistent conversion to standard Morse code patterns.</p>
+          
+            <h4>How are spaces handled in Morse code?</h4>
+            <p>Single spaces between words in the input are converted to "/" in Morse code, which is the standard representation for word separation. Spaces between letters are represented by single spaces in the output.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

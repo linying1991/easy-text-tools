@@ -118,6 +118,24 @@
           <button class="primary" onclick="copy()">📋 Copy</button>
           <button onclick="clear()">🗑️ Clear</button>
         </div>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What sorting options are available?</h4>
+            <p>You can sort lines alphabetically (A-Z or Z-A), numerically (1-9 or 9-1), by length (short to long or vice versa), in reverse order, or shuffled randomly.</p>
+          
+            <h4>How does numeric sorting work?</h4>
+            <p>Numeric sorting treats lines as numbers and arranges them in ascending or descending order. Lines that don't start with numbers are typically placed at the end.</p>
+          
+            <h4>What happens to empty lines?</h4>
+            <p>Empty lines are filtered out and not included in the sorted result. Only lines containing content are sorted and returned.</p>
+          
+            <h4>Can I sort by multiple criteria?</h4>
+            <p>This tool sorts by a single criterion at a time. For complex multi-level sorting, you may need specialized software or command-line tools.</p>
+          </div>
+        </details>
       </main>
     </div>
     <script>

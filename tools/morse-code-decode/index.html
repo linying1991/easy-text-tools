@@ -120,6 +120,24 @@
         </div>
         <label>Text Output:</label>
         <textarea id="output" readonly></textarea>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>How do I format Morse code for decoding?</h4>
+            <p>Separate letters with spaces and use "/" to represent word spaces. For example: ".... . .-.. .-.. --- / .-- --- .-. .-.." translates to "HELLO WORLD".</p>
+          
+            <h4>What characters can be decoded?</h4>
+            <p>The tool supports decoding letters A-Z, numbers 0-9, and common punctuation marks including periods, commas, question marks, apostrophes, exclamation points, and others.</p>
+          
+            <h4>What if my Morse code has errors?</h4>
+            <p>Unrecognized Morse code patterns will be left unchanged in the output. Make sure to use standard dot (.) and dash (-) characters with proper spacing.</p>
+          
+            <h4>Why is my decoded text all uppercase?</h4>
+            <p>Morse code doesn't distinguish between uppercase and lowercase letters. The decoder uses uppercase letters by convention, but you can easily convert the output to lowercase if needed.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

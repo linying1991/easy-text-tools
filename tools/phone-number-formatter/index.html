@@ -119,7 +119,26 @@
           id="input"
           placeholder="Enter phone number (e.g., 1234567890)..."
         />
+        <button class="secondary" onclick="clear()" style="border-radius: 12px; font-weight: 600; border: none; padding: 0.75rem 1rem; background: #f1f5f9; color: #475569; transition: all 0.3s; cursor: pointer; display: inline-block; margin-bottom: 1rem;">Clear</button>
         <div class="formats" id="formats"></div>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What phone number formats are supported?</h4>
+            <p>The tool works with 10-digit US numbers (e.g., 1234567890) and 11-digit numbers with country code 1 (e.g., 11234567890). It automatically detects the format and applies appropriate styling.</p>
+          
+            <h4>How do I format international phone numbers?</h4>
+            <p>This tool is optimized for US phone numbers. For international numbers, enter the full number including country code, and it will display it in a basic international format.</p>
+          
+            <h4>Can I copy formatted phone numbers?</h4>
+            <p>Yes, click on any formatted phone number in the results list to copy it to your clipboard. A confirmation message will appear when copying is successful.</p>
+          
+            <h4>Are my phone numbers stored or transmitted?</h4>
+            <p>No, all processing happens locally in your browser. Your phone numbers are not stored, transmitted, or shared with any server, ensuring complete privacy.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>
@@ -210,6 +229,11 @@
           .catch(() => alert("Copy failed"));
       }
       document.getElementById("input").addEventListener("input", format);
+      
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("formats").innerHTML = "";
+      }
     </script>
   </body>
 </html>

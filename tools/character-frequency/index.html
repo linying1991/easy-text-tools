@@ -68,6 +68,13 @@
         background: var(--g);
         color: #fff;
       }
+      button.secondary {
+        background: #f1f5f9;
+        color: #475569;
+      }
+      button.secondary:hover {
+        background: #e2e8f0;
+      }
       .result {
         margin: 2rem 0;
         padding: 1rem;
@@ -90,9 +97,28 @@
       <header><h1>📈 Character Frequency</h1></header>
       <main>
         <h3>Input</h3>
-        <textarea id="input" placeholder="Enter text..."></textarea
-        ><button class="primary" onclick="analyze()">📈 Analyze</button>
+        <textarea id="input" placeholder="Enter text..."></textarea>
+        <button class="primary" onclick="analyze()">📈 Analyze</button>
+        <button class="secondary" onclick="clear()">🗑️ Clear</button>
         <div class="result" id="result"></div>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What is character frequency analysis?</h4>
+            <p>Character frequency analysis counts how often each character appears in a text. It's useful for cryptography, linguistics research, and text analysis.</p>
+          
+            <h4>How is this analysis useful?</h4>
+            <p>Frequency analysis helps in breaking substitution ciphers, understanding text patterns, and studying language characteristics. In English, 'E' is the most common letter.</p>
+          
+            <h4>Does this tool count all characters?</h4>
+            <p>The tool counts all characters in the text but excludes whitespace characters to focus on meaningful characters. Each unique character is counted separately.</p>
+          
+            <h4>Can I analyze non-English text?</h4>
+            <p>Yes, the tool works with any text regardless of language. Different languages will have different characteristic character frequency distributions.</p>
+          </div>
+        </details>
       </main>
     </div>
     <script>
@@ -114,6 +140,11 @@
           )
           .join("");
         document.getElementById("result").innerHTML = html || "No characters";
+      }
+      
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("result").innerHTML = "";
       }
     </script>
     <footer></footer>

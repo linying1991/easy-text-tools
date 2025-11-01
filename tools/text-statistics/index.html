@@ -79,6 +79,21 @@
         font-size: 0.9rem;
         margin-top: 0.5rem;
       }
+      button {
+        padding: 0.875rem 1.75rem;
+        border-radius: 12px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        margin: 0.5rem;
+      }
+      button.secondary {
+        background: #f1f5f9;
+        color: #475569;
+      }
+      button.secondary:hover {
+        background: #e2e8f0;
+      }
     </style>
   </head>
   <body>
@@ -118,6 +133,25 @@
             <div class="stat-label">Reading Time</div>
           </div>
         </div>
+        <button onclick="clear()" class="secondary">🗑️ Clear</button>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>How is reading time calculated?</h4>
+            <p>Reading time is estimated at 200 words per minute, which is the average reading speed for comprehension. This may vary based on text complexity and reader skill.</p>
+          
+            <h4>How are paragraphs counted?</h4>
+            <p>Paragraphs are counted as blocks of text separated by one or more blank lines. Multiple consecutive line breaks are treated as a single paragraph separator.</p>
+          
+            <h4>How are sentences counted?</h4>
+            <p>Sentences are counted by identifying sentence-ending punctuation (periods, exclamation points, question marks) followed by whitespace.</p>
+          
+            <h4>Why might word count differ from other tools?</h4>
+            <p>Word counting algorithms may differ in how they handle hyphens, contractions, and special characters. This tool splits text on whitespace to count words.</p>
+          </div>
+        </details>
       </main>
     </div>
     <script>
@@ -140,6 +174,16 @@
         document.getElementById("paragraphs").textContent = paras;
         const readTime = Math.ceil(words.length / 200);
         document.getElementById("reading").textContent = readTime + "m";
+      }
+      
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("chars").textContent = "0";
+        document.getElementById("words").textContent = "0";
+        document.getElementById("lines").textContent = "0";
+        document.getElementById("sentences").textContent = "0";
+        document.getElementById("paragraphs").textContent = "0";
+        document.getElementById("reading").textContent = "0m";
       }
     </script>
     <footer></footer>

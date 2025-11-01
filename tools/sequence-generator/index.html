@@ -107,6 +107,25 @@
         <textarea id="output" readonly></textarea
         ><button class="primary" onclick="generate()">🔢 Generate</button
         ><button onclick="copy()">📋 Copy</button>
+        <button onclick="clear()" style="border-radius: 12px; font-weight: 600; border: none; padding: 0.875rem 1.75rem; background: #f1f5f9; color: #475569; cursor: pointer; margin: 0.5rem;">🗑️ Clear</button>
+        
+        <details style="margin-top: 2rem; background: rgba(255, 255, 255, 0.98); padding: 1.5rem; border-radius: 20px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What types of sequences can be generated?</h4>
+            <p>You can generate numeric sequences (1, 2, 3...) or alphabetic sequences (a, b, c...). For numbers, specify start, end, and step values. For letters, specify start and end characters with a step value.</p>
+          
+            <h4>How does the step value work?</h4>
+            <p>The step value determines the increment between sequence elements. For numbers, a step of 2 gives 2, 4, 6... For letters, it skips letters (a, c, e...). Negative steps work for decreasing sequences.</p>
+          
+            <h4>Can I generate decreasing sequences?</h4>
+            <p>Yes, use a negative step value with a start value greater than the end value. For example, start=10, end=1, step=-1 generates 10, 9, 8, 7...</p>
+          
+            <h4>What are common use cases for sequence generation?</h4>
+            <p>Sequences are useful for generating test data, creating numbered lists, producing indices for programming, making practice exercises, and organizing content systematically.</p>
+          </div>
+        </details>
       </main>
     </div>
     <script>
@@ -134,6 +153,13 @@
         navigator.clipboard
           .writeText(document.getElementById("output").value)
           .then(() => alert("Copied!"));
+      }
+      function clear() {
+        document.getElementById("start").value = "1";
+        document.getElementById("end").value = "10";
+        document.getElementById("step").value = "1";
+        document.getElementById("output").value = "";
+        document.getElementById("type").value = "number";
       }
       generate();
     </script>

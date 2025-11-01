@@ -118,6 +118,24 @@
         </div>
         <label>Output:</label>
         <textarea id="output" readonly></textarea>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>How does text to binary conversion work?</h4>
+            <p>Each character in text is converted to its ASCII value, then transformed to an 8-bit binary representation. For example, 'A' (ASCII 65) becomes 01000001 in binary.</p>
+          
+            <h4>What binary format is used?</h4>
+            <p>The tool uses 8-bit ASCII binary representation where each character is represented by 8 binary digits (bits). This covers standard English characters, numbers, and common symbols.</p>
+          
+            <h4>Can I convert binary back to text?</h4>
+            <p>Yes, you can paste binary data (0s and 1s separated by spaces) and convert it back to readable text using the "Binary → Text" button.</p>
+          
+            <h4>What happens with non-ASCII characters?</h4>
+            <p>Non-ASCII characters (accents, emojis, etc.) are converted using their Unicode values. When converting binary back to text, the tool reconstructs characters based on the binary values provided.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

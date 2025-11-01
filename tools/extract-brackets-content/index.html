@@ -162,6 +162,24 @@
         </div>
         <label>Extracted Content (one per line):</label>
         <textarea id="output" readonly></textarea>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What types of brackets can be extracted?</h4>
+            <p>The tool supports four types of brackets: parentheses (round brackets), square brackets, curly braces, and angle brackets. Each type is processed independently, extracting content only from the selected bracket style.</p>
+          
+            <h4>How does bracket content extraction work?</h4>
+            <p>The tool uses regular expressions to find matching pairs of brackets and extract the content between them. It handles nested brackets by extracting content from the outermost pairs first.</p>
+          
+            <h4>What happens with nested brackets?</h4>
+            <p>For nested brackets of the same type, the tool extracts content from the outermost brackets first. For example, in "(outer (inner) content)", it would extract "outer (inner) content" as one item.</p>
+          
+            <h4>Can I extract content from multiple bracket types?</h4>
+            <p>This tool processes one bracket type at a time. To extract content from multiple types, run the tool separately for each bracket style or use the "Extract All Brackets" tool for comprehensive extraction.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

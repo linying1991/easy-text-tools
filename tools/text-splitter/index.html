@@ -91,6 +91,24 @@
         ><button class="primary" onclick="split()">✂️ Split</button
         ><button onclick="copy()">📋 Copy</button
         ><button onclick="clear()">🗑️ Clear</button>
+        
+        <details style="margin-top: 2rem; background: rgba(255, 255, 255, 0.98); padding: 1.5rem; border-radius: 20px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What is text splitting?</h4>
+            <p>Text splitting divides a continuous string into separate parts using a specified delimiter. For example, splitting "apple,banana,cherry" with a comma delimiter produces three separate items.</p>
+          
+            <h4>What common delimiters are used?</h4>
+            <p>Common delimiters include commas (CSV data), semicolons (European CSV), tabs (TSV data), pipes (alternative CSV), newlines (line breaks), and spaces (word splitting). You can use any character or string as a delimiter.</p>
+          
+            <h4>How are the split results formatted?</h4>
+            <p>Split results are presented with each part on a separate line, regardless of the original delimiter. This standardizes output and makes it easy to process further or copy to other applications.</p>
+          
+            <h4>What are typical use cases for text splitting?</h4>
+            <p>Text splitting is commonly used to process CSV/TSV data, break apart lists, parse structured text, extract data fields, convert between data formats, and prepare text for batch processing.</p>
+          </div>
+        </details>
       </main>
     </div>
     <script>

@@ -133,6 +133,24 @@
         </div>
         <label>Wrapped Output:</label>
         <textarea id="output" readonly></textarea>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What is text wrapping?</h4>
+            <p>Text wrapping breaks long lines of text into shorter lines at a specified character width. This ensures text fits within a designated space while maintaining readability and proper word separation.</p>
+          
+            <h4>How does word-aware wrapping work?</h4>
+            <p>The tool splits text into words and builds lines by adding words until the next word would exceed the column width. It then starts a new line, ensuring words aren't broken in the middle.</p>
+          
+            <h4>What's the ideal column width for readability?</h4>
+            <p>Research suggests 50-75 characters per line is optimal for readability. For code, 80-120 characters is common. For novels, 60-65 characters is typical. The default 80 characters works well for most applications.</p>
+          
+            <h4>When is text wrapping useful?</h4>
+            <p>Text wrapping is useful for code formatting, terminal output, email composition, document preparation, blog posts, and any situation requiring controlled line lengths for better presentation.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

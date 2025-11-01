@@ -302,6 +302,24 @@
             integrity verification.
           </p>
         </div>
+        
+        <details style="margin-top: 2rem; background: rgba(255, 255, 255, 0.98); padding: 1.5rem; border-radius: 12px; box-shadow: var(--shadow-lg);">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What is MD5 and how does it work?</h4>
+            <p>MD5 is a cryptographic hash function that takes input data of any length and produces a fixed 128-bit (32 hexadecimal characters) hash value. The same input always produces the same hash, but it's computationally difficult to reverse-engineer the input from the hash.</p>
+          
+            <h4>Is MD5 secure for passwords?</h4>
+            <p>No, MD5 is not secure for password storage due to vulnerabilities that allow collision attacks. For passwords, use stronger hashing algorithms like bcrypt, scrypt, or Argon2 with salt.</p>
+          
+            <h4>What are common uses for MD5?</h4>
+            <p>MD5 is commonly used for file integrity checking (checksums), detecting data corruption, comparing large datasets, and identifying duplicate files. It's also used in version control systems and download verification.</p>
+          
+            <h4>Can two different inputs produce the same MD5 hash?</h4>
+            <p>Yes, this is called a "collision." While theoretically possible, finding intentional collisions requires significant computational resources. However, this vulnerability is why MD5 isn't recommended for security applications.</p>
+          </div>
+        </details>
       </main>
 
       <footer></footer>

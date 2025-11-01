@@ -147,6 +147,24 @@
         </div>
         <label>Result:</label>
         <textarea id="output" readonly></textarea>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What are the different merge operations?</h4>
+            <p>Union combines all unique items from both lists. Intersection finds items that appear in both lists. Difference returns items from List A that don't appear in List B.</p>
+          
+            <h4>How are duplicate items handled?</h4>
+            <p>All operations automatically remove duplicates within each list first. Union ensures no duplicates in the final result. Items are compared exactly as entered (case-sensitive).</p>
+          
+            <h4>Does the order of items matter?</h4>
+            <p>The order of items in the input lists affects the order in the result. Union preserves the order of first appearance. Intersection follows List A's order. Difference follows List A's order.</p>
+          
+            <h4>Can I merge more than two lists?</h4>
+            <p>This tool handles two lists at a time. For more lists, you can perform operations sequentially - merge two lists, then merge the result with a third list, and so on.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

@@ -134,6 +134,25 @@
           </div>
         </div>
         <div class="vowel-details" id="details"></div>
+        <button class="secondary" onclick="clear()" style="margin-top: 1rem; border-radius: 12px; font-weight: 600; border: none; padding: 0.75rem 1rem; background: #f1f5f9; color: #475569; transition: all 0.3s; cursor: pointer; display: inline-block;">🗑️ Clear</button>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What is vowel counting used for?</h4>
+            <p>Vowel counting is used in linguistic analysis, readability assessment, poetry composition, language learning, and text statistics. It helps understand text composition and syllable patterns.</p>
+          
+            <h4>Which vowels are counted?</h4>
+            <p>The tool counts the five standard English vowels: A, E, I, O, and U. Both uppercase and lowercase versions are included in the count. The vowel breakdown shows occurrences of each individual vowel.</p>
+          
+            <h4>How are consonants identified?</h4>
+            <p>Consonants are identified as all alphabetic characters that are not vowels. This includes standard English consonants B-Z. Numbers, punctuation, and whitespace are not counted as either vowels or consonants.</p>
+          
+            <h4>What does the vowel ratio indicate?</h4>
+            <p>The vowel ratio shows the percentage of vowel characters compared to the total number of alphabetic characters. Higher ratios indicate more vowel-heavy text, which is typically easier to read and pronounce.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>
@@ -168,6 +187,14 @@
       }
       document.getElementById("input").addEventListener("input", count);
       count();
+      
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("vowels").textContent = "0";
+        document.getElementById("consonants").textContent = "0";
+        document.getElementById("ratio").textContent = "0%";
+        document.getElementById("details").innerHTML = "";
+      }
     </script>
   </body>
 </html>

@@ -148,6 +148,24 @@
         </div>
         <label>Output:</label>
         <textarea id="output" readonly></textarea>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>How do I specify which columns to extract?</h4>
+            <p>Enter column numbers separated by commas in the "Column Numbers" field. Use 1-indexed positions (first column is 1, not 0). For example, "1,3,5" extracts the first, third, and fifth columns.</p>
+          
+            <h4>What delimiters are supported?</h4>
+            <p>The tool supports common delimiters: comma (,), semicolon (;), tab, and pipe (|). Select the appropriate delimiter that matches your CSV format.</p>
+          
+            <h4>What happens if a column doesn't exist in a row?</h4>
+            <p>If a specified column doesn't exist in a particular row, it will be left empty in the output. The tool won't throw an error, but the field will be blank.</p>
+          
+            <h4>Can I extract columns from complex CSV files?</h4>
+            <p>The tool handles basic CSV files well but might not properly parse CSV with complex features like quoted fields containing commas. For complex CSV files, consider using a full-featured CSV parser.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

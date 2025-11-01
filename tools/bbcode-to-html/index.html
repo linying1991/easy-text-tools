@@ -130,6 +130,24 @@
         <textarea id="output" readonly></textarea>
         <label>Preview:</label>
         <div class="preview" id="preview"></div>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What is BBCode?</h4>
+            <p>BBCode (Bulletin Board Code) is a markup language used in forums and online communities to format posts. It uses tags like [b] for bold and [url] for links, similar to HTML but with square brackets.</p>
+          
+            <h4>Which BBCode tags are supported?</h4>
+            <p>This converter supports common tags including [b], [i], [u], [s], [url], [img], [color], [size], [quote], [code], [center], [list], and [*] for list items.</p>
+          
+            <h4>Why convert BBCode to HTML?</h4>
+            <p>HTML is the standard for web content and is supported by all browsers. Converting BBCode to HTML allows you to display formatted content on websites that don't natively support BBCode.</p>
+          
+            <h4>Is the conversion safe?</h4>
+            <p>The conversion is safe as it only transforms BBCode tags to basic HTML. However, when using the output, ensure proper sanitization if the source is untrusted to prevent XSS attacks.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

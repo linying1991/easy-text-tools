@@ -120,6 +120,24 @@
         </div>
         <label>Text Output:</label>
         <textarea id="output" readonly></textarea>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>How does binary decoding work?</h4>
+            <p>Each group of 8 binary digits (bits) represents one character. The binary number is converted to decimal, which corresponds to an ASCII character. For example, 01001000 equals 72 in decimal, which is 'H' in ASCII.</p>
+          
+            <h4>What format should my binary be in?</h4>
+            <p>Enter binary numbers separated by spaces. Each number should be 8 bits (0s and 1s) representing one ASCII character. For example: "01001000 01100101 01101100 01101100 01101111" for "Hello".</p>
+          
+            <h4>Can I decode binary with different lengths?</h4>
+            <p>This tool handles standard 8-bit binary representation. Each 8-bit binary number corresponds to a single ASCII character. Binary numbers longer or shorter than 8 bits will be processed differently and may not yield expected results.</p>
+          
+            <h4>What's the difference between binary encoding and ASCII?</h4>
+            <p>Binary encoding represents data using only 0s and 1s, while ASCII is a character encoding standard that assigns numbers to represent characters. This tool converts binary representations of ASCII values back to readable text.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

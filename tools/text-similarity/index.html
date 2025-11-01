@@ -133,12 +133,31 @@
           <button class="primary" onclick="compare()">
             Compare Similarity
           </button>
+          <button class="button" onclick="clear()" style="background: #f1f5f9; color: #475569; border-radius: 12px; font-weight: 600; transition: all 0.3s; border: none; padding: 0.75rem 1.5rem;">Clear</button>
         </div>
         <div class="result" id="result" style="display: none">
           <div class="similarity" id="similarity">0%</div>
           <div class="result-label">Similarity Score</div>
           <div class="method">Using Levenshtein Distance Algorithm</div>
         </div>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What is the Levenshtein distance algorithm?</h4>
+            <p>The Levenshtein distance measures the minimum number of single-character edits (insertions, deletions, or substitutions) required to transform one string into another. The similarity percentage is calculated as 100% minus the normalized distance.</p>
+          
+            <h4>How is text similarity calculated?</h4>
+            <p>Similarity = (1 - distance / maxLength) × 100%. The distance is divided by the length of the longer text to normalize the score. Identical texts return 100%, while completely different texts approach 0%.</p>
+          
+            <h4>When is text similarity useful?</h4>
+            <p>Text similarity is useful for plagiarism detection, duplicate content identification, version comparison, fuzzy matching, spell checking suggestion ranking, and measuring document relatedness.</p>
+          
+            <h4>What are the limitations of Levenshtein distance?</h4>
+            <p>Levenshtein distance treats all character changes equally and doesn't consider semantic meaning. It's sensitive to text length and may not accurately reflect conceptual similarity. For semantic comparison, natural language processing techniques work better.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>
@@ -174,6 +193,12 @@
         const similarity = ((1 - distance / maxLen) * 100).toFixed(2);
         document.getElementById("similarity").textContent = similarity + "%";
         document.getElementById("result").style.display = "block";
+      }
+      
+      function clear() {
+        document.getElementById("text1").value = "";
+        document.getElementById("text2").value = "";
+        document.getElementById("result").style.display = "none";
       }
     </script>
   </body>

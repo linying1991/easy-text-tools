@@ -468,6 +468,24 @@
             </a>
           </div>
         </div>
+        
+        <details style="margin-top: 2rem; background: rgba(255, 255, 255, 0.98); padding: 1.5rem; border-radius: 20px; box-shadow: var(--shadow-lg);">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What is URL encoding?</h4>
+            <p>URL encoding (percent-encoding) converts special characters into a format that can be safely transmitted over the Internet. Characters are replaced with a "%" followed by two hexadecimal digits (e.g., space becomes %20).</p>
+          
+            <h4>Which characters get URL encoded?</h4>
+            <p>Reserved characters (like ?, #, [, ], @, !, $, &, =, +, ,, ;) and non-ASCII characters (Unicode, accented letters) are encoded. Spaces become %20, and special symbols are converted to % followed by hexadecimal values.</p>
+          
+            <h4>When should I use URL encoding?</h4>
+            <p>Use URL encoding when creating query strings, passing parameters in GET requests, building API URLs, creating shareable links with special characters, or submitting form data that contains reserved characters.</p>
+          
+            <h4>How does URL encoding differ from other encoding methods?</h4>
+            <p>URL encoding specifically handles percent-encoding for web transmission, unlike HTML entity encoding (which handles &amp; codes) or Base64 encoding (which handles binary data). Each serves different purposes in data processing.</p>
+          </div>
+        </details>
       </main>
 
       <footer></footer>

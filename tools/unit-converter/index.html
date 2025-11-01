@@ -161,6 +161,25 @@
           <div class="result-value" id="resultValue">3.281</div>
           <div class="result-unit" id="resultUnit">Feet</div>
         </div>
+        <button class="secondary" onclick="clear()" style="border-radius: 12px; font-weight: 600; border: none; padding: 0.875rem 1.75rem; background: #f1f5f9; color: #475569; transition: all 0.3s; cursor: pointer; display: inline-block; margin-top: 1rem;">🗑️ Clear</button>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What units can be converted?</h4>
+            <p>This tool supports conversions for length (meters, kilometers, miles, feet, inches), weight (kilograms, grams, pounds, ounces), and temperature (Celsius, Fahrenheit, Kelvin). More units can be added based on demand.</p>
+          
+            <h4>How accurate are the conversions?</h4>
+            <p>All conversions use standard conversion factors with high precision. Length and weight conversions are accurate to 6 decimal places. Temperature conversions follow exact mathematical formulas.</p>
+          
+            <h4>Can I convert between different measurement systems?</h4>
+            <p>Yes, you can convert between metric (meters, kilograms, Celsius) and imperial (feet, pounds, Fahrenheit) systems. The tool automatically handles the conversion factors between different systems.</p>
+          
+            <h4>What is the difference between mass and weight?</h4>
+            <p>Mass is the amount of matter in an object (measured in kilograms/grams), while weight is the force exerted by gravity on that mass (measured in pounds/ounces). In everyday use, these terms are often used interchangeably.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>
@@ -219,6 +238,13 @@
       document.getElementById("from").addEventListener("change", convert);
       document.getElementById("to").addEventListener("change", convert);
       convert();
+      
+      function clear() {
+        document.getElementById("value").value = "1";
+        document.getElementById("from").selectedIndex = 0;
+        document.getElementById("to").selectedIndex = 3; // feet
+        convert();
+      }
     </script>
   </body>
 </html>

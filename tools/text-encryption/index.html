@@ -136,6 +136,24 @@
         </div>
         <label>Output:</label>
         <textarea id="output" readonly></textarea>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>Is text encryption secure?</h4>
+            <p>Yes, this tool uses AES-256 encryption, one of the strongest encryption standards available. All processing happens in your browser - no data is sent to any server, ensuring complete privacy.</p>
+          
+            <h4>Can encrypted text be decrypted without the password?</h4>
+            <p>No, AES-256 is a symmetric encryption algorithm that requires the exact same password used for encryption to decrypt the text. Without the correct password, decryption is computationally infeasible.</p>
+          
+            <h4>What happens if I forget my encryption password?</h4>
+            <p>If you lose your password, you cannot recover the encrypted text. There is no password recovery option. Always store your encryption passwords securely, possibly using a password manager.</p>
+          
+            <h4>Is browser-based encryption reliable?</h4>
+            <p>Yes, when properly implemented. This tool uses the well-established CryptoJS library which implements standard cryptographic algorithms. However, browser security depends on your system's overall security.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

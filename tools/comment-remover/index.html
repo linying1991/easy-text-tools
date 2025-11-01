@@ -145,6 +145,24 @@
         <div class="stats" id="stats"></div>
         <label>Output (without comments):</label>
         <textarea id="output" readonly></textarea>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>Which programming languages are supported?</h4>
+            <p>The tool supports C/C++, Java, JavaScript (// and /* */), Python (#), HTML (&lt;!-- --&gt;), CSS (/* */), and SQL (--). Each language has its specific comment syntax.</p>
+          
+            <h4>Will this remove all types of comments?</h4>
+            <p>The tool removes comments according to the selected language syntax. For example, in C-style languages it removes both single-line (//) and multi-line (/* */) comments.</p>
+          
+            <h4>Can comment removal cause issues with my code?</h4>
+            <p>Generally, removing comments is safe as they don't affect code execution. However, be careful with code that might use comment-like patterns in strings or other contexts where it could be misidentified.</p>
+          
+            <h4>Why would I need to remove comments?</h4>
+            <p>Removing comments is useful for reducing file size, minifying code for production, removing sensitive information from comments, or preparing code for certain types of analysis.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

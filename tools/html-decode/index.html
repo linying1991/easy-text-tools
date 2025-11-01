@@ -257,6 +257,24 @@
             <span>🗑️</span><span>Clear</span>
           </button>
         </div>
+        
+        <details style="margin-top: 2rem; background: rgba(255, 255, 255, 0.98); padding: 1.5rem; border-radius: 12px; box-shadow: var(--shadow-lg);">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What HTML entities can this tool decode?</h4>
+            <p>This tool decodes common HTML entities like &amp;lt; to &lt;, &amp;gt; to &gt;, &amp;amp; to &amp;, &amp;quot; to ", &amp;#39; to ', and numeric entities like &amp;#65; to 'A'.</p>
+          
+            <h4>How does HTML decoding work?</h4>
+            <p>The tool uses the browser's built-in HTML decoding by setting the value as innerHTML of a temporary element and reading the textContent, which properly handles standard HTML entities.</p>
+          
+            <h4>Are there any limitations to the decoding?</h4>
+            <p>The tool handles standard HTML entities. Custom or non-standard entities may not be decoded properly. Also, nested or malformed entities might not decode correctly.</p>
+          
+            <h4>Why would I need to decode HTML entities?</h4>
+            <p>HTML decoding is useful when you receive encoded content from a database or API and need to display it properly, or when working with RSS feeds or XML content that contains encoded characters.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

@@ -120,6 +120,24 @@
         </div>
         <label>CSV Output:</label>
         <textarea id="output" readonly></textarea>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What format should my JSON have?</h4>
+            <p>Your JSON must be an array of objects with consistent properties. Each object in the array becomes a row in the CSV with the property names as headers.</p>
+          
+            <h4>What happens if my JSON objects have different properties?</h4>
+            <p>The tool uses the properties from the first object as headers. If later objects have different or additional properties, those will be missing or empty in the CSV output.</p>
+          
+            <h4>Can this handle nested JSON objects?</h4>
+            <p>No, this converter only handles simple flat objects. Nested objects or arrays will be converted to "[object Object]" or "Array" strings in the CSV output.</p>
+          
+            <h4>How are special characters handled?</h4>
+            <p>Special characters are included as-is. If your data contains commas, quotes, or newlines, they may affect CSV parsing in some applications. For complex data, consider using a more robust CSV encoder.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

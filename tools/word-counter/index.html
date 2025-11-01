@@ -142,6 +142,24 @@
         </div>
         <button class="primary" onclick="copy()">📋 Copy Text</button>
         <button onclick="clear()">🗑️ Clear</button>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>How is reading time calculated?</h4>
+            <p>Reading time is based on the average reading speed of 225 words per minute for standard text. This may vary depending on text complexity and individual reading speed.</p>
+          
+            <h4>What's the difference between characters and characters (no spaces)?</h4>
+            <p>"Characters" counts all characters including spaces, while "No Spaces" counts only non-whitespace characters, which can be useful for content with strict character limits.</p>
+          
+            <h4>How are words counted?</h4>
+            <p>Words are counted by splitting the text on whitespace (spaces, tabs, newlines). This is a standard method that works well for most text analysis purposes.</p>
+          
+            <h4>How are paragraphs detected?</h4>
+            <p>Paragraphs are counted as blocks of text separated by one or more blank lines. Multiple consecutive line breaks are treated as a single paragraph separator.</p>
+          </div>
+        </details>
       </main>
     </div>
     <script>

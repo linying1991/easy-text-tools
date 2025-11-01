@@ -188,6 +188,24 @@
             <span>🗑️</span><span>Clear</span>
           </button>
         </div>
+        
+        <details style="margin-top: 2rem; background: rgba(255, 255, 255, 0.98); padding: 1.5rem; border-radius: 20px; box-shadow: var(--shadow-lg);">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What is SHA-256?</h4>
+            <p>SHA-256 is a cryptographic hash function that generates a 256-bit (64 hexadecimal characters) hash value. It's part of the SHA-2 family and is widely used for data integrity verification and digital signatures.</p>
+          
+            <h4>Is SHA-256 secure?</h4>
+            <p>SHA-256 is currently considered cryptographically secure and has no known practical collision vulnerabilities. It's used in blockchain technology, SSL certificates, and various security applications.</p>
+          
+            <h4>Can the same input produce different SHA-256 hashes?</h4>
+            <p>No, the same input will always produce the exact same SHA-256 hash. Even minor changes in input result in dramatically different hash values, a property known as the avalanche effect.</p>
+          
+            <h4>Can SHA-256 hashes be reversed?</h4>
+            <p>No, SHA-256 is a one-way function. It's computationally infeasible to determine the original input from its hash value. This one-way property is essential for its security applications.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

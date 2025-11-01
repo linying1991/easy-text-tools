@@ -130,7 +130,26 @@
             </select>
           </div>
         </div>
+        <button class="secondary" onclick="clear()" style="border-radius: 12px; font-weight: 600; border: none; padding: 0.75rem 1rem; background: #f1f5f9; color: #475569; transition: all 0.3s; cursor: pointer; display: inline-block; margin-bottom: 1rem;">Clear</button>
         <div class="results" id="results"></div>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What number bases are supported?</h4>
+            <p>The tool supports conversion between bases 2-36, including common bases like binary (2), octal (8), decimal (10), hexadecimal (16), and higher bases like Base32 (32) and Base36 (36).</p>
+          
+            <h4>How do I enter hexadecimal numbers?</h4>
+            <p>Select "Hexadecimal (16)" from the "From Base" dropdown and enter your hex number (e.g., "FF" or "A1B2"). Both uppercase and lowercase letters are accepted.</p>
+          
+            <h4>What characters are valid for each base?</h4>
+            <p>Base 2 uses 0-1, Base 8 uses 0-7, Base 10 uses 0-9, Base 16 uses 0-9 and A-F, and higher bases use 0-9 and A-Z. Invalid characters for the selected base will result in an error message.</p>
+          
+            <h4>Why would I need to convert between number bases?</h4>
+            <p>Base conversions are essential in computer science for understanding how data is stored and processed. Hexadecimal is commonly used in programming, while binary represents how computers store data at the lowest level.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>
@@ -174,6 +193,11 @@
       }
       document.getElementById("input").addEventListener("input", convert);
       document.getElementById("fromBase").addEventListener("change", convert);
+      
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("results").innerHTML = "";
+      }
     </script>
   </body>
 </html>

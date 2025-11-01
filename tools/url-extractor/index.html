@@ -83,6 +83,24 @@
         <button class="primary" onclick="extract()">🔗 Extract</button
         ><button onclick="copy()">📋 Copy</button
         ><button onclick="clear()">🗑️ Clear</button>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What URLs can this tool extract?</h4>
+            <p>This tool extracts HTTP and HTTPS URLs from your text. It identifies complete URLs starting with http:// or https:// followed by domain names and paths.</p>
+          
+            <h4>How does URL deduplication work?</h4>
+            <p>The tool automatically removes duplicate URLs, ensuring each unique URL appears only once in the extracted results.</p>
+          
+            <h4>Why might some URLs not be detected?</h4>
+            <p>The tool only recognizes full URLs that begin with http:// or https://. Plain domain names like "example.com" without protocol prefixes won't be recognized.</p>
+          
+            <h4>Can this extract other link formats?</h4>
+            <p>This tool specifically targets standard web URLs. It won't extract email addresses, FTP links, or other specialized URL schemes unless they start with http:// or https://.</p>
+          </div>
+        </details>
       </main>
     </div>
     <script>

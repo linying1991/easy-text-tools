@@ -108,7 +108,26 @@
         <p class="subtitle">Convert text to various fancy Unicode fonts</p>
         <label>Input Text:</label>
         <textarea id="input" placeholder="Enter text..."></textarea>
+        <button class="secondary" onclick="clear()" style="border-radius: 12px; font-weight: 600; border: none; padding: 0.875rem 1.75rem; background: #f1f5f9; color: #475569; transition: all 0.3s; cursor: pointer; display: inline-block; margin-top: 1rem;">🗑️ Clear</button>
         <div class="variants" id="variants"></div>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What are Unicode fancy fonts?</h4>
+            <p>Unicode fancy fonts are special character sets that resemble standard letters but have decorative appearances. They use Mathematical Alphanumeric Symbols and other Unicode blocks to create visually distinct text variations.</p>
+          
+            <h4>How many font styles are supported?</h4>
+            <p>The tool supports 5 different styles: Bold (𝐚𝐛𝐜), Italic (𝘢𝘣𝘤), Monospace (𝚊𝚋𝚌), Double Struck (𝕒𝕓𝕔), and various other mathematical symbol variations. Each style uses different Unicode character ranges.</p>
+          
+            <h4>Are these fonts compatible everywhere?</h4>
+            <p>Fancy Unicode fonts work in most modern applications and browsers but may not render correctly in older systems or applications with limited Unicode support. Always test in your target environment.</p>
+          
+            <h4>Can I convert fancy fonts back to regular text?</h4>
+            <p>Yes, our "Unicode Unescape" tool can convert these special characters back to regular ASCII text. Simply paste the fancy text and it will transform it to standard characters.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>
@@ -366,6 +385,12 @@
         });
       }
       document.getElementById("input").addEventListener("input", generate);
+      
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("variants").innerHTML = "";
+      }
+      
       generate();
     </script>
   </body>

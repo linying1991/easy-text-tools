@@ -225,6 +225,24 @@
             <span>🗑️</span><span>Clear</span>
           </button>
         </div>
+        
+        <details style="margin-top: 2rem; background: rgba(255, 255, 255, 0.98); padding: 1.5rem; border-radius: 12px; box-shadow: var(--shadow-lg);">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>How does email extraction work?</h4>
+            <p>The tool uses a regular expression pattern to identify text that matches the standard email format: username@domain.tld. It finds all occurrences in your input text.</p>
+          
+            <h4>What email formats are supported?</h4>
+            <p>The tool recognizes standard email formats with common top-level domains. It looks for patterns containing letters, numbers, periods, hyphens, underscores, and plus signs in the username portion.</p>
+          
+            <h4>Does the tool remove duplicate emails?</h4>
+            <p>Yes, the tool automatically identifies and removes duplicate email addresses, ensuring each unique email appears only once in the results.</p>
+          
+            <h4>Are there any privacy concerns?</h4>
+            <p>No, all processing happens locally in your browser. Your text and extracted emails are not sent to any server, ensuring complete privacy and security.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

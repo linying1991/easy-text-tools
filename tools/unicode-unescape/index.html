@@ -120,6 +120,24 @@
         </div>
         <label>Text Output:</label>
         <textarea id="output" readonly></textarea>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What is Unicode unescaping?</h4>
+            <p>Unicode unescaping converts Unicode escape sequences (\uXXXX) back to their original characters. This is the reverse process of Unicode escaping and is used to decode text that has been encoded with Unicode escape sequences.</p>
+          
+            <h4>What format does this tool support?</h4>
+            <p>The tool supports the standard \uXXXX format where XXXX represents a 4-digit hexadecimal number. For example, \u0048 becomes 'H'. It processes all valid Unicode escape sequences in the input text.</p>
+          
+            <h4>When is Unicode unescaping needed?</h4>
+            <p>Unicode unescaping is needed when dealing with JSON data, JavaScript strings, Java properties, or any text that has been encoded with Unicode escape sequences for cross-platform compatibility or encoding safety.</p>
+          
+            <h4>What happens to invalid escape sequences?</h4>
+            <p>Invalid Unicode escape sequences (incorrect format or invalid hexadecimal values) will trigger an error message. The tool validates all sequences to ensure proper conversion and prevent data corruption.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

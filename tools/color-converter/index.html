@@ -98,6 +98,19 @@
         color: #667eea;
         font-weight: 600;
       }
+      button.secondary {
+        background: #f1f5f9;
+        color: #475569;
+        border: none;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      button.secondary:hover {
+        background: #e2e8f0;
+      }
       .preview {
         margin-top: 2rem;
         padding: 3rem;
@@ -125,6 +138,7 @@
         <div class="color-input">
           <input type="color" id="picker" value="#667eea" />
           <input type="text" id="hex" placeholder="#667eea" />
+          <button class="secondary" onclick="clear()">Clear</button>
         </div>
         <div class="results">
           <div class="result-item">
@@ -145,6 +159,24 @@
           </div>
         </div>
         <div class="preview" id="preview">Color Preview</div>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What are the different color formats?</h4>
+            <p>HEX is a 6-digit code (#RRGGBB) representing red, green, and blue values. RGB uses values from 0-255 for red, green, and blue. HSL represents hue (0-360), saturation (0-100%), and lightness (0-100%).</p>
+          
+            <h4>When should I use each color format?</h4>
+            <p>HEX is common in web design and CSS. RGB is useful when you need transparency (RGBA). HSL is more intuitive for color adjustments since you can easily modify brightness or saturation.</p>
+          
+            <h4>How do I copy a color value?</h4>
+            <p>You can click on the color picker to select a color visually, or enter a HEX value directly. The other formats will update automatically to match your selection.</p>
+          
+            <h4>What is the alpha channel?</h4>
+            <p>The alpha channel (in RGBA) controls transparency, where 0 is fully transparent and 1 is fully opaque. This is useful for creating layered visual effects in web design.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>
@@ -207,6 +239,15 @@
         document.getElementById("preview").style.background = hex;
         document.getElementById("picker").value = hex;
         document.getElementById("hex").value = hex;
+      }
+      function clear() {
+        document.getElementById("hex").value = "";
+        document.getElementById("picker").value = "#000000";
+        document.getElementById("hexOut").textContent = "#000000";
+        document.getElementById("rgb").textContent = "rgb(0, 0, 0)";
+        document.getElementById("rgba").textContent = "rgba(0, 0, 0, 1)";
+        document.getElementById("hsl").textContent = "hsl(0, 0%, 0%)";
+        document.getElementById("preview").style.background = "#000000";
       }
       document
         .getElementById("picker")

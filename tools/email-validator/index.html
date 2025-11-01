@@ -143,11 +143,31 @@
         ></textarea>
         <div class="button-group">
           <button class="primary" onclick="validate()">Validate Emails</button>
+          <button class="secondary" onclick="clear()" style="border-radius: 12px; font-weight: 600; border: none; padding: 0.875rem 1.75rem; background: #f1f5f9; color: #475569; transition: all 0.3s; cursor: pointer; margin: 0.5rem;">Clear</button>
         </div>
         <div class="results" id="results" style="display: none"></div>
       </main>
       <footer></footer>
     </div>
+    
+    <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+      <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+    
+      <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+        <h4>How does email validation work?</h4>
+        <p>This tool uses a regular expression pattern to check if email addresses follow the standard format: local-part@domain.extension. It verifies there's text before and after the @ symbol, and that the domain has a valid extension.</p>
+      
+        <h4>What makes an email address valid?</h4>
+        <p>A valid email has a local part (before @), an @ symbol, a domain name (after @), and a valid extension (at least 2 characters after the final dot). Common valid extensions include .com, .org, .net, .edu, etc.</p>
+      
+        <h4>Does this tool check if emails actually exist?</h4>
+        <p>No, this tool only validates the format and syntax of email addresses. It doesn't verify if the email addresses actually exist or are deliverable. Real email verification requires sending test messages to the addresses.</p>
+      
+        <h4>What email formats are not supported?</h4>
+        <p>The tool doesn't support emails with unusual characters, IP addresses as domains, or complex quoted strings. It focuses on common email formats used in everyday communication.</p>
+      </div>
+    </details>
+    
     <script>
       function validate() {
         const text = document.getElementById("input").value;
@@ -170,6 +190,11 @@
           html;
         document.getElementById("results").innerHTML = html;
         document.getElementById("results").style.display = "block";
+      }
+      
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("results").style.display = "none";
       }
     </script>
   </body>

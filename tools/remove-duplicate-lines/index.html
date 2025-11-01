@@ -117,6 +117,24 @@
         </button>
         <button onclick="copy()">📋 Copy</button>
         <button onclick="clear()">🗑️ Clear</button>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>How does duplicate removal work?</h4>
+            <p>The tool identifies and removes lines that appear more than once in your text, keeping only the first occurrence of each unique line while preserving the original order.</p>
+          
+            <h4>Does the tool preserve the order of lines?</h4>
+            <p>Yes, the tool maintains the original order of lines, keeping the first occurrence of each unique line and removing subsequent duplicates.</p>
+          
+            <h4>Are empty lines considered duplicates?</h4>
+            <p>Yes, empty lines are treated as valid lines. If you have multiple empty lines, all but the first one will be removed.</p>
+          
+            <h4>Is there a limit to the number of lines this tool can process?</h4>
+            <p>The tool processes text in your browser, so performance depends on your device's capabilities. For very large files, consider using command-line tools like 'sort' and 'uniq' on Unix systems.</p>
+          </div>
+        </details>
       </main>
     </div>
     <script>

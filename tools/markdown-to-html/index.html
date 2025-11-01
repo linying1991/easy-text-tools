@@ -130,6 +130,24 @@
         <textarea id="output" readonly></textarea>
         <label>Preview:</label>
         <div class="preview" id="preview"></div>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What Markdown syntax is supported?</h4>
+            <p>This tool supports basic Markdown including headings (# ## ###), bold (**), italic (*), links [], images ![], inline code (), unordered lists (-), and paragraphs.</p>
+          
+            <h4>Why doesn't this support advanced Markdown features?</h4>
+            <p>This is a lightweight converter focused on common Markdown elements. For full CommonMark or GitHub Flavored Markdown support, consider using specialized libraries or tools.</p>
+          
+            <h4>Can I convert HTML back to Markdown?</h4>
+            <p>This tool only converts Markdown to HTML. For the reverse conversion, you would need a dedicated HTML-to-Markdown converter tool.</p>
+          
+            <h4>Is the output safe for web use?</h4>
+            <p>The output is basic HTML, but for production use, always sanitize the HTML to prevent XSS vulnerabilities, especially when processing user-generated content.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

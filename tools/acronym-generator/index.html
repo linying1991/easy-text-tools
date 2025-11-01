@@ -100,6 +100,13 @@
         transform: translateY(-2px);
         box-shadow: 0 10px 20px rgba(67, 233, 123, 0.3);
       }
+      button.secondary {
+        background: #f1f5f9;
+        color: #475569;
+      }
+      button.secondary:hover {
+        background: #e2e8f0;
+      }
       .result {
         margin-top: 2rem;
         padding: 2rem;
@@ -160,10 +167,29 @@
         </div>
         <div class="button-group">
           <button class="primary" onclick="generate()">Generate Acronym</button>
+          <button class="secondary" onclick="clear()">Clear</button>
         </div>
         <div class="result" id="result" style="display: none">
           <div class="acronym" id="acronym"></div>
         </div>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What is an acronym?</h4>
+            <p>An acronym is a word formed from the initial letters of other words. For example, "NASA" is an acronym for "National Aeronautics and Space Administration".</p>
+          
+            <h4>How does the Acronym Generator work?</h4>
+            <p>This tool takes your input phrase and extracts the first letter of each word by default. You can customize the output format using the options provided.</p>
+          
+            <h4>Can I create acronyms with periods?</h4>
+            <p>Yes, you can use the "Add periods" option to format your acronym with periods (e.g., A.P.I. for Application Programming Interface).</p>
+          
+            <h4>What if I want to skip short words?</h4>
+            <p>The "Skip short words" option will exclude words that have fewer than 3 characters, which is helpful when creating more meaningful acronyms.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>
@@ -198,6 +224,15 @@
         }
         document.getElementById("acronym").textContent = acronym || "N/A";
         document.getElementById("result").style.display = "block";
+      }
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("acronym").textContent = "";
+        document.getElementById("result").style.display = "none";
+        document.getElementById("uppercase").checked = true;
+        document.getElementById("skipShort").checked = true;
+        document.getElementById("periods").checked = false;
+        document.getElementById("firstOnly").checked = true;
       }
       document.getElementById("input").addEventListener("input", generate);
       document

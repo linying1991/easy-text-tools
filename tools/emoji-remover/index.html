@@ -128,6 +128,24 @@
         <div class="stats" id="stats"></div>
         <label>Output:</label>
         <textarea id="output" readonly></textarea>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>What types of emojis can this tool remove?</h4>
+            <p>The tool removes various emoji categories including smileys, people, animals, food, travel, objects, symbols, flags, and other pictographic characters from your text.</p>
+          
+            <h4>Will this tool remove all Unicode symbols?</h4>
+            <p>The tool specifically targets emoji characters and common symbols. It preserves regular punctuation, numbers, and letters. Some symbols might remain if they're not in the emoji Unicode ranges.</p>
+          
+            <h4>Can this be used to clean user input?</h4>
+            <p>Yes, this is commonly used to clean user input by removing emoji that might cause display issues in certain systems or databases that don't properly handle Unicode characters.</p>
+          
+            <h4>Is the emoji detection accurate?</h4>
+            <p>The tool uses Unicode ranges to identify emojis, which covers the vast majority of commonly used emojis. Very new emojis might not be included until the ranges are updated.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

@@ -364,9 +364,31 @@
             📋 Generate 10
           </button>
           <button onclick="copyPassword()" class="secondary">📋 Copy</button>
+          <button onclick="clear()" class="secondary">🗑️ Clear</button>
         </div>
 
         <div id="multiplePasswords"></div>
+
+        <details style="margin-top: 2rem; background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #667eea;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e0e0e0;">
+            <h4>How secure is this password generator?</h4>
+            <p>This tool uses cryptographically secure random number generation (crypto.getRandomValues) to create truly random passwords in your browser, with no data transmitted to any server.</p>
+          
+            <h4>What makes a password strong?</h4>
+            <p>Strong passwords are typically longer (12+ characters), include mixed case letters, numbers, and symbols, and avoid common patterns or personal information.</p>
+          
+            <h4>How often should I change passwords?</h4>
+            <p>It's recommended to change passwords for critical accounts every 3-6 months, and immediately if a service reports a security breach.</p>
+          
+            <h4>Should I use the same password for multiple sites?</h4>
+            <p>No, you should never reuse passwords across different sites. If one service is compromised, all your accounts with the same password become vulnerable.</p>
+          
+            <h4>What is a password manager?</h4>
+            <p>A password manager is a tool that securely stores and manages your passwords, allowing you to use complex, unique passwords for every account.</p>
+          </div>
+        </details>
 
         <div class="info-box">
           <strong>💡 Password Tips:</strong>
@@ -576,6 +598,22 @@
         setTimeout(() => {
           btn.textContent = originalText;
         }, 2000);
+      }
+
+      function clear() {
+        document.getElementById("passwordDisplay").textContent = "Click Generate";
+        document.getElementById("strengthText").textContent = "-";
+        document.getElementById("strengthBar").className = "strength-fill";
+        document.getElementById("length").value = 16;
+        document.getElementById("lengthValue").textContent = "16";
+        document.getElementById("uppercase").checked = true;
+        document.getElementById("lowercase").checked = true;
+        document.getElementById("numbers").checked = true;
+        document.getElementById("symbols").checked = true;
+        document.getElementById("ambiguous").checked = false;
+        document.getElementById("pronounceable").checked = false;
+        document.getElementById("multiplePasswords").innerHTML = "";
+        currentPassword = "";
       }
 
       // Generate on load

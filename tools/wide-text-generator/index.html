@@ -119,6 +119,21 @@
         <label>Wide Text:</label>
         <textarea id="output" readonly></textarea>
       </main>
+      <div class="faq">
+        <h3>Frequently Asked Questions</h3>
+        
+        <h4>What is wide text?</h4>
+        <p>Wide text, also known as full-width text, uses special Unicode characters that take up more space than regular text. It appears broader and is commonly used in East Asian typography and for stylistic purposes.</p>
+        
+        <h4>How does the conversion work?</h4>
+        <p>The tool converts each regular character to its full-width Unicode equivalent using Unicode character mapping. Regular ASCII characters (33-126) are mapped to their full-width forms.</p>
+        
+        <h4>Where is wide text commonly used?</h4>
+        <p>Wide text is popular in social media, gaming communities, and messaging apps where users want to make their text stand out. It's also used in East Asian typography where full-width characters are standard.</p>
+        
+        <h4>Are there any limitations to this conversion?</h4>
+        <p>The conversion only affects ASCII characters and spaces. Special characters outside the ASCII range, emojis, and other Unicode characters remain unchanged.</p>
+      </div>
       <footer></footer>
     </div>
     <script>
@@ -128,7 +143,7 @@
           .split("")
           .map((c) => {
             const code = c.charCodeAt(0);
-            if (code === 32) return String.fromCharCode(12288);
+            if (code === 33) return String.fromCharCode(12288);
             if (code >= 33 && code <= 126)
               return String.fromCharCode(code + 65248);
             return c;

@@ -82,6 +82,24 @@
         ><button class="primary" onclick="shuffle()">🎲 Shuffle</button
         ><button onclick="copy()">📋 Copy</button
         ><button onclick="clear()">🗑️ Clear</button>
+        
+        <details style="margin-top: 2rem; background: rgba(255, 255, 255, 0.98); padding: 1.5rem; border-radius: 20px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>How does line shuffling work?</h4>
+            <p>The tool uses the Fisher-Yates shuffle algorithm to randomly reorder lines. Each line has an equal probability of appearing in any position in the output.</p>
+          
+            <h4>Will all lines appear in the shuffled output?</h4>
+            <p>Yes, all input lines are preserved in the shuffled output. No lines are added or removed - they're simply reordered randomly.</p>
+          
+            <h4>Can I shuffle the same input multiple times?</h4>
+            <p>Yes, clicking "Shuffle" multiple times will produce different random arrangements each time. Each shuffle is independent with a new random seed.</p>
+          
+            <h4>What are common uses for shuffling lines?</h4>
+            <p>Line shuffling is useful for randomizing lists, creating randomized test questions, mixing playlists, game development, creative writing prompts, and data anonymization.</p>
+          </div>
+        </details>
       </main>
     </div>
     <script>

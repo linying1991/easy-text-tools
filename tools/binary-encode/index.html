@@ -117,6 +117,24 @@
         </div>
         <label>Binary Output:</label>
         <textarea id="output" readonly></textarea>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>How does binary encoding work?</h4>
+            <p>This tool converts each character in your text to its ASCII value, then converts that decimal number to 8-bit binary. For example, 'H' has ASCII value 72, which is 01001000 in binary.</p>
+          
+            <h4>Why is each binary number 8 bits long?</h4>
+            <p>Each character is represented using 8 bits (1 byte) to accommodate the full range of ASCII characters (0-255). The "padStart(8, '0')" function ensures each binary number has exactly 8 digits.</p>
+          
+            <h4>What is binary used for?</h4>
+            <p>Binary is the fundamental language of computers. All data in computers is stored as binary (0s and 1s). Binary encoding is used in computer science education, data transmission, and low-level programming.</p>
+          
+            <h4>Can I decode the binary back to text?</h4>
+            <p>Yes, you can use our Binary Decode tool to convert the binary output back to readable text. Each 8-bit binary number corresponds to one character.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>

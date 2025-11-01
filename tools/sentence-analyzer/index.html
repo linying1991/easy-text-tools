@@ -120,6 +120,7 @@
         <p class="subtitle">Analyze sentences in your text</p>
         <label>Input Text:</label>
         <textarea id="input" placeholder="Enter text to analyze..."></textarea>
+        <button class="secondary" onclick="clear()" style="border-radius: 12px; font-weight: 600; border: none; padding: 0.75rem 1rem; background: #f1f5f9; color: #475569; transition: all 0.3s; cursor: pointer; display: inline-block; margin-top: 1rem;">Clear</button>
         <div class="stats">
           <div class="stat">
             <div class="stat-value" id="total">0</div>
@@ -135,6 +136,24 @@
           </div>
         </div>
         <div class="sentences" id="sentences"></div>
+        
+        <details style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; padding: 0.5rem 0; color: #1e293b;">Frequently Asked Questions</summary>
+        
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <h4>How are sentences detected?</h4>
+            <p>Sentences are identified by looking for sentence-ending punctuation marks: periods (.), exclamation points (!), and question marks (?). Each sequence of text ending with these markers is counted as one sentence.</p>
+          
+            <h4>What counts as a word?</h4>
+            <p>Words are sequences of characters separated by whitespace. Punctuation attached to words is included in the word count. For example, "hello," counts as one word with 6 characters.</p>
+          
+            <h4>How is the longest sentence determined?</h4>
+            <p>The longest sentence is measured by word count, not character count. The tool calculates the number of words in each sentence and identifies the sentence with the highest word count.</p>
+          
+            <h4>Why is sentence analysis useful?</h4>
+            <p>Sentence analysis helps improve writing by identifying overly long or short sentences, maintaining consistent pacing, and ensuring readability. It's valuable for authors, editors, and content creators.</p>
+          </div>
+        </details>
       </main>
       <footer></footer>
     </div>
@@ -172,6 +191,14 @@
             .join("");
       }
       document.getElementById("input").addEventListener("input", analyze);
+      
+      function clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("total").textContent = "0";
+        document.getElementById("avgWords").textContent = "0";
+        document.getElementById("longest").textContent = "0";
+        document.getElementById("sentences").innerHTML = "";
+      }
     </script>
   </body>
 </html>
