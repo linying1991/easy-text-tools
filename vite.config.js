@@ -2,6 +2,7 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import obfuscatorPlugin from 'vite-plugin-javascript-obfuscator'
+import { createHtmlPlugin } from 'vite-plugin-html'
 
 const adsCode = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6973856684486491" crossorigin="anonymous"></script>`;
 const analysisCode = ``;
@@ -21,7 +22,7 @@ const footerContent = `
     </small>
     <small>
       <a href="/">Home</a> •
-      <a target="_blank" rel="nofollow" href="mailto:support@webptopng.dev">Contact Us</a>
+      <a target="_blank" rel="nofollow" href="mailto:support@easytexttool.com">Contact Us</a>
     </small>
     </footer>`
 
@@ -172,42 +173,57 @@ export default defineConfig({
     },
   },
   plugins: [
-    obfuscatorPlugin({
-      include: ["main.js", "src/**/*.js"],
-      exclude: [/node_modules/],
-      apply: "build",
-      debugger: true,
-      options: {
-        "compact": true,
-        "controlFlowFlattening": false,
-        "deadCodeInjection": false,
-        "debugProtection": false,
-        "debugProtectionInterval": 1000,
-        "disableConsoleOutput": true,
-        "identifierNamesGenerator": "hexadecimal",
-        "log": false,
-        "domainLock": ["webptopng.dev", ".webptopng.dev"],
-        "domainLockRedirectUrl": "about:blank",
-        "numbersToExpressions": false,
-        "renameGlobals": false,
-        "selfDefending": true,
-        "simplify": true,
-        "splitStrings": false,
-        "stringArray": true,
-        "stringArrayCallsTransform": false,
-        "stringArrayEncoding": [],
-        "stringArrayIndexShift": true,
-        "stringArrayRotate": true,
-        "stringArrayShuffle": true,
-        "stringArrayWrappersCount": 1,
-        "stringArrayWrappersChainedCalls": true,
-        "stringArrayWrappersParametersMaxCount": 2,
-        "stringArrayWrappersType": "variable",
-        "target": "browser",
-        "stringArrayThreshold": 0.75,
-        "unicodeEscapeSequence": false
+    createHtmlPlugin({
+      // minify: true, // 开启 HTML 压缩
+      // 或者自定义压缩选项
+      minify: {
+        collapseWhitespace: true,
+        keepClosingSlash: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        useShortDoctype: true,
+        minifyCSS: true,
+        minifyJS: true
       }
     }),
+    // obfuscatorPlugin({
+    //   include: ["main.js", "src/**/*.js"],
+    //   exclude: [/node_modules/],
+    //   apply: "build",
+    //   debugger: true,
+    //   options: {
+    //     "compact": true,
+    //     "controlFlowFlattening": false,
+    //     "deadCodeInjection": false,
+    //     "debugProtection": false,
+    //     "debugProtectionInterval": 1000,
+    //     "disableConsoleOutput": true,
+    //     "identifierNamesGenerator": "hexadecimal",
+    //     "log": false,
+    //     "domainLock": ["easytexttool.com", ".easytexttool.com"],
+    //     "domainLockRedirectUrl": "about:blank",
+    //     "numbersToExpressions": false,
+    //     "renameGlobals": false,
+    //     "selfDefending": true,
+    //     "simplify": true,
+    //     "splitStrings": false,
+    //     "stringArray": true,
+    //     "stringArrayCallsTransform": false,
+    //     "stringArrayEncoding": [],
+    //     "stringArrayIndexShift": true,
+    //     "stringArrayRotate": true,
+    //     "stringArrayShuffle": true,
+    //     "stringArrayWrappersCount": 1,
+    //     "stringArrayWrappersChainedCalls": true,
+    //     "stringArrayWrappersParametersMaxCount": 2,
+    //     "stringArrayWrappersType": "variable",
+    //     "target": "browser",
+    //     "stringArrayThreshold": 0.75,
+    //     "unicodeEscapeSequence": false
+    //   }
+    // }),
     {
       name: 'inject-analytics',
       transformIndexHtml: {
