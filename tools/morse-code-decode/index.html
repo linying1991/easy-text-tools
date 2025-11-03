@@ -143,7 +143,7 @@
     </div>
     <script>
       const reverseMorse = {
-        ".-.": "A",
+        ".-": "A",
         "-...": "B",
         "-.-.": "C",
         "-..": "D",
@@ -186,7 +186,7 @@
         "-.-.--": "!",
         "-..-.": "/",
         "-.--.": "(",
-        ")": "-.--.-",
+        "-.--.-": ")",
         ".-...": "&",
         "---...": ":",
         "-.-.-.": ";",
@@ -201,11 +201,20 @@
       };
       function decode() {
         const morse = document.getElementById("input").value;
-        let result = morse
-          .split(" ")
-          .map((m) => reverseMorse[m] || m)
-          .join("");
-        document.getElementById("output").value = result;
+        let result = [];
+        const chunks = morse.split(" ");
+        
+        for (let i = 0; i < chunks.length; i++) {
+          if (chunks[i] === "/") {
+            result.push(" ");
+          } else if (reverseMorse[chunks[i]]) {
+            result.push(reverseMorse[chunks[i]]);
+          } else if (chunks[i] !== "") {
+            result.push(chunks[i]); // 保留无法识别的模式
+          }
+        }
+        
+        document.getElementById("output").value = result.join("");
       }
       function copy() {
         const output = document.getElementById("output");

@@ -184,19 +184,18 @@
       <footer></footer>
     </div>
     <script>
-      const units = {
+      const lengthUnits = {
         m: 1,
         km: 0.001,
         mi: 0.000621371,
         ft: 3.28084,
         in: 39.3701,
+      };
+      const weightUnits = {
         kg: 1,
         g: 1000,
         lb: 2.20462,
         oz: 35.274,
-        c: 1,
-        f: 1,
-        k: 1,
       };
       const names = {
         m: "Meters",
@@ -217,7 +216,9 @@
         const from = document.getElementById("from").value;
         const to = document.getElementById("to").value;
         let result;
+        
         if (["c", "f", "k"].includes(from) && ["c", "f", "k"].includes(to)) {
+          // Temperature conversions
           if (from === to) result = value;
           else if (from === "c" && to === "f") result = (value * 9) / 5 + 32;
           else if (from === "c" && to === "k") result = value + 273.15;
@@ -227,11 +228,24 @@
           else if (from === "k" && to === "c") result = value - 273.15;
           else if (from === "k" && to === "f")
             result = ((value - 273.15) * 9) / 5 + 32;
+        } else if (lengthUnits[from] && lengthUnits[to]) {
+          // Length conversions
+          const meters = value / lengthUnits[from];
+          result = meters * lengthUnits[to];
+        } else if (weightUnits[from] && weightUnits[to]) {
+          // Weight conversions
+          const kg = value / weightUnits[from];
+          result = kg * weightUnits[to];
         } else {
-          const toMeters = value / units[from];
-          result = toMeters * units[to];
+          // Incompatible unit types
+          result = "N/A";
         }
-        document.getElementById("resultValue").textContent = result.toFixed(6);
+        
+        if (typeof result === 'number') {
+          document.getElementById("resultValue").textContent = result.toFixed(6);
+        } else {
+          document.getElementById("resultValue").textContent = result;
+        }
         document.getElementById("resultUnit").textContent = names[to];
       }
       document.getElementById("value").addEventListener("input", convert);

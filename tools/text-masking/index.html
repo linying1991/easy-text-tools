@@ -383,7 +383,15 @@ Account: 123456789</textarea
                 (username.length > 1 ? username[username.length - 1] : "");
               return maskedUsername + "@" + domain;
             }
-            return maskWord(word);
+            // 对于非邮箱格式的单词，回落到 partial 掩码样式
+            if (word.length <= keepChars * 2) {
+              return word[0] + maskChar.repeat(word.length - 1);
+            }
+            return (
+              word.substring(0, keepChars) +
+              maskChar.repeat(word.length - keepChars * 2) +
+              word.substring(word.length - keepChars)
+            );
 
           case "phone":
             // Mask middle section of phone numbers

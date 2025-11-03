@@ -94,7 +94,7 @@
         <div class="controls">
           <div>
             <label>Type:</label
-            ><select id="type">
+            ><select id="type" onchange="updateInputsForType()">
               <option value="number">Numbers</option>
               <option value="letter">Letters</option>
             </select>
@@ -129,17 +129,32 @@
       </main>
     </div>
     <script>
+      function updateInputsForType() {
+        const type = document.getElementById("type").value;
+        if (type === "letter") {
+          document.getElementById("start").value = "a";
+          document.getElementById("end").value = "z";
+        } else { // number
+          document.getElementById("start").value = "1";
+          document.getElementById("end").value = "10";
+        }
+      }
+
       function generate() {
-        const type = document.getElementById("type").value,
-          start = parseInt(document.getElementById("start").value) || 1,
-          end = parseInt(document.getElementById("end").value) || 10,
-          step = parseInt(document.getElementById("step").value) || 1;
+        const type = document.getElementById("type").value;
         let result = [];
+        
         if (type === "number") {
+          const start = parseInt(document.getElementById("start").value) || 1;
+          const end = parseInt(document.getElementById("end").value) || 10;
+          const step = parseInt(document.getElementById("step").value) || 1;
+          
           for (let i = start; i <= end; i += step) result.push(i);
-        } else {
-          const startChar = document.getElementById("start").value || "a",
-            endChar = document.getElementById("end").value || "z";
+        } else { // letter type
+          const startChar = document.getElementById("start").value || "a";
+          const endChar = document.getElementById("end").value || "z";
+          const step = parseInt(document.getElementById("step").value) || 1;
+          
           for (
             let i = startChar.charCodeAt(0);
             i <= endChar.charCodeAt(0);

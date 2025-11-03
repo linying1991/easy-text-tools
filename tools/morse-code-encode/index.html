@@ -201,6 +201,7 @@
         let result = text
           .split("")
           .map((c) => morseCode[c] || c)
+          .filter(code => code !== undefined) // 过滤掉未定义的值
           .join(" ");
         document.getElementById("output").value = result;
       }
