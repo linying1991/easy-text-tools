@@ -5,7 +5,15 @@ import obfuscatorPlugin from 'vite-plugin-javascript-obfuscator'
 import { createHtmlPlugin } from 'vite-plugin-html'
 
 const adsCode = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6973856684486491" crossorigin="anonymous"></script>`;
-const analysisCode = ``;
+const analysisCode = `<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-19DWT72H5Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-19DWT72H5Y');
+</script>`;
 const footerContent = `
     <style>
       footer {
@@ -239,11 +247,11 @@ export default defineConfig({
           }
 
           let newHtml = html;
-          // newHtml = newHtml.replace(
-          //   '</head>',
-          //   `${analysisCode}\n</head>`
-          //   // `${adsCode}\n${analysisCode}\n</head>`
-          // )
+          newHtml = newHtml.replace(
+            '</head>',
+            `${analysisCode}\n</head>`
+            // `${adsCode}\n${analysisCode}\n</head>`
+          )
           newHtml = newHtml.replace(
             '<footer></footer>',
             footerContent
