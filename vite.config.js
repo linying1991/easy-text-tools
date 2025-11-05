@@ -30,7 +30,7 @@ const footerContent = `
     </small>
     <small>
       <a href="/">Home</a> •
-      <a target="_blank" rel="nofollow" href="mailto:support@easytexttool.com">Contact Us</a>
+      <a target="_blank" href="/feedback.html">Contact Us</a>
     </small>
     </footer>`
 
@@ -40,6 +40,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         privacy: resolve(__dirname, 'privacy.html'),
+        'feedback': resolve(__dirname, 'feedback.html'),
         '404': resolve(__dirname, '404.html'),
         'acronym-generator': resolve(__dirname, 'tools/acronym-generator/index.html'),
         'add-line-numbers': resolve(__dirname, 'tools/add-line-numbers/index.html'),
@@ -240,7 +241,7 @@ export default defineConfig({
           console.log(`处理：${path}`);
 
           // 排除某些特定文件
-          const excludeFiles = ['privacy.html']; // 可以添加要排除的文件
+          const excludeFiles = ['privacy.html', 'feedback.html']; // 可以添加要排除的文件
           
           if (excludeFiles.some(excludeFile => path.endsWith(excludeFile))) {
             return html; // 不插入代码
