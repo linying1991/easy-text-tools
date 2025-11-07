@@ -3,6 +3,8 @@ import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import obfuscatorPlugin from 'vite-plugin-javascript-obfuscator'
 import { createHtmlPlugin } from 'vite-plugin-html'
+import { readdirSync, existsSync, statSync } from 'fs'
+import path from 'path'
 
 const adsCode = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6973856684486491" crossorigin="anonymous"></script>`;
 const analysisCode = `<!-- Google tag (gtag.js) -->
@@ -34,151 +36,52 @@ const footerContent = `
     </small>
     </footer>`
 
+// 动态获取所有工具目录
+function getToolDirectories() {
+  const toolsDir = resolve(__dirname, 'tools');
+  const items = readdirSync(toolsDir);
+  const toolDirs = [];
+  
+  for (const item of items) {
+    const itemPath = path.join(toolsDir, item);
+    const stat = statSync(itemPath);
+    
+    if (stat.isDirectory()) {
+      const indexPath = path.join(itemPath, 'index.html');
+      if (existsSync(indexPath)) {
+        toolDirs.push({
+          name: item,
+          path: indexPath
+        });
+      }
+    }
+  }
+  
+  return toolDirs;
+}
+
+// 构建输入配置
+function buildInputConfig() {
+  const toolDirs = getToolDirectories();
+  const input = {
+    main: resolve(__dirname, 'index.html'),
+    privacy: resolve(__dirname, 'privacy.html'),
+    'feedback': resolve(__dirname, 'feedback.html'),
+    '404': resolve(__dirname, '404.html'),
+  };
+  
+  // 动态添加所有工具目录
+  toolDirs.forEach(tool => {
+    input[tool.name] = tool.path;
+  });
+  
+  return input;
+}
+
 export default defineConfig({
   build: {
     rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'index.html'),
-        privacy: resolve(__dirname, 'privacy.html'),
-        'feedback': resolve(__dirname, 'feedback.html'),
-        '404': resolve(__dirname, '404.html'),
-        'acronym-generator': resolve(__dirname, 'tools/acronym-generator/index.html'),
-        'add-line-numbers': resolve(__dirname, 'tools/add-line-numbers/index.html'),
-        'add-prefix-suffix': resolve(__dirname, 'tools/add-prefix-suffix/index.html'),
-        'advanced-password-generator': resolve(__dirname, 'tools/advanced-password-generator/index.html'),
-        'anagram-finder': resolve(__dirname, 'tools/anagram-finder/index.html'),
-        'ascii-art-generator': resolve(__dirname, 'tools/ascii-art-generator/index.html'),
-        'ascii-to-text': resolve(__dirname, 'tools/ascii-to-text/index.html'),
-        'backslash-escape-tool': resolve(__dirname, 'tools/backslash-escape-tool/index.html'),
-        'base64-decode': resolve(__dirname, 'tools/base64-decode/index.html'),
-        'base64-encode': resolve(__dirname, 'tools/base64-encode/index.html'),
-        'bbcode-to-html': resolve(__dirname, 'tools/bbcode-to-html/index.html'),
-        'binary-calculator': resolve(__dirname, 'tools/binary-calculator/index.html'),
-        'binary-decode': resolve(__dirname, 'tools/binary-decode/index.html'),
-        'binary-encode': resolve(__dirname, 'tools/binary-encode/index.html'),
-        'bubble-text-generator': resolve(__dirname, 'tools/bubble-text-generator/index.html'),
-        'bullet-point-formatter': resolve(__dirname, 'tools/bullet-point-formatter/index.html'),
-        'capitalize-words': resolve(__dirname, 'tools/capitalize-words/index.html'),
-        'case-converter': resolve(__dirname, 'tools/case-converter/index.html'),
-        'case-style-converter': resolve(__dirname, 'tools/case-style-converter/index.html'),
-        'character-frequency': resolve(__dirname, 'tools/character-frequency/index.html'),
-        'character-replacer': resolve(__dirname, 'tools/character-replacer/index.html'),
-        'color-converter': resolve(__dirname, 'tools/color-converter/index.html'),
-        'column-text-formatter': resolve(__dirname, 'tools/column-text-formatter/index.html'),
-        'column-to-row': resolve(__dirname, 'tools/column-to-row/index.html'),
-        'comment-remover': resolve(__dirname, 'tools/comment-remover/index.html'),
-        'credit-card-formatter': resolve(__dirname, 'tools/credit-card-formatter/index.html'),
-        'csv-column-extractor': resolve(__dirname, 'tools/csv-column-extractor/index.html'),
-        'csv-to-json': resolve(__dirname, 'tools/csv-to-json/index.html'),
-        'csv-to-markdown': resolve(__dirname, 'tools/csv-to-markdown/index.html'),
-        'cursive-text-generator': resolve(__dirname, 'tools/cursive-text-generator/index.html'),
-        'duplicate-line-finder': resolve(__dirname, 'tools/duplicate-line-finder/index.html'),
-        'email-extractor': resolve(__dirname, 'tools/email-extractor/index.html'),
-        'email-validator': resolve(__dirname, 'tools/email-validator/index.html'),
-        'emoji-remover': resolve(__dirname, 'tools/emoji-remover/index.html'),
-        'extract-brackets-content': resolve(__dirname, 'tools/extract-brackets-content/index.html'),
-        'fancy-font-generator': resolve(__dirname, 'tools/fancy-font-generator/index.html'),
-        'find-and-replace': resolve(__dirname, 'tools/find-and-replace/index.html'),
-        'find-duplicate-lines': resolve(__dirname, 'tools/find-duplicate-lines/index.html'),
-        'hex-decode': resolve(__dirname, 'tools/hex-decode/index.html'),
-        'hex-encode': resolve(__dirname, 'tools/hex-encode/index.html'),
-        'html-decode': resolve(__dirname, 'tools/html-decode/index.html'),
-        'html-encode': resolve(__dirname, 'tools/html-encode/index.html'),
-        'html-to-markdown': resolve(__dirname, 'tools/html-to-markdown/index.html'),
-        'invisible-character-detector': resolve(__dirname, 'tools/invisible-character-detector/index.html'),
-        'ip-address-converter': resolve(__dirname, 'tools/ip-address-converter/index.html'),
-        'json-formatter': resolve(__dirname, 'tools/json-formatter/index.html'),
-        'json-minify': resolve(__dirname, 'tools/json-minify/index.html'),
-        'json-to-csv': resolve(__dirname, 'tools/json-to-csv/index.html'),
-        'keyboard-layout-converter': resolve(__dirname, 'tools/keyboard-layout-converter/index.html'),
-        'letter-counter': resolve(__dirname, 'tools/letter-counter/index.html'),
-        'line-break-converter': resolve(__dirname, 'tools/line-break-converter/index.html'),
-        'line-counter': resolve(__dirname, 'tools/line-counter/index.html'),
-        'line-numbering-tool': resolve(__dirname, 'tools/line-numbering-tool/index.html'),
-        'line-sorter': resolve(__dirname, 'tools/line-sorter/index.html'),
-        'list-merger': resolve(__dirname, 'tools/list-merger/index.html'),
-        'lorem-ipsum-generator': resolve(__dirname, 'tools/lorem-ipsum-generator/index.html'),
-        'lorem-ipsum-variants': resolve(__dirname, 'tools/lorem-ipsum-variants/index.html'),
-        'markdown-table-generator': resolve(__dirname, 'tools/markdown-table-generator/index.html'),
-        'markdown-to-html': resolve(__dirname, 'tools/markdown-to-html/index.html'),
-        'md5-generator': resolve(__dirname, 'tools/md5-generator/index.html'),
-        'morse-code-decode': resolve(__dirname, 'tools/morse-code-decode/index.html'),
-        'morse-code-encode': resolve(__dirname, 'tools/morse-code-encode/index.html'),
-        'nato-phonetic-alphabet': resolve(__dirname, 'tools/nato-phonetic-alphabet/index.html'),
-        'number-base-converter': resolve(__dirname, 'tools/number-base-converter/index.html'),
-        'number-extractor': resolve(__dirname, 'tools/number-extractor/index.html'),
-        'password-strength-checker': resolve(__dirname, 'tools/password-strength-checker/index.html'),
-        'phone-number-formatter': resolve(__dirname, 'tools/phone-number-formatter/index.html'),
-        'pig-latin-translator': resolve(__dirname, 'tools/pig-latin-translator/index.html'),
-        'quote-formatter': resolve(__dirname, 'tools/quote-formatter/index.html'),
-        'quote-wrapper': resolve(__dirname, 'tools/quote-wrapper/index.html'),
-        'random-password-generator': resolve(__dirname, 'tools/random-password-generator/index.html'),
-        'random-text-generator': resolve(__dirname, 'tools/random-text-generator/index.html'),
-        'random-word-generator': resolve(__dirname, 'tools/random-word-generator/index.html'),
-        'readability-calculator': resolve(__dirname, 'tools/readability-calculator/index.html'),
-        'regex-tester': resolve(__dirname, 'tools/regex-tester/index.html'),
-        'remove-duplicate-lines': resolve(__dirname, 'tools/remove-duplicate-lines/index.html'),
-        'remove-empty-lines': resolve(__dirname, 'tools/remove-empty-lines/index.html'),
-        'remove-line-breaks': resolve(__dirname, 'tools/remove-line-breaks/index.html'),
-        'remove-special-characters': resolve(__dirname, 'tools/remove-special-characters/index.html'),
-        'reverse-text': resolve(__dirname, 'tools/reverse-text/index.html'),
-        'reverse-word-order': resolve(__dirname, 'tools/reverse-word-order/index.html'),
-        'roman-numeral-converter': resolve(__dirname, 'tools/roman-numeral-converter/index.html'),
-        'rot13-decode': resolve(__dirname, 'tools/rot13-decode/index.html'),
-        'rot13-encode': resolve(__dirname, 'tools/rot13-encode/index.html'),
-        'sentence-analyzer': resolve(__dirname, 'tools/sentence-analyzer/index.html'),
-        'sequence-generator': resolve(__dirname, 'tools/sequence-generator/index.html'),
-        'sha256-generator': resolve(__dirname, 'tools/sha256-generator/index.html'),
-        'shuffle-lines': resolve(__dirname, 'tools/shuffle-lines/index.html'),
-        'slug-generator': resolve(__dirname, 'tools/slug-generator/index.html'),
-        'small-caps-generator': resolve(__dirname, 'tools/small-caps-generator/index.html'),
-        'space-to-tab-converter': resolve(__dirname, 'tools/space-to-tab-converter/index.html'),
-        'sql-formatter': resolve(__dirname, 'tools/sql-formatter/index.html'),
-        'square-text-generator': resolve(__dirname, 'tools/square-text-generator/index.html'),
-        'strikethrough-generator': resolve(__dirname, 'tools/strikethrough-generator/index.html'),
-        'text-alignment': resolve(__dirname, 'tools/text-alignment/index.html'),
-        'text-binary-converter': resolve(__dirname, 'tools/text-binary-converter/index.html'),
-        'text-border-generator': resolve(__dirname, 'tools/text-border-generator/index.html'),
-        'text-diff': resolve(__dirname, 'tools/text-diff/index.html'),
-        'text-encryption': resolve(__dirname, 'tools/text-encryption/index.html'),
-        'text-indent-tool': resolve(__dirname, 'tools/text-indent-tool/index.html'),
-        'text-inverter': resolve(__dirname, 'tools/text-inverter/index.html'),
-        'text-joiner': resolve(__dirname, 'tools/text-joiner/index.html'),
-        'text-masking': resolve(__dirname, 'tools/text-masking/index.html'),
-        'text-obfuscator': resolve(__dirname, 'tools/text-obfuscator/index.html'),
-        'text-redaction': resolve(__dirname, 'tools/text-redaction/index.html'),
-        'text-repeater': resolve(__dirname, 'tools/text-repeater/index.html'),
-        'text-similarity': resolve(__dirname, 'tools/text-similarity/index.html'),
-        'text-splitter': resolve(__dirname, 'tools/text-splitter/index.html'),
-        'text-splitter-advanced': resolve(__dirname, 'tools/text-splitter-advanced/index.html'),
-        'text-statistics': resolve(__dirname, 'tools/text-statistics/index.html'),
-        'text-to-ascii': resolve(__dirname, 'tools/text-to-ascii/index.html'),
-        'text-to-slug': resolve(__dirname, 'tools/text-to-slug/index.html'),
-        'text-to-speech': resolve(__dirname, 'tools/text-to-speech/index.html'),
-        'text-to-title-generator': resolve(__dirname, 'tools/text-to-title-generator/index.html'),
-        'text-truncator': resolve(__dirname, 'tools/text-truncator/index.html'),
-        'text-wrapper': resolve(__dirname, 'tools/text-wrapper/index.html'),
-        'timestamp-converter': resolve(__dirname, 'tools/timestamp-converter/index.html'),
-        'trim-whitespace': resolve(__dirname, 'tools/trim-whitespace/index.html'),
-        'underline-text-generator': resolve(__dirname, 'tools/underline-text-generator/index.html'),
-        'unicode-escape': resolve(__dirname, 'tools/unicode-escape/index.html'),
-        'unicode-unescape': resolve(__dirname, 'tools/unicode-unescape/index.html'),
-        'unit-converter': resolve(__dirname, 'tools/unit-converter/index.html'),
-        'upside-down-text': resolve(__dirname, 'tools/upside-down-text/index.html'),
-        'url-decode': resolve(__dirname, 'tools/url-decode/index.html'),
-        'url-encode': resolve(__dirname, 'tools/url-encode/index.html'),
-        'url-extractor': resolve(__dirname, 'tools/url-extractor/index.html'),
-        'uuid-generator': resolve(__dirname, 'tools/uuid-generator/index.html'),
-        'vowel-counter': resolve(__dirname, 'tools/vowel-counter/index.html'),
-        'whitespace-remover': resolve(__dirname, 'tools/whitespace-remover/index.html'),
-        'whitespace-visualizer': resolve(__dirname, 'tools/whitespace-visualizer/index.html'),
-        'wide-text-generator': resolve(__dirname, 'tools/wide-text-generator/index.html'),
-        'word-counter': resolve(__dirname, 'tools/word-counter/index.html'),
-        'word-frequency': resolve(__dirname, 'tools/word-frequency/index.html'),
-        'word-frequency-counter': resolve(__dirname, 'tools/word-frequency-counter/index.html'),
-        'xml-formatter': resolve(__dirname, 'tools/xml-formatter/index.html'),
-        'zalgo-text-generator': resolve(__dirname, 'tools/zalgo-text-generator/index.html'),
-      },
+      input: buildInputConfig(),
     },
   },
   plugins: [
